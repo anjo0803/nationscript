@@ -1,0 +1,25 @@
+{
+	"name": "alfons.js",
+	"version": "1.0.0",
+	"description": "A Library For NationStates",
+	"license": "MPL-2.0",
+
+	"main": "./src/index.js",
+	"files": [
+		"src",
+		"LICENSE.txt",
+		"package.json",
+		"README.md"
+	],
+
+	"keywords": [
+		"NationStates",
+		"API",
+		"wrapper",
+		"library"
+	],
+
+	"dependencies": {
+		"xml-flow": "^1.0.4"
+	}
+}
