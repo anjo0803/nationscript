@@ -1,17 +1,8 @@
 {
 	"name": "alfons.js",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A Library For NationStates",
 	"license": "MPL-2.0",
-
-	"main": "./src/index.js",
-	"files": [
-		"src",
-		"LICENSE.txt",
-		"package.json",
-		"README.md"
-	],
-
 	"keywords": [
 		"NationStates",
 		"API",
@@ -19,7 +10,19 @@
 		"library"
 	],
 
+	"main": "./src/index.js",
+	"files": [
+		"src",
+		"LICENCE.txt",
+		"package.json",
+		"README.md"
+	],
+
 	"dependencies": {
 		"xml-flow": "^1.0.4"
+	},
+
+	"scripts": {
+		"doc": "jsdoc -c jsdoc.json"
 	}
 }

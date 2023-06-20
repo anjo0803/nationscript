@@ -1,8 +1,9 @@
 /**
- * @license
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ * The Converter module provides functions for standardised access to values in the XML object
+ * returned by the `xml-flow` module for the API's response XML, as well as type definitions and
+ * parsing callbacks to convert the XML object to such typed objects.
+ * @module requests/converter
+ * @license {@linkplain https://mozilla.org/MPL/2.0/ MPL-2.0}
  */
 
 const {
@@ -132,8 +133,8 @@ function secureArray(arr) {
 /* === === */
 
 /**
- * @typedef {object} Auction
  * Represents an ongoing auction on a card.
+ * @typedef {object} Auction
  * @prop {number} id ID of the card being auctioned.
  * @prop {string} rarity {@linkcode Rarity} of the card being auctioned.
  * @prop {string} nation Name of the nation depicted on the card that is being auctioned.
@@ -154,9 +155,9 @@ function parseAuction(auction) {
 }
 
 /**
- * @typedef {object} WABadge
  * Represents a commendation, condemnation, liberation, or injunction badge displayed
  * on a nation or region as a result of an active Security Council resolution.
+ * @typedef {object} WABadge
  * @prop {number} resolution ID of the SC resolution imposing the badge.
  * @prop {string} type {@linkcode WABadgeType} of the badge.
  */
@@ -173,8 +174,8 @@ function parseBadge(badge) {
 }
 
 /**
- * @typedef {object} Banner
  * Represents a national banner.
+ * @typedef {object} Banner
  * @prop {string} id ID of the banner.
  * @prop {string} name Full name of the banner.
  * @prop {string} condition (Vague) description of the banner's unlock condition.
@@ -193,8 +194,8 @@ function parseBanner(banner) {
 }
 
 /**
- * @typedef {object} ListCard
  * Represents the most basic data about a card, as listed in a {@linkcode Collection}.
+ * @typedef {object} ListCard
  * @prop {number} id ID of the card; equal to the database ID of the nation that is depicted on it.
  * @prop {string} rarity {@linkcode Rarity} of the card.
  * @prop {number} season ID of the season that the card was inscribed for.
@@ -213,8 +214,8 @@ function parseCardOverview(c) {
 }
 
 /**
- * @typedef {object} CensusDataNation
  * Container object holding data on a nation's performance on a World Census scale.
+ * @typedef {object} CensusDataNation
  * @prop {number} id ID of the {@linkcode CensusScale} the rank is for.
  * @prop {number} score Raw score of the nation on the scale.
  * @prop {number} rankRegion Rank of the nation on the scale within their region.
@@ -239,8 +240,8 @@ function parseCensusNation(scale) {
 }
 
 /**
- * @typedef {object} CensusRankScored
  * Container object for a nation's rank on a given World Census scale, including the raw score.
+ * @typedef {object} CensusRankScored
  * @prop {string} nation Name of the nation.
  * @prop {number} rank Rank of the nation on the scale.
  * @prop {number} score Score of the nation on the scale.
@@ -259,8 +260,8 @@ function parseCensusRank(nation) {
 }
 
 /**
- * @typedef {object} CensusRankUnscored
  * Container object holding data on a nation's rank on the day's featured World Census scale.
+ * @typedef {object} CensusRankUnscored
  * @prop {number} scale ID of the {@linkcode CensusScale} the rank is for.
  * @prop {number} rank The rank of the nation.
  */
@@ -277,9 +278,9 @@ function parseCensusRankUnscored(scale) {
 }
 
 /**
- * @typedef {object} CensusDataRegion
  * Container object holding data on a region's performance on a World Census scale,
  * depending on its residents' scores on it.
+ * @typedef {object} CensusDataRegion
  * @prop {number} id ID of the {@linkcode CensusScale} the rank is for.
  * @prop {number} average Average score of the region's residents on the scale.
  * @prop {number} rank Rank of the region on the scale.
@@ -300,8 +301,8 @@ function parseCensusRegion(scale) {
 }
 
 /**
- * @typedef {object} WCensusAverage
  * Container object for the average national score on a given World Census scale.
+ * @typedef {object} WCensusAverage
  * @prop {number} id ID of the scale the average is for.
  * @prop {number} average World-wide average score of nations on the scale.
  * @see {@linkcode CensusScale} for possible scale IDs.
@@ -319,8 +320,8 @@ function parseCensusWorld(scale) {
 }
 
 /**
- * @typedef {object} Collection
  * Represents a collection of cards in detailed form.
+ * @typedef {object} Collection
  * @prop {string} name Name of the collection.
  * @prop {string} owner Name of the nation that created the collection.
  * @prop {number} edited Unix epoch timestamp of when the last change was made to the collection.
@@ -341,8 +342,8 @@ function parseCollection(c) {
 }
 
 /**
- * @typedef {object} ListCollection
  * Represents a collection of cards in its most basic form, such as when displayed in a list.
+ * @typedef {object} ListCollection
  * @prop {number} id ID of the collection.
  * @prop {string} name Name of the collection.
  * @prop {number} edited Unix epoch timestamp of when the last change was made to the collection.
@@ -361,8 +362,8 @@ function parseCollectionOverview(c) {
 }
 
 /**
- * @typedef {object} DeathData
  * Represents a cause of death with its prevalence in a nation.
+ * @typedef {object} DeathData
  * @prop {string} cause {@linkcode DeathCause} the data describes.
  * @prop {number} percent Percentage of yearly deaths in the nation ascribed to the cause.
  */
@@ -379,8 +380,8 @@ function parseDeath(cause) {
 }
 
 /**
- * @typedef {object} Deck
  * Represents a nation's deck of trading cards.
+ * @typedef {object} Deck
  * @prop {number} nationID Database ID of the nation that owns the deck.
  * @prop {string} nationName Name of the nation that owns the deck.
  * @prop {number} bank Amount of bank the deck owner currently has.
@@ -413,8 +414,8 @@ function parseDeckSummary(deck) {
 }
 
 /**
- * @typedef {object} DelegateActiveVote
  * Represents an extant vote cast by a WA delegate on an at-vote {@linkcode Resolution}.
+ * @typedef {object} DelegateActiveVote
  * @prop {string} delegate Name of the delegate.
  * @prop {number} weight Number of votes the delegate currently has.
  * @prop {number} timestamp Unix epoch timestamp of when the vote was cast.
@@ -433,9 +434,9 @@ function parseDelegateActiveVote(v) {
 }
 
 /**
- * @typedef {object} DelegateLogVote
  * Represents a vote cast by a WA delegate on an at-vote {@linkcode Resolution}.
  * This may be a since-overridden or a still active vote.
+ * @typedef {object} DelegateLogVote
  * @prop {string} delegate Name of the delegate.
  * @prop {'FOR' | 'AGAINST'} vote Which way the delegate voted.
  * @prop {number} weight Number of votes the delegate currently has.
@@ -456,9 +457,9 @@ function parseDelegateLogVote(log) {
 }
 
 /**
- * @typedef {object} DelegateVoteSummary
  * Container object holding data on the currently active votes
  * of WA delegates on an at-vote {@linkcode Resolution}.
+ * @typedef {object} DelegateVoteSummary
  * @prop {DelegateActiveVote[]} for Details of the delegates voting For the resolution.
  * @prop {DelegateActiveVote[]} against Details of the delegates voting Against the resolution.
  */
@@ -475,8 +476,8 @@ function parseDelegateVotes(root) {
 }
 
 /**
- * @typedef {object} Dispatch
  * Represents a dispatch.
+ * @typedef {object} Dispatch
  * @prop {number} id ID of the dispatch.
  * @prop {string} title The dispatch's title.
  * @prop {string} author Name of the nation that published the dispatch.
@@ -507,8 +508,8 @@ function parseDispatch(obj) {
 }
 
 /**
- * @typedef {object} ListDispatch
  * Represents a dispatch without its body text.
+ * @typedef {object} ListDispatch
  * @prop {number} id ID of the dispatch.
  * @prop {string} title The dispatch's title.
  * @prop {string} author Name of the nation that published the dispatch.
@@ -537,8 +538,8 @@ function parseDispatchOverview(obj) {
 }
 
 /**
- * @typedef {object} EmbassyData
  * Container object holding data on a region's embassies and embassy requests.
+ * @typedef {object} EmbassyData
  * @prop {string[]} standing Names of the regions that share an active embassy with the region.
  * @prop {string[]} invited Names of the regions that have a pending embassy request to the region.
  * @prop {string[]} requested Names of the regions the region sent a pending embassy request to.
@@ -577,8 +578,8 @@ function parseEmbassies(embassies) {
 }
 
 /**
- * @typedef {object} ListFaction
  * Represents a summary of basic information on an N-Day faction. 
+ * @typedef {object} ListFaction
  * @prop {number} id ID of the faction.
  * @prop {string} name Name of the faction.
  * @prop {number} score Current score of the faction.
@@ -601,8 +602,8 @@ function parseFaction(faction) {
 }
 
 /**
- * @typedef {object} Faction
  * Represents an N-Day faction.
+ * @typedef {object} Faction
  * @prop {number} id ID of the faction.
  * @prop {string} name Name of the faction.
  * @prop {string} description Description of the faction, similar to a regional WFE.
@@ -647,8 +648,8 @@ function parseFactionDetails(faction) {
 }
 
 /**
- * @typedef {object} FreedomsData
  * Container object holding data on a nation's civil, economic, and political freedoms.
+ * @typedef {object} FreedomsData
  * @prop {string} civil Description of the nation's civil rights situation.
  * @prop {string} economic Description of the extent of economic freedom the nation grants.
  * @prop {string} political Description of the level of the nation's political freedom.
@@ -667,8 +668,8 @@ function parseFreedoms(root) {
 }
 
 /**
- * @typedef {object} Happening
  * Represents a happening event in the NationStates world.
+ * @typedef {object} Happening
  * @prop {number} timestamp Unix epoch timestamp of when the happening occurred.
  * @prop {string} text Text description of what transpired in the happening.
  */
@@ -685,9 +686,9 @@ function parseHappening(event) {
 }
 
 /**
- * @typedef {object} HDIData
  * Container object holding data on the different component scores that
  * ultimately combine into a nation's final World Census HDI score.
+ * @typedef {object} HDIData
  * @prop {number} score The final HDI score.
  * @prop {number} economy The economic score component.
  * @prop {number} education The educational score component.
@@ -708,8 +709,8 @@ function parseHDI(root) {
 }
 
 /**
- * @typedef {object} HistoryEvent
  * Represents an important happening in a region's history.
+ * @typedef {object} HistoryEvent
  * @prop {number} timestamp Unix epoch timestamp of when the happening occurred.
  * @prop {string} description Short description of what happened.
  */
@@ -726,8 +727,8 @@ function parseHistoryEvent(event) {
 }
 
 /**
- * @typedef {object} IDHappening
  * Represents a happening event in the NationStates world.
+ * @typedef {object} IDHappening
  * @prop {number} id ID of the happening.
  * @prop {number} timestamp Unix epoch timestamp of when the happening occurred.
  * @prop {string} text Text description of what transpired in the happening.
@@ -746,8 +747,8 @@ function parseIDHappening(event) {
 }
 
 /**
- * @typedef {object} Issue
  * Represents an issue confronting a nation.
+ * @typedef {object} Issue
  * @prop {number} id ID of the issue.
  * @prop {string} title Title of the issue, shown as a newspaper headline.
  * @prop {string} description Body text describing the premise of the issue.
@@ -777,8 +778,8 @@ function parseIssue(issue) {
 }
 
 /**
- * @typedef {object} IssueOption
  * Represents an option that may be chosen to answer an {@linkcode Issue}.
+ * @typedef {object} IssueOption
  * @prop {number} id Issue-internal ID of the option.
  * @prop {string} text Body text describing the option.
  */
@@ -795,9 +796,9 @@ function parseIssueOption(option) {
 }
 
 /**
- * @typedef {object} LegalityData
  * Container object holding data on a {@linkcode Proposal}'s current legal status - that
  * is, the decisions of Moderators or General Secretariat members on its rule compliance.
+ * @typedef {object} LegalityData
  * @prop {string[]} legal List with the names of the nations ruling the proposal legal.
  * @prop {string[]} illegal List with the names of the nations ruling the proposal illegal.
  * @prop {string[]} discard List with the names of the nations voting to discard the proposal.
@@ -818,9 +819,9 @@ function parseLegality(root) {
 }
 
 /**
- * @typedef {object} LegalityDecision
  * Represents a ruling of a Moderator or a member of the General Secretariat
  * concerning the legality of a concrete {@linkcode Proposal}.
+ * @typedef {object} LegalityDecision
  * @prop {string} nation Name of the nation that made the ruling.
  * @prop {'Legal' | 'Illegal' | 'Discard'} decision The ruling made.
  * @prop {string} reason Comment attached to the ruling by the nation that made it.
@@ -841,8 +842,8 @@ function parseLegalityDecision(decision) {
 }
 
 /**
- * @typedef {object} Market
  * Represents an ask or bid on a card in the auction house.
+ * @typedef {object} Market
  * @prop {string} nation Name of the nation entertaining this market.
  * @prop {number} bank Amount of bank placed in this market.
  * @prop {'ask' | 'bid'} type Whether this market is an ask or a bid on a card.
@@ -863,8 +864,8 @@ function parseMarket(market) {
 }
 
 /**
- * @typedef {object} NewNation
  * Represents the founding details of a newly founded nation.
+ * @typedef {object} NewNation
  * @prop {string} nation Name of the nation.
  * @prop {string} region Name of the region the nation was founded in.
  * @prop {number} founded Unix epoch timestamp of when the nation was founded.
@@ -883,8 +884,8 @@ function parseNewNationsDetails(nation) {
 }
 
 /**
- * @typedef {object} Notice
  * Represents a notice alert generated for a nation.
+ * @typedef {object} Notice
  * @prop {string} title Title of the notice.
  * @prop {string} text Body text of the notice.
  * @prop {number} time Unix epoch timestamp of when the notice was generated.
@@ -915,8 +916,8 @@ function parseNotice(notice) {
 }
 
 /**
- * @typedef {object} Officer
  * Represents a regional officer of a region.
+ * @typedef {object} Officer
  * @prop {string} nation Name of the officer nation.
  * @prop {string} office Name of the office held by the officer.
  * @prop {string} appointer Name of the nation that appointed the officer.
@@ -941,8 +942,8 @@ function parseOfficer(o) {
 }
 
 /**
- * @typedef {object} Policy
  * Represents a national policy.
+ * @typedef {object} Policy
  * @prop {string} category General field the policy concerns.
  * @prop {string} name Name of the policy.
  * @prop {string} description Short description of the policy content.
@@ -963,6 +964,7 @@ function parsePolicy(policy) {
 }
 
 /**
+ * Represents a regional poll.
  * @typedef {object} Poll
  * @prop {string} title The title of the poll.
  * @prop {string | undefined} description The (optional) description of the poll.
@@ -973,8 +975,8 @@ function parsePolicy(policy) {
  * @prop {PollOption[]} options List of the available {@linkcode PollOption}s to vote for.
  */
 /**
- * @typedef {object} PollOption
  * Represents a voting option on a {@linkcode Poll}.
+ * @typedef {object} PollOption
  * @prop {string} text Text of the option.
  * @prop {number} votes Total number of votes for the option.
  * @prop {string[]} voters List with the names of all nations that voted for the option.
@@ -1003,8 +1005,8 @@ function parsePoll(root) {
 }
 
 /**
- * @typedef {object} Proposal
  * Represents a proposal for a new resolution currently before the delegates of the World Assembly.
+ * @typedef {object} Proposal
  * @prop {string} id ID of the proposal.
  * @prop {string} title Title of the proposal.
  * @prop {string} author Name of the nation that submitted the proposal.
@@ -1036,8 +1038,8 @@ function parseProposal(p) {
 }
 
 /**
- * @typedef {object} RankChange
  * Represents a change in a nation's performance on a World Census scale.
+ * @typedef {object} RankChange
  * @prop {number} scale {@linkcode CensusScale} ID of the affected scale.
  * @prop {number} changeAbsolute Absolute score change on the scale in its units.
  * @prop {number} changeRelative Relative score change on the scale in percent.
@@ -1058,9 +1060,9 @@ function parseRankChange(change) {
 }
 
 /**
- * @typedef {object} Reclassification
  * Represents a reclassification of a nation's level of civil,
  * economic, or political freedom through an {@linkcode AnsweredIssue}.
+ * @typedef {object} Reclassification
  * @prop {number} category {@linkcode ReclassificationCategory} the reclassification concerns.
  * @prop {string} from Level the freedom was on prior to answering the issue.
  * @prop {string} to Level the freedom is on after answering the issue.
@@ -1079,8 +1081,8 @@ function parseReclassification(root) {
 }
 
 /**
- * @typedef {object} Resolution
  * Represents a resolution at-vote in or passed by a council of the World Assembly.
+ * @typedef {object} Resolution
  * @prop {string} id ID of the resolution.
  * @prop {string} title Title of the resolution.
  * @prop {string} author Name of the nation that submitted the resolution.
@@ -1124,8 +1126,8 @@ function parseResolution(r) {
 }
 
 /**
- * @typedef {object} RMBActivityAggregate
  * Container object holding data on a nation's aggregate RMB activity.
+ * @typedef {object} RMBActivityAggregate
  * @prop {string} nation Name of the nation the data is for.
  * @prop {number} score Total number of hits for the nation for the leaderboard type.
  */
@@ -1146,8 +1148,8 @@ function parseRMBLeaderboard(obj, type) {
 }
 
 /**
- * @typedef {object} RMBPost
  * Represents a message post lodged to a region's Regional Message Board.
+ * @typedef {object} RMBPost
  * @prop {number} id ID of the post.
  * @prop {string} nation Name of the nation that made the post.
  * @prop {string} text Body text of the post.
@@ -1176,8 +1178,8 @@ function parseRMBMessage(msg) {
 }
 
 /**
- * @typedef {object} SectorData
  * Container object for data on contribution to a nation's GDP by percentage per sector.
+ * @typedef {object} SectorData
  * @prop {number} blackMarket Percentage of GDP generated by black market activity.
  * @prop {number} government Percentage of GDP generated by direct government activity.
  * @prop {number} private Percentage of GDP generated by privately-owned industry.
@@ -1198,8 +1200,8 @@ function parseSectors(root) {
 }
 
 /**
- * @typedef {object} SpendingData
  * Container object for data on a nation's government expenditure by percentage per field.
+ * @typedef {object} SpendingData
  * @prop {number} admin Percentage of budget spent on the bureaucracy.
  * @prop {number} defence Percentage of budget spent on defence.
  * @prop {number} education Percentage of budget spent on education.
@@ -1236,8 +1238,8 @@ function parseSpending(root) {
 }
 
 /**
- * @typedef {object} IssueSummary
  * Represents an issue by title and ID.
+ * @typedef {object} IssueSummary
  * @prop {number} id ID of the issue.
  * @prop {string} title Title of the issue, shown as a newspaper headline.
  */
@@ -1254,9 +1256,9 @@ function parseSummary(issue) {
 }
 
 /**
- * @typedef {object} Trade
  * Represents the transfer of a card from one nation to another, whether by gift or auction.
  * This type of trade object is used for trade lists on the open market.
+ * @typedef {object} Trade
  * @prop {ListCard} card The card transferred.
  * @prop {string} buyer Name of the nation that received the card.
  * @prop {string} seller Name of the nation that gave the card.
@@ -1279,9 +1281,9 @@ function parseTrade(trade) {
 }
 
 /**
- * @typedef {object} TradeCardbound
  * Represents the transfer of a card from one nation to another, whether by gift or auction.
  * This type of trade object is used for trade lists from a specific card's page.
+ * @typedef {object} TradeCardbound
  * @prop {string} buyer Name of the nation that received the card.
  * @prop {string} seller Name of the nation that gave the card.
  * @prop {number | null} price Amount of bank the buyer paid; `null` for gifts.
@@ -1302,9 +1304,9 @@ function parseTradeCardbound(trade) {
 }
 
 /**
- * @typedef {object} TGQueue
  * Container object specifying the total number of telegrams that are currently awaiting delivery,
  * sorted by the type of queue each.
+ * @typedef {object} TGQueue
  * @prop {number} manual Total number of manually-sent telegrams awaiting delivery.
  * @prop {number} mass Total number of mass telegrams awaiting delivery.
  * @prop {number} api Total number of telegrams sent via the API awaiting delivery.
@@ -1323,9 +1325,9 @@ function parseTGQueue(queue) {
 }
 
 /**
- * @typedef {object} UnreadsData
  * Container object for data on a nation's number of unread issues, telegrams, notices, and RMB and
  * News posts, as well as the number of at-vote resolutions it has yet to vote on.
+ * @typedef {object} UnreadsData
  * @prop {number} issue Total number of issues currently confronting the nation.
  * @prop {number} telegram Total number of telegrams not yet read by the nation.
  * @prop {number} notice Total number of notices not yet acknowledged by the nation.
@@ -1350,8 +1352,8 @@ function parseUnreads(root) {
 }
 
 /**
- * @typedef {object} VoteSummary
  * Container object holding data on current or final voting results on a {@linkcode Resolution}.
+ * @typedef {object} VoteSummary
  * @prop {number} totalFor Total number of votes cast in favor of the resolution.
  * @prop {number} totalAgainst Total number of votes cast against the resolution.
  * @prop {number} totalIndividualFor Total number of nations voting in favor of the resolution.
@@ -1362,8 +1364,8 @@ function parseUnreads(root) {
  * @prop {DelegateLogVote[]} delegatesLog Full timeline of when each delegate cast their vote.
  */
 /**
- * @typedef {object} VoterData
  * Container object holding data on the names of nations voting on a resolution.
+ * @typedef {object} VoterData
  * @prop {string[]} for List with the names of all nations voting in favor of the resolution.
  * @prop {string[]} against List with the names of all nations voting against the resolution.
  */
@@ -1412,8 +1414,8 @@ function parseVoteData(r) {
 }
 
 /**
- * @typedef {object} VoteTally
  * Represents a tally of votes For and Against a resolution in the World Assembly.
+ * @typedef {object} VoteTally
  * @prop {number} for Number of votes in favor of the resolution. `null` if none is at vote.
  * @prop {number} against Number of votes against the resolution. `null` if none is at vote.
  */
@@ -1430,8 +1432,8 @@ function parseVoteTally(tally) {
 }
 
 /**
- * @typedef {object} ZombieDataNation
  * Container object for data on a nation's Z-Day behaviour.
+ * @typedef {object} ZombieDataNation
  * @prop {string} intended The {@linkcode ZombieAction} the nation pursues.
  * @prop {string} action The {@linkcode ZombieAction} the nation is actually executing.
  * @prop {number} survivors Total number of citizens alive and well in the nation.
@@ -1454,8 +1456,8 @@ function parseZombieNation(root) {
 }
 
 /**
- * @typedef {object} ZombieDataRegion
  * Container object for data on the Z-Day performance of a region's resident nations.
+ * @typedef {object} ZombieDataRegion
  * @prop {number} survivors Total number of national citizens alive and well in the region.
  * @prop {number} zombies Total number of zombified national citizens in the region.
  * @prop {number} dead Total number of deceased national citizens in the region.

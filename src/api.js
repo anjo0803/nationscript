@@ -1,9 +1,10 @@
 /**
- * @license
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ * The API module exports the {@link NS} class, which is used to initialise all requests to the NS
+ * API.
+ * @module api
+ * @license {@linkplain https://mozilla.org/MPL/2.0/ MPL-2.0}
  */
+
 
 const {
 	NSRequest,
@@ -40,11 +41,11 @@ const {
 } = require('./requests/dump');
 
 /**
- * The `NS` class is the entry point to any ALFoNS usage.
+ * The `NS` class is the entry point to any ALfoNS usage.
  * 
- * It contains several functions for changing settings of ALFoNS:
+ * It contains several functions for changing settings of ALfoNS:
  * * {@linkcode NS.setAgent()} for setting the - **mandatory** - custom user agent,
- * * {@linkcode NS.setUseRateLimit()} for en-/disabling the built-in rate-limiter of ALFoNS,
+ * * {@linkcode NS.setUseRateLimit()} for en-/disabling the built-in rate-limiter of ALfoNS,
  * * {@linkcode NS.setUseVersion()} to specify a specific API version to make all calls to,
  * * {@linkcode NS.setTGClientKey()} to register the client key to use for TG API requests,
  * * {@linkcode NS.setDumpDirectory()} to set a custom directory to save local Data Dump copies in.
@@ -77,6 +78,7 @@ const {
  *     * {@linkcode NS.regionsFromDump()}
  *     * {@linkcode NS.cardsFromDump()}
  * @summary Static class used for initialising new request objects for individual NS API endpoints.
+ * @hideconstructor
  */
 class NS {
 
@@ -97,9 +99,9 @@ class NS {
 	}
 
 	/**
-	 * Enables or disables the built-in automatic rate-limiting function of ALFoNS. Useful if you
+	 * Enables or disables the built-in automatic rate-limiting function of ALfoNS. Useful if you
 	 * want to use a custom, slower rate of sending requests, or have other programs making
-	 * requests to the NS API that aren't run by this ALFoNS instance. Enabled by default.
+	 * requests to the NS API that aren't run by this ALfoNS instance. Enabled by default.
 	 * @param {boolean} state `true` to use built-in rate-limiting, `false` to disable it.
 	 */
 	static setUseRateLimit(state) {
@@ -287,7 +289,7 @@ class NS {
 
 	/**
 	 * Build a request to the NS API completely from scratch!
-	 * @returns {NSRequest} A request instance ready for customisation.
+	 * @returns {ParameterRequest} A request instance ready for customisation.
 	 */
 	static custom() {
 		return new ParameterRequest();

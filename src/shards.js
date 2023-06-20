@@ -1,15 +1,15 @@
 /**
- * @license
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ * The Shards module provides enum types for the different shardable types of shardable requests.
+ * @module shards
+ * @license {@linkplain https://mozilla.org/MPL/2.0/ MPL-2.0}
  */
 
 /**
  * Valid shards to query in requests to the (individual) cards endpoint of the API.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.CardIndividualShard = Object.freeze({
+exports.CardIndividualShard = {
 	/** Get the data of the nation depicted on the card. */
 	INFO: 'info',
 
@@ -21,15 +21,16 @@ exports.CardIndividualShard = Object.freeze({
 
 	/** Get a list of all transfers of the card from one nation to another, by gift or auction. */
 	TRADES: 'trades'
-});
+};
 
 /**
  * Valid shards to query in requests to the (deck/world) cards endpoint of the API.
  * 
  * **Note: Querying multiple at once can cause the request to load slightly longer than usual.**
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.CardShard = Object.freeze({
+exports.CardShard = {
 	/** Get all current asks and bids (markets) of a defined nation. */
 	ASKS_BIDS: 'asksbids',
 
@@ -50,13 +51,14 @@ exports.CardShard = Object.freeze({
 
 	/** Get a list of all transfers of cards from one nation to another, gift or auction. */
 	TRADES: 'trades'
-});
+};
 
 /**
  * Valid shards to query in requests to the nations endpoint of the API.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.NationShard = Object.freeze({
+exports.NationShard = {
 	/** Get a random admirable the nation is eligible for, e.g. 'environmentally stunning'. */
 	ADMIRABLE: 'admirable',
 
@@ -263,14 +265,15 @@ exports.NationShard = Object.freeze({
 
 	/** Get the nation's current number of zombies, survivors, and dead citizens, as well as its intended and actual response behaviour. */
 	ZOMBIE: 'zombie'
-});
+};
 
 /**
  * Valid shards to query in requests to the nations endpoint of the API.
  * If private shards are requested, the request must authenticate as the respective nation.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.NationPrivateShard = Object.freeze({
+exports.NationPrivateShard = {
 	/** Get a list with the names of all nations currently saved in the nation's dossier. */
 	DOSSIER_NATIONS: 'dossier',
 
@@ -300,13 +303,14 @@ exports.NationPrivateShard = Object.freeze({
 
 	/** Get the current number of new WA resolutions at vote, unaddressed issues, and unread telegrams, notices, and RMB and news posts. */
 	UNREADS: 'unread'
-});
+};
 
 /**
  * Valid shards to query in requests to the regions endpoint of the API.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.RegionShard = Object.freeze({
+exports.RegionShard = {
 	/** Get a list with the names of all nations currently banned from the region. */
 	BANLIST: 'banlist',
 
@@ -444,13 +448,14 @@ exports.RegionShard = Object.freeze({
 
 	/** Get the total current number of zombies, survivors, and dead citizens from among nations residing in the region. */
 	ZOMBIE: 'zombie'
-});
+};
 
 /**
  * Valid shards to query in requests to the WA endpoint of the API.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.WAShard = Object.freeze({
+exports.WAShard = {
 	/** Get a list with the names of all current WA Delegate nations. */
 	DELEGATES: 'delegates',
 
@@ -486,13 +491,14 @@ exports.WAShard = Object.freeze({
 
 	/** Get a list of the vote totals on the resolution currently at vote for each hour since voting started. */
 	VOTE_TRACK: 'votetrack'
-});
+};
 
 /**
  * Valid shards to query in requests to the world endpoint of the API.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.WorldShard = Object.freeze({
+exports.WorldShard = {
 	/** Get the names and unlocking requirements for a defined list of national banners. */
 	BANNER: 'banner',
 
@@ -561,4 +567,4 @@ exports.WorldShard = Object.freeze({
 
 	/** Get the number of telegrams currently waiting to be delivered in the manual, API, and stamp queues. */
 	TG_QUEUE: 'tgqueue'
-});
+};

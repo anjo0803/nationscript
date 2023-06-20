@@ -1,8 +1,7 @@
 /**
- * @license
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ * The Dump module contains all functionality targeting NS' Daily Data Dump archives.
+ * @module requests/dump
+ * @license {@linkplain https://mozilla.org/MPL/2.0/ MPL-2.0}
  */
 
 /* === Imports === */
@@ -170,7 +169,7 @@ class DumpRequest extends NSRequest {
 	 * the results list. Once the Dump has been fully read, the Promise resolves to that list.
 	 * @param {string} tag Name of the XML tag to use as root tag of target objects.
 	 * @param {Function} Target Constructor function for the classes to instantiate from the XML.
-	 * @param {(obj: any) => boolean} filter Function deciding which of the objects to keep.
+	 * @param {NationCallback|RegionCallback|CardCallback} filter Callback function.
 	 * @returns {Promise<object[]>} List of all instantiated objects satisfying the filter.
 	 */
 	async send(tag, Target, filter = () => false) {
@@ -197,6 +196,11 @@ class DumpRequest extends NSRequest {
 }
 
 /**
+ * Function to be called whenever a nation from the Dump is parsed.
+ * @callback NationCallback
+ * @arg {Nation} nation The Nation object with the data of the nation that was parsed.
+ */
+/**
  * Request subclass for reading the nations Daily Data Dump (archive).
  */
 class NationDumpRequest extends DumpRequest {
@@ -214,7 +218,7 @@ class NationDumpRequest extends DumpRequest {
 	 * Nation objects read from the Dump are passed to the given filter function, which is expected
 	 * to return `true` or `false` for them to indicate whether to save the respective Nation in
 	 * the result list. Once the Dump has been fully read, the Promise resolves to that list.
-	 * @param {(n: Nation) => boolean} filter Function deciding which nations to return.
+	 * @param {NationCallback} filter Function deciding which nations to return.
 	 * @returns {Promise<Nation[]>} List of all nations satisfying the `filter` function.
 	 */
 	async send(filter) {
@@ -222,6 +226,11 @@ class NationDumpRequest extends DumpRequest {
 	}
 }
 
+/**
+ * Function to be called whenever a region from the Dump is parsed.
+ * @callback RegionCallback
+ * @arg {Region} region The Region object with the data of the region that was parsed.
+ */
 /**
  * Request subclass for reading the regions Daily Data Dump (archive).
  */
@@ -240,7 +249,7 @@ class RegionDumpRequest extends DumpRequest {
 	 * Region objects read from the Dump are passed to the given filter function, which is expected
 	 * to return `true` or `false` for them to indicate whether to save the respective Region in
 	 * the result list. Once the Dump has been fully read, the Promise resolves to that list.
-	 * @param {(r: Region) => boolean} filter Function deciding which regions to return.
+	 * @param {RegionCallback} filter Function deciding which regions to return.
 	 * @returns {Promise<Region[]>} List of all regions satisfying the `filter` function.
 	 */
 	async send(filter) {
@@ -248,6 +257,11 @@ class RegionDumpRequest extends DumpRequest {
 	}
 }
 
+/**
+ * Function to be called whenever a card from the Dump is parsed.
+ * @callback CardCallback
+ * @arg {Card} card The Card object with the data of the card that was parsed.
+ */
 /**
  * Request subclass for reading the cards Seasonal Data Dump (archive).
  */
@@ -262,7 +276,7 @@ class CardDumpRequest extends DumpRequest {
 	 * Card objects read from the Dump are passed to the given filter function, which is expected
 	 * to return `true` or `false` for them to indicate whether to save the respective Card in
 	 * the result list. Once the Dump has been fully read, the Promise resolves to that list.
-	 * @param {(c: Card) => boolean} filter Function deciding which cards to return.
+	 * @param {CardCallback} filter Function deciding which cards to return.
 	 * @returns {Promise<Card[]>} List of all cards satisfying the `filter` function.
 	 */
 	async send(filter) {

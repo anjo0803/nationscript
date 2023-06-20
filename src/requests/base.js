@@ -1,15 +1,15 @@
 /**
- * @license
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ * The request base module provides different levels of superclasses for the more specialised
+ * request modules to inherit.
+ * @module requests/base
+ * @license {@linkplain https://mozilla.org/MPL/2.0/ MPL-2.0}
  */
 
-const https = require('node:https');
 const {
 	IncomingMessage,
 	IncomingHttpHeaders
 } = require('node:http');
+const https = require('node:https');
 
 const flow = require('xml-flow');
 
@@ -19,7 +19,7 @@ const { txt } = require('./converter');
  * The mother of all superclasses, being inherited by all specialised request classes.
  * 
  * Holds static properties configurable by the user to en/disable the built-in rate-limiter of
- * ALFoNS and, most importantly, set the user agent for identifying the user to NS admins.
+ * ALfoNS and, most importantly, set the user agent for identifying the user to NS admins.
  * 
  * The {@linkcode NSRequest.send()} function is invoked upon execution of any subclass and parses
  * responses from the API via the `xml-flow` package, while the {@linkcode NSRequest.raw()}
@@ -33,7 +33,6 @@ class NSRequest {
 	 * The custom text that is set as the `User-Agent` header in requests to the NS API.
 	 * @type string
 	 * @package
-	 * @static
 	 */
 	static useragent = null;
 
@@ -42,7 +41,6 @@ class NSRequest {
 	 * @type boolean
 	 * @default true
 	 * @package
-	 * @static
 	 */
 	static useRateLimit = true;
 
@@ -53,7 +51,6 @@ class NSRequest {
 	 * Describes the current rate-limiting policy of the NationStates API. This gets updated
 	 * automatically based on the information in the headers returned from API requests, but is
 	 * initially set to allow 50 requests per 30 seconds, which, as of coding, is the actual limit.
-	 * @static
 	 * @private
 	 */
 	static #policy = {
@@ -237,7 +234,6 @@ class ParameterRequest extends NSRequest {
 	 * Defines the version of the NS API to request all data in.
 	 * @type number
 	 * @default 12
-	 * @static
 	 * @package
 	 */
 	static version = 12;
@@ -441,6 +437,12 @@ class NSCredential {
 	 */
 	pin;
 
+	/**
+	 * Creates a new {@linkcode NSCredential} instance with the given details.
+	 * @param {string} nation Name of the nation the login credentials are for.
+	 * @param {string} password Password for the nation.
+	 * @param {string} autologin Autologin code for the nation.
+	 */
 	constructor(nation, password = undefined, autologin = undefined) {
 		if(typeof nation !== 'string') throw new Error(`Invalid nation name (${nation})`);
 		if(!password && !autologin) throw new Error('Missing required login information');
@@ -462,12 +464,22 @@ class NSCredential {
 
 
 /**
+ * Pauses execution for the specified amount of time if `await`ed.
+ * @param {number} period Number of milliseconds to pause.
+ * @private
+ */
+async function timeout(period) {
+	return new Promise((resolve, reject) => setTimeout(() => resolve(), Math.max(0, period)));
+}
+
+/**
  * Adjusts the given string - usually the name of a nation or region -
  * into a format compatible with calls to the NationStates API.
  * @param {string} name String to adjust.
  * @returns {string | null} The adjusted string, if it was a string, otherwise `null`.
+ * @package
  */
-function nsify(name) {
+exports.nsify = (name) => {
 	if(typeof name == 'string') return name.trim().replace(/ /g, '_').toLowerCase();
 	else return null;
 }
@@ -477,8 +489,9 @@ function nsify(name) {
  * array of strings, also mutating the array in the process.
  * @param {string[]} names List to adjust all the elements of.
  * @returns {string[] | null} The given array, or `null` if mutation failed.
+ * @package
  */
-function nsifyList(names) {
+exports.nsifyList = (names) => {
 	try {
 		for(let i = 0; i < names.length; i++) names[i] = this.nsify(names[i]);
 	} catch (e) {
@@ -488,22 +501,14 @@ function nsifyList(names) {
 }
 
 /**
- * Pauses execution for the specified amount of time if `await`ed.
- * @param {number} period Number of milliseconds to pause.
- * @package
- */
-async function timeout(period) {
-	return new Promise((resolve, reject) => setTimeout(() => resolve(), Math.max(0, period)));
-}
-
-/**
  * Sends an HTTP query to the given URL.
  * @param {string} url URL to query.
  * @param {https.RequestOptions} options Options to further define the query.
  * @param {string} postData Data to write to the request body
  * @returns {Promise<IncomingMessage>} The response from the queried URL.
+ * @package
  */
-function call(url, options, postData = null) {
+exports.call = (url, options, postData = null) => {
 	return new Promise((resolve, reject) => {
 		let request = https
 			.request(url, options, response => resolve(response))
@@ -518,7 +523,3 @@ exports.NSRequest = NSRequest;
 exports.ParameterRequest = ParameterRequest;
 exports.ShardableRequest = ShardableRequest;
 exports.NSCredential = NSCredential;
-
-exports.nsify = nsify;
-exports.nsifyList = nsifyList;
-exports.call = call;

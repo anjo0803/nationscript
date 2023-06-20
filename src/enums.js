@@ -1,16 +1,18 @@
 /**
- * @license
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ * The Enums module provides a variety of constant ID values used in requests to or responses from
+ * the NS API, so that they are more readable.
+ * @module enums
+ * @license {@linkplain https://mozilla.org/MPL/2.0/ MPL-2.0}
  */
+
 
 /**
  * Admirable traits of a nation.
- * @enum string
+ * @enum {string}
+ * @readonly
  * @todo These are all I found with a quick search, there might be more.
  */
-exports.Admirable = Object.freeze({
+exports.Admirable = {
 	CULTURED: 'cultured',
 	EFFICIENT: 'efficient',
 	ENVIRONMENT: 'environmentally stunning',
@@ -18,13 +20,14 @@ exports.Admirable = Object.freeze({
 	ORDERLY: 'orderly',
 	PROGRESSIVE: 'socially progressive',
 	SAFE: 'safe'
-});
+};
 
 /**
  * Valid display modes for the results of the various `census` shards.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.CensusMode = Object.freeze({
+exports.CensusMode = {
 	/** Get the raw score. */
 	SCORE: 'score',
 	/** Get the rank of the nation, only considering other regional nations. */
@@ -35,13 +38,14 @@ exports.CensusMode = Object.freeze({
 	RANK_WORLD: 'rank',
 	/** Get the percentile of the nation or region. */
 	RANK_WORLD_PERCENT: 'prank'
-});
+};
 
 /**
  * IDs of World Census scales.
- * @enum number
+ * @enum {number}
+ * @readonly
  */
-exports.CensusScale = Object.freeze({
+exports.CensusScale = {
 	CIVIL_RIGHTS: 0,
 	ECONOMY: 1,
 	POLITICAL_FREEDOM: 2,
@@ -131,13 +135,14 @@ exports.CensusScale = Object.freeze({
 	INTERNATIONAL_ARTWORK: 86,
 	PATRIOTISM: 87,
 	FOOD_QUALITY: 88
-});
+};
 
 /**
  * Policies on RMB posting privileges for residents of embassy regions.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.CrosspostingPolicy = Object.freeze({
+exports.CrosspostingPolicy = {
 	/** No RMB cross-posting from embassy regions allowed. */
 	NONE: '0',
 	/** Only Founders and WA Delegates of embassy regions may cross-post. */
@@ -148,13 +153,14 @@ exports.CrosspostingPolicy = Object.freeze({
 	OFFICERS_WITH_COMMS: 'com',
 	/** All nations in embassy regions may cross-post. */
 	EVERYONE: 'all'
-});
+};
 
 /**
  * Types of causes of death in a nation.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.DeathCause = Object.freeze({
+exports.DeathCause = {
 	ACCIDENT: 'Accident',
 	ANIMAL_ATTACK: 'Animal Attack',
 	AGE: 'Old Age',
@@ -178,24 +184,25 @@ exports.DeathCause = Object.freeze({
 	WAR: 'War',
 	WILDERNESS: 'Lost in Wilderness',
 	WORK: 'Work'
-});
+};
 
 /**
  * Top-level categories of dispatches.
- * @enum string
+ * @enum {string}
  */
-exports.DispatchCategory = Object.freeze({
+exports.DispatchCategory = {
 	FACTBOOK: 'Factbook',
 	BULLETIN: 'Bulletin',
 	ACCOUNT: 'Account',
 	META: 'Meta'
-});
+};
 
 /**
  * Sub-categories of dispatches.
  * @enum
+ * @readonly
  */
-exports.DispatchSubcategory = Object.freeze({
+exports.DispatchSubcategory = {
 	FACTBOOK: {
 		OVERVIEW: `${this.DispatchCategory.FACTBOOK}:Overview`,
 		HISTORY: `${this.DispatchCategory.FACTBOOK}:History`,
@@ -230,24 +237,26 @@ exports.DispatchSubcategory = Object.freeze({
 		GAMEPLAY: `${this.DispatchCategory.META}:Gameplay`,
 		REFERENCE: `${this.DispatchCategory.META}:Reference`
 	}
-});
+};
 
 /**
  * Valid sorting modes when querying dispatches.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.DispatchSearchMode = Object.freeze({
+exports.DispatchSearchMode = {
 	/** Get recently-posted trending dispatches. */
 	NEW: 'new',
 	/** Get the all-time highest-scoring dispatches. */
 	BEST: 'best'
-});
+};
 
 /**
  * Valid filters when querying one of the `HAPPENINGS` shards.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.HappeningsFilter = Object.freeze({
+exports.HappeningsFilter = {
 	/** Get Issues-answering activity. */
 	LEGISLATION: 'law',
 	/** Get changes in national settings, classifications, and new WA census badges. */
@@ -278,13 +287,14 @@ exports.HappeningsFilter = Object.freeze({
 	WA_MEMBERSHIP: 'member',
 	/** Get endorsement-giving and -withdrawing activity. */
 	ENDORSEMENTS: 'endo'
-});
+};
 
 /**
  * Influence ranks a nation can achieve in a region, in ascending order.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.Influence = Object.freeze([
+exports.Influence = [
 	'Zero',
 	'Unproven',
 	'Hatchling',
@@ -316,13 +326,14 @@ exports.Influence = Object.freeze([
 	'Dominator',
 	'Hegemony',
 	'Hermit'
-]);
+];
 
 /**
  * Special characteristics notable about a nation.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.Notable = Object.freeze({
+exports.Notable = {
 	NONE: 'burgeoning @@ANIMAL@@ population',
 
 	ANTI_SMOKING: 'anti-smoking policies',
@@ -385,14 +396,15 @@ exports.Notable = Object.freeze({
 	VEGETARIAN: 'compulsory vegetarianism',
 	WASTE_DUMPING: 'flagrant waste-dumping',
 	WELFARE: 'devotion to social welfare'
-});
+};
 
 /**
  * Types of NationStates notices.
- * @enum string
+ * @enum {string}
+ * @readonly
  * @todo These are all I could identify, there might be more.
  */
-exports.NoticeType = Object.freeze({
+exports.NoticeType = {
 	ENDORSEMENT_GAINED: 'END',
 	ENDORSEMENT_LOST: 'UNEND',
 	CENSUS_RANK: 'T',
@@ -405,13 +417,14 @@ exports.NoticeType = Object.freeze({
 	RMB_MENTION: 'RMB',
 	POLICY: 'P',
 	EMBASSY: 'EMB'
-});
+};
 
 /**
  * Authority codes for the in-game authorities of Regional Officers.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.OfficerAuthority = Object.freeze({
+exports.OfficerAuthority = {
 	/**
 	 * Denotes that the officer may:
 	 * * appoint and dismiss other Regional Officers, and
@@ -458,36 +471,39 @@ exports.OfficerAuthority = Object.freeze({
 	 * Denotes that the officer may create and cancel regional polls.
 	 */
 	POLLS: 'P'
-});
+};
 
 /**
  * Rarity categories of trading cards.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.Rarity = Object.freeze({
+exports.Rarity = {
 	COMMON: 'common',
 	UNCOMMON: 'uncommon',
 	RARE: 'rare',
 	ULTRA_RARE: 'ultra-rare',
 	EPIC: 'epic',
 	LEGENDARY: 'legendary'
-});
+};
 
 /**
  * Categories for the reclassification of a nation's levels of freedom by an answer to an issue.
- * @enum number
+ * @enum {number}
+ * @readonly
  */
-exports.ReclassificationCategory = Object.freeze({
+exports.ReclassificationCategory = {
 	CIVIL_RIGHTS: 0,
 	ECONOMIC_FREEDOM: 1,
 	POLITICAL_FREEDOM: 2
-});
+};
 
 /**
  * Suppression status codes of RMB posts.
- * @enum number
+ * @enum {number}
+ * @readonly
  */
-exports.RMBPostStatus = Object.freeze({
+exports.RMBPostStatus = {
 	/** The post is displayed as usual. */
 	OK: 0,
 	/** The post has been suppressed by a Regional Officer, but can still be viewed. */
@@ -496,14 +512,15 @@ exports.RMBPostStatus = Object.freeze({
 	DELETED: 2,
 	/** The post has been suppressed by a NS Moderator and can't be viewed anymore. */
 	SUPPRESSED_MOD: 9
-});
+};
 
 /**
  * Possible sensibility traits of a nation's citizens.
- * @enum string
+ * @enum {string}
+ * @readonly
  * @todo These are all I found with a quick search, there might be more.
  */
-exports.Sensibility = Object.freeze({
+exports.Sensibility = {
 	CHEERFUL: 'cheerful',
 	COMPASSIONATE: 'compassionate',
 	CYNICAL: 'cynical',
@@ -512,13 +529,14 @@ exports.Sensibility = Object.freeze({
 	HARD_NOSED: 'hard-nosed',
 	HARD_WORKING: 'hard-working',
 	HUMORLESS: 'humorless'
-});
+};
 
 /**
  * Regional tags.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.Tag = Object.freeze({
+exports.Tag = {
 	NOT: '-',
 
 	ANARCHIST: 'Anarchist',
@@ -624,57 +642,62 @@ exports.Tag = Object.freeze({
 	VIDEO_GAME: 'Video Game',
 	WARZONE: 'Warzone',
 	WA: 'World Assembly'
-});
+};
 
 /**
  * Possible WA badges for nations and regions.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.WABadgeType = Object.freeze({
+exports.WABadgeType = {
 	COMMENDATION: 'commend',
 	CONDEMNATION: 'condemn',
 	LIBERATION: 'liberate',
 	//  INJUNCTION: 'injunct' i guess? The badges aren't live yet ¯\_(ツ)_/¯
-});
+};
 
 /**
  * @enum
- * @todo
+ * @readonly
+ * @todo Populate this thing
  */
-exports.WACategory = Object.freeze({
+exports.WACategory = {
 	GA: {},
 	SC: {}
-});
+};
 
 /**
  * WA Council codes.
- * @enum number
+ * @enum {number}
+ * @readonly
  */
-exports.WACouncil = Object.freeze({
+exports.WACouncil = {
 	/** General Assembly. */
 	GA: 1,
 	/** Security Council. */
 	SC: 2
-});
+};
 
 /**
  * Possible WA membership status codes.
- * @enum
+ * @enum {string}
+ * @readonly
  */
-exports.WAStatus = Object.freeze({
+exports.WAStatus = {
 	/** The nation isn't a WA member. */
 	NONMEMBER: 'Non-member',
 	/** The nation is a WA member. */
 	MEMBER: 'WA Member',
 	/** The nation is a WA member and the WA Delegate of their region. */
 	DELEGATE: 'WA Delegate'
-});
+};
 
 /**
  * Possible votes of nations on WA resolutions.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.WAVote = Object.freeze({
+exports.WAVote = {
 	/** The nation has voted in favor of the resolution. */
 	FOR: 'FOR',
 	/** The nation has voted against the resolution. */
@@ -683,13 +706,14 @@ exports.WAVote = Object.freeze({
 	UNDECIDED: 'UNDECIDED',
 	/** There currently is no resolution at vote. */
 	NONE_AT_VOTE: ''
-});
+};
 
 /**
  * Possible responses of nations to the annual zombie apocalypse on Z-Day.
- * @enum string
+ * @enum {string}
+ * @readonly
  */
-exports.ZombieAction = Object.freeze({
+exports.ZombieAction = {
 	/** The nation hasn't made a decision on their response yet. */
 	INACTION: 'none',
 	/** The nation sends zombies to other nations in order to infect their populations. */
@@ -698,4 +722,4 @@ exports.ZombieAction = Object.freeze({
 	EXTERMINATE: 'exterminate',
 	/** The nation researches a cure in order to turn zombies back into normal citizens. */
 	RESEARCH: 'research'
-});
+};
