@@ -6,7 +6,7 @@ taking care of rate-limiting, adding full typing to API responses, and providing
 for easy requests-building and understanding of responses - while also offering additional methods
 and customisation for API interactions to support more advanced and/or niche use cases.
 
-The current ALfoNS version (1.0.1) is tailored to version `12` of the NS API and supports all
+The current ALfoNS version (1.0.2) is tailored to version `12` of the NS API and supports all
 endpoints it offers.
 
 ## Installation
@@ -87,7 +87,7 @@ for(let scale of nationData.census) // Print the score and world-wide rank of th
 ```
 
 ## Alternative Methods
-ALFoNS also offers alternative ways of getting the data you want!
+ALfoNS also offers alternative ways of getting the data you want!
 
 ### Custom Request Building
 If you'd like to build your requests in a more low-level way, the `.custom()` function of the `NS`
@@ -154,5 +154,8 @@ executed. You can set an alternative folder to contain local Dump copies instead
 NS.setDumpDirectory('/path/to/directory');
 ```
 
-## License
-ALfoNS is licensed under the [Mozilla Public License 2.0](https://mozilla.org/MPL/2.0/).
+## Documentation
+The full documentation is available [here](https://anjo0803.github.io/alfons.js/) on GitHub Pages.
+
+## Licence
+ALfoNS is licenced under the [Mozilla Public License 2.0](https://mozilla.org/MPL/2.0/).

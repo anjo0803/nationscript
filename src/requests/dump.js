@@ -16,9 +16,10 @@ const {
 	NSRequest,
 	call
 } = require('./base');
-const { Region } = require('./region');
-const { Nation } = require('./nation');
-const { Card } = require('./card');
+
+const { Region }	= require('./region');
+const { Nation }	= require('./nation');
+const { Card }		= require('./card');
 
 
 /* === Classes === */
@@ -82,7 +83,6 @@ class DumpRequest extends NSRequest {
 	 * @private
 	 */
 	#local() {
-		console.log('loading from lcoal');
 		try {
 			return fs.createReadStream(this.#file);
 		} catch (e) {

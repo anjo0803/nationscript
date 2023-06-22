@@ -4,27 +4,18 @@
  * @license {@linkplain https://mozilla.org/MPL/2.0/ MPL-2.0}
  */
 
-const {
-	arr,
-	txt,
+const { txt } = require('./converter');
 
-	handleList,
-
-	parsePolicy,
-	parseRankChange,
-	parseReclassification,
-
-	Policy,
-	RankChange,
-	Reclassification
-} = require('./converter');
 const { DispatchSubcategory } = require('../enums');
+
 const {
 	NSRequest,
 	ParameterRequest,
 	NSCredential,
 	nsify
 } = require('./base');
+
+const { IssueEffect, parseIssueEffect } = require('../typedefs/issue-effect');
 
 /**
  * Superclass for all nation private command request instances.
@@ -125,10 +116,10 @@ class IssueCommand extends CommandRequest {
 	/**
 	 * Executes this command, sending an HTTP request with all data specified in this
 	 * instance to the API and parsing its response.
-	 * @returns {AnsweredIssue} The effects of the chosen answer to the issue.
+	 * @returns {IssueEffect} The effects of the chosen answer to the issue.
 	 */
 	async send() {
-		return new AnsweredIssue(await super.send());
+		return parseIssueEffect((await super.send())?.['ISSUE']);
 	}
 }
 
@@ -373,67 +364,6 @@ function win1252Workaround(str) {
 	return encodeURIComponent(ret);	// Finally, ensure proper general URI encoding
 }
 
-class AnsweredIssue {
-	constructor(parsed) {
-		if(parsed['$name'] !== 'NATION') throw new Error('Invalid XML root');
-		if(!parsed['ISSUE']) throw new Error('Missing required XML element');
-
-		/* === Primitive Properties === */
-
-		/**
-		 * Whether everything went alright, I guess?
-		 * @type boolean
-		 */
-		this.ok = num(parsed, 'OK') == 1;
-
-		/**
-		 * The tagline of the chosen issue option.
-		 * @type string
-		 */
-		this.effect = txt(parsed, 'DESC');
-
-		/**
-		 * List with all newspaper headlines generated in response to the answer.
-		 * @type string[]
-		 */
-		this.headlines = arr(parsed, 'HEADLINES');
-
-		/**
-		 * List with the banner codes of all national banners unlocked through the answer.
-		 * @type string[]
-		 */
-		this.bannersUnlocked = arr(parsed, tag) || [];
-
-		/* === Complex Properties === */
-
-		/**
-		 * List of all national policies installed through the answer.
-		 * @type Policy[]
-		 */
-		this.policiesAdded = handleList(parsed['NEW_POLICIES'], parsePolicy) || [];
-
-		/**
-		 * List of all changes in the nation's scores on World Census scales through the answer.
-		 * @type RankChange[]
-		 */
-		this.censusChanges = handleList(parsed['RANKINGS'], parseRankChange) || [];
-
-		/**
-		 * List of all reclassifications of freedom levels on the nation through the answer.
-		 * @type Reclassification[]
-		 */
-		this.reclassifications = handleList(parsed['RECLASSIFICATIONS'],
-				parseReclassification) || [];
-
-		/**
-		 * List of all national policies cancelled through the answer.
-		 * @type Policy[]
-		 */
-		this.policiesRemoved = handleList(parsed['REMOVED_POLICIES'], parsePolicy) || [];
-	}
-}
-
-exports.AnsweredIssue = AnsweredIssue;
 exports.IssueCommand = IssueCommand;
 exports.GiftCardCommand = GiftCardCommand;
 exports.DispatchAddCommand = DispatchAddCommand;

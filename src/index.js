@@ -47,7 +47,7 @@ exports.DumpMode = DumpMode;
 /* === Shards === */
 
 const SHARDS = require('./shards');
-exports.CardIndividualShard	= SHARDS.CardIndividualShard;
+exports.CardDetailShard		= SHARDS.CardDetailShard;
 exports.CardShard			= SHARDS.CardShard;
 exports.NationShard			= SHARDS.NationShard;
 exports.NationPrivateShard	= SHARDS.NationPrivateShard;

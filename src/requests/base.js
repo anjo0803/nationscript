@@ -150,7 +150,7 @@ class NSRequest {
 
 		// Be sure to meet the rate-limit, then send the actual HTTP request via the fetch API
 		if(NSRequest.useRateLimit) await this.ratelimit();
-		let response = await call('https://www.nationstates.net/cgi-bin/api.cgi', {
+		let response = await exports.call('https://www.nationstates.net/cgi-bin/api.cgi', {
 			method: 'POST',
 			headers: headers
 		}, body)
@@ -446,7 +446,7 @@ class NSCredential {
 	constructor(nation, password = undefined, autologin = undefined) {
 		if(typeof nation !== 'string') throw new Error(`Invalid nation name (${nation})`);
 		if(!password && !autologin) throw new Error('Missing required login information');
-		this.nation = nsify(nation);
+		this.nation = exports.nsify(nation);
 		this.password = password;
 		this.autologin = autologin;
 		this.pin = undefined;
@@ -493,7 +493,7 @@ exports.nsify = (name) => {
  */
 exports.nsifyList = (names) => {
 	try {
-		for(let i = 0; i < names.length; i++) names[i] = this.nsify(names[i]);
+		for(let i = 0; i < names.length; i++) names[i] = exports.nsify(names[i]);
 	} catch (e) {
 		return null;
 	}

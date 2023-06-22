@@ -23,32 +23,20 @@ const {
 	txt,
 
 	handle,
-	handleList,
-
-	parseBanner,
-	parseCensusRank,
-	parseCensusWorld,
-	parseDispatch,
-	parseDispatchOverview,
-	parseFaction,
-	parseFactionDetails,
-	parseIDHappening,
-	parseNewNationsDetails,
-	parsePoll,
-	parseTGQueue,
-
-	Banner,
-	CensusRankScored,
-	Dispatch,
-	Faction,
-	IDHappening,
-	ListDispatch,
-	ListFaction,
-	NewNation,
-	Poll,
-	TGQueue,
-	WCensusAverage
+	handleList
 } = require('./converter');
+
+const { Banner, parseBanner }					= require('../typedefs/banner');
+const { CensusRankScored, parseCensusRank }		= require('../typedefs/census-rank-scored');
+const { WCensusAverage, parseCensusWorld }		= require('../typedefs/census-data-world');
+const { Dispatch, parseDispatch }				= require('../typedefs/dispatch');
+const { ListDispatch, parseDispatchOverview }	= require('../typedefs/dispatch-list-item');
+const { Faction, parseFactionDetails }			= require('../typedefs/faction');
+const { ListFaction, parseFaction }				= require('../typedefs/faction-list-item');
+const { IDHappening, parseIDHappening }			= require('../typedefs/happening-id');
+const { NewNation, parseNewNationsDetails }		= require('../typedefs/newnation');
+const { Poll, parsePoll }						= require('../typedefs/poll');
+const { TGQueue, parseTGQueue }					= require('../typedefs/tg-queue');
 
 /**
  * @summary Request subclass for building requests to the world endpoint of the API.

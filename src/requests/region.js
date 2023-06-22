@@ -23,34 +23,20 @@ const {
 	secureArray,
 
 	handle,
-	handleList,
-
-	parseBadge,
-	parseCensusRank,
-	parseCensusRegion,
-	parseEmbassies,
-	parseHappening,
-	parseHistoryEvent,
-	parseOfficer,
-	parsePoll,
-	parseRMBLeaderboard,
-	parseRMBMessage,
-	parseVoteTally,
-	parseZombieRegion,
-
-	CensusDataRegion,
-	CensusRankScored,
-	EmbassyData,
-	Happening,
-	HistoryEvent,
-	Officer,
-	Poll,
-	RMBActivityAggregate,
-	RMBPost,
-	VoteTally,
-	WABadge,
-	ZombieDataRegion
+	handleList
 } = require('./converter');
+
+const { WABadge, parseBadge }						= require('../typedefs/badge');
+const { CensusDataRegion, parseCensusRegion }		= require('../typedefs/census-data-region');
+const { CensusRankScored, parseCensusRank }			= require('../typedefs/census-rank-scored');
+const { EmbassyData, parseEmbassies }				= require('../typedefs/embassy-data');
+const { Happening, parseHappening }					= require('../typedefs/happening');
+const { Officer, parseOfficer }						= require('../typedefs/officer');
+const { Poll, parsePoll }							= require('../typedefs/poll');
+const { RMBActivityAggregate, parseRMBLeaderboard }	= require('../typedefs/rmb-aggregate');
+const { RMBPost, parseRMBMessage }					= require('../typedefs/rmb-post');
+const { VoteTally, parseVoteTally }					= require('../typedefs/vote-tally');
+const { ZombieDataRegion, parseZombieRegion }		= require('../typedefs/zombie-data-region');
 
 /**
  * @summary Request subclass for building requests to the regions endpoint of the API.
@@ -480,10 +466,10 @@ class Region {
 			case 'HISTORY':
 				/**
 				 * List of the most important historical events in the region.
-				 * @type HistoryEvent[]
+				 * @type Happening[]
 				 * @see {@linkcode RegionShard.HISTORY}
 				 */
-				this.history = handleList(parsed[tag][0], parseHistoryEvent);
+				this.history = handleList(parsed[tag][0], parseHappening);
 				break;
 
 			case 'MESSAGES':

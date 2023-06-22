@@ -28,42 +28,25 @@ const {
 	txt,
 
 	handle,
-	handleList,
-
-	parseBadge,
-	parseCensusNation,
-	parseCensusRankUnscored,
-	parseDeath,
-	parseDispatchOverview,
-	parseFreedoms,
-	parseHappening,
-	parseHDI,
-	parseIssue,
-	parseNotice,
-	parsePolicy,
-	parseSectors,
-	parseSpending,
-	parseSummary,
-	parseUnreads,
-	parseZombieNation,
-
-	CensusDataNation,
-	CensusRankUnscored,
-	DeathData,
-	FreedomsData,
-	ListDispatch,
-	Happening,
-	HDIData,
-	Issue,
-	IssueSummary,
-	Notice,
-	Policy,
-	SectorData,
-	SpendingData,
-	UnreadsData,
-	WABadge,
-	ZombieDataNation
+	handleList
 } = require('./converter');
+
+const { WABadge, parseBadge }					= require('../typedefs/badge');
+const { CensusDataNation, parseCensusNation }	= require('../typedefs/census-data-nation');
+const { CensusRankUnscored, parseCensusRankUnscored }	= require('../typedefs/census-rank-unscored');
+const { DeathData, parseDeath }					= require('../typedefs/death-data');
+const { FreedomsData, parseFreedoms }			= require('../typedefs/freedoms-data');
+const { ListDispatch, parseDispatchOverview }	= require('../typedefs/dispatch-list-item');
+const { Happening, parseHappening }				= require('../typedefs/happening');
+const { HDIData, parseHDI }						= require('../typedefs/hdi-data');
+const { Issue, parseIssue }						= require('../typedefs/issue');
+const { ListIssue, parseSummary }				= require('../typedefs/issue-list-item');
+const { Notice, parseNotice }					= require('../typedefs/notice');
+const { Policy, parsePolicy }					= require('../typedefs/policy');
+const { SectorsData, parseSectors }				= require('../typedefs/sectors-data');
+const { SpendingData, parseSpending }			= require('../typedefs/spending-data');
+const { UnreadsData, parseUnreads }				= require('../typedefs/unreads-data');
+const { ZombieDataNation, parseZombieNation }	= require('../typedefs/zombie-data-nation');
 
 /**
  * Request subclass for building requests to the nations endpoint of the API.
@@ -865,7 +848,7 @@ class Nation {
 			case 'ISSUESUMMARY':
 				/**
 				 * List with the titles and IDs of all issues currently confronting the nation.
-				 * @type IssueSummary[]
+				 * @type ListIssue[]
 				 * @see {@linkcode NationPrivateShard.ISSUES_SUMMARY}
 				 */
 				this.issuesSummaries = handleList(parsed[tag][0], parseSummary);
@@ -901,7 +884,7 @@ class Nation {
 			case 'SECTORS':
 				/**
 				 * Details on the makeup of the nation's GDP by sector.
-				 * @type SectorData
+				 * @type SectorsData
 				 * @see {@linkcode NationShard.SECTORS}
 				 */
 				this.sectors = handle(parsed[tag][0], parseSectors);

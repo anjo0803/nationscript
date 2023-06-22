@@ -13,17 +13,12 @@ const {
 	txt,
 
 	handle,
-	handleList,
-
-	parseHappening,
-	parseProposal,
-	parseResolution,
-
-	Happening,
-	Proposal,
-	Resolution,
-	VoteTally
+	handleList
 } = require('./converter');
+
+const { Happening, parseHappening }		= require('../typedefs/happening');
+const { Proposal, parseProposal }		= require('../typedefs/proposal');
+const { Resolution, parseResolution }	= require('../typedefs/resolution');
 
 /**
  * @summary Request subclass for building and customising requests to the WA endpoint of the API.

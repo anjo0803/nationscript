@@ -5,38 +5,30 @@
  * @license {@linkplain https://mozilla.org/MPL/2.0/ MPL-2.0}
  */
 
+const { Rarity } = require('../enums');
 const { ShardableRequest } = require('./base');
 const {
 	CardShard,
-	CardIndividualShard
+	CardDetailShard
 } = require('../shards');
-const { Rarity } = require('../enums');
+
 const {
 	arr,
 	num,
 	txt,
 
 	handle,
-	handleList,
-
-	parseAuction,
-	parseCardOverview,
-	parseCollection,
-	parseCollectionOverview,
-	parseDeckSummary,
-	parseMarket,
-	parseTrade,
-	parseTradeCardbound,
-
-	Auction,
-	Collection,
-	Deck,
-	ListCard,
-	ListCollection,
-	Market,
-	Trade,
-	TradeCardbound,
+	handleList
 } = require('./converter');
+
+const { Auction, parseAuction }						= require('../typedefs/auction');
+const { Collection, parseCollection }				= require('../typedefs/collection');
+const { ListCollection, parseCollectionOverview }	= require('../typedefs/collection-list-item');
+const { ListCard, parseCardItem }					= require('../typedefs/card-list-item');
+const { Deck, parseDeckSummary }					= require('../typedefs/deck');
+const { Market, parseMarket }						= require('../typedefs/market');
+const { Trade, parseTrade }							= require('../typedefs/trade');
+const { TradeCardbound, parseTradeCardbound }		= require('../typedefs/trade-cardbound');
 
 /**
  * Request subclass for building requests to the (individual) cards endpoint of the API (`q=card`).
@@ -51,7 +43,7 @@ class CardIndividualRequest extends ShardableRequest {
 
 	/**
 	 * Defines a custom time frame from which to return trades of the card and a maximum number of
-	 * them to return for queries of the {@linkcode CardIndividualShard.TRADES} shard.
+	 * them to return for queries of the {@linkcode CardDetailShard.TRADES} shard.
 	 * @param {number} limit Maximum number of trades to return. The default is `50`.
 	 * @param {number} from Unix epoch timestamp from which on to return trades.
 	 * @param {number} to Unix epoch timestamp up to which to return trades.
@@ -70,7 +62,7 @@ class CardIndividualRequest extends ShardableRequest {
 	 * @returns {Promise<Card>} A card object holding all data returned.
 	 */
 	async send() {
-		return new Card(await super.send('CARD'));
+		return new exports.Card(await super.send('CARD'));
 	}
 
 	/*
@@ -162,7 +154,7 @@ class CardWorldRequest extends ShardableRequest {
 	 * @returns {Promise<Card[]>} An list of card objects representing those in the nation's deck.
 	 */
 	async send() {
-		return new CardWorld(await super.send('CARDS'));
+		return new exports.CardWorld(await super.send('CARDS'));
 	}
 
 
@@ -217,7 +209,7 @@ class Card {
 				/**
 				 * URL of the flag image of the nation depicted on the card.
 				 * @type string
-				 * @see {@linkcode CardIndividualShard.INFO}
+				 * @see {@linkcode CardDetailShard.INFO}
 				 */
 				this.flag = txt(parsed, tag);
 				break;
@@ -226,7 +218,7 @@ class Card {
 				/**
 				 * World Census classification of the nation depicted on the card.
 				 * @type string
-				 * @see {@linkcode CardIndividualShard.INFO}
+				 * @see {@linkcode CardDetailShard.INFO}
 				 */
 				this.type = txt(parsed, tag);
 				break;
@@ -244,7 +236,7 @@ class Card {
 				 * Name of the nation depicted on the card.
 				 * Authentically capitalised.
 				 * @type string
-				 * @see {@linkcode CardIndividualShard.INFO}
+				 * @see {@linkcode CardDetailShard.INFO}
 				 */
 				this.name = txt(parsed, tag);
 				break;
@@ -254,7 +246,7 @@ class Card {
 				 * List with the names of all nations owning a copy of the card. Nations owning
 				 * multiple copies are listed a corresponding number of times consecutively.
 				 * @type string[]
-				 * @see {@linkcode CardIndividualShard.OWNERS}
+				 * @see {@linkcode CardDetailShard.OWNERS}
 				 */
 				this.owners = arr(parsed, tag);
 				break;
@@ -264,7 +256,7 @@ class Card {
 				 * Name of the region the nation depicted on the card resided in.
 				 * Authentically capitalised.
 				 * @type string
-				 * @see {@linkcode CardIndividualShard.INFO}
+				 * @see {@linkcode CardDetailShard.INFO}
 				 */
 				this.region = txt(parsed, tag);
 				break;
@@ -281,7 +273,7 @@ class Card {
 				/**
 				 * National motto of the nation depicted on the card.
 				 * @type string
-				 * @see {@linkcode CardIndividualShard.INFO}
+				 * @see {@linkcode CardDetailShard.INFO}
 				 */
 				this.motto = txt(parsed, tag);
 				break;
@@ -290,7 +282,7 @@ class Card {
 				/**
 				 * Pretitle of the nation depicted on the card.
 				 * @type string
-				 * @see {@linkcode CardIndividualShard.INFO}
+				 * @see {@linkcode CardDetailShard.INFO}
 				 */
 				this.pretitle = txt(parsed, tag);
 				break;
@@ -302,7 +294,7 @@ class Card {
 				/**
 				 * List of all asks and bids ("markets") currently active for the card.
 				 * @type Market[]
-				 * @see {@linkcode CardIndividualShard.MARKETS}
+				 * @see {@linkcode CardDetailShard.MARKETS}
 				 */
 				this.asksBids = handleList(parsed[tag][0], parseMarket);
 				break;
@@ -310,8 +302,8 @@ class Card {
 			case 'TRADES':
 				/**
 				 * List of the transfers of the card that matched the query filter.
-				 * @type Trade[]
-				 * @see {@linkcode CardIndividualShard.TRADES}
+				 * @type TradeCardbound[]
+				 * @see {@linkcode CardDetailShard.TRADES}
 				 */
 				this.trades = handleList(parsed[tag][0], parseTradeCardbound);
 				break;
@@ -361,7 +353,7 @@ class CardWorld {
 				 * @type ListCard[]
 				 * @see {@linkcode CardShard.CARDS}
 				 */
-				this.cards = handleList(parsed[tag][0], parseCardOverview);
+				this.cards = handleList(parsed[tag][0], parseCardItem);
 				break;
 
 			case 'INFO':

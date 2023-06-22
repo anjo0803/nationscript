@@ -9,7 +9,7 @@
  * @enum {string}
  * @readonly
  */
-exports.CardIndividualShard = {
+exports.CardDetailShard = {
 	/** Get the data of the nation depicted on the card. */
 	INFO: 'info',
 
