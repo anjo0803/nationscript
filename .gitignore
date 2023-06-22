@@ -1,4 +1,10 @@
 node_modules/
-package-lock.json
+
+# Local test builds of the documentation
+docs/
+
+# Local directory where Data Dumps are saved to
 nsdumps/
+
+# Muh local testing script
 testing.js

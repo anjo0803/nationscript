@@ -1,0 +1,30 @@
+name: Publish Package
+
+on:
+  release:
+    types: [published]
+
+  workflow_dispatch:
+
+jobs:
+  npm:
+    name: Publish to NPM
+    
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Set Up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          registry-url: https://registry.npmjs.org/
+
+      - name: Clean-Install Package
+        run: npm ci
+
+      - name: Publish
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
