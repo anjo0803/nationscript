@@ -1,3 +1,7 @@
+[![Documentation](https://github.com/anjo0803/alfons.js/actions/workflows/deploy-docs.yml/badge.svg)](https://anjo0803.github.io/alfons.js/)
+[![Licence](https://img.shields.io/npm/l/alfons.js)](https://github.com/anjo0803/alfons.js/blob/master/LICENCE.txt)
+[![Version](https://img.shields.io/npm/v/alfons.js)](https://www.npmjs.com/package/alfons.js)
+
 # ALfoNS
 >**A**PI **L**ibrary **fo**r **N**ation**S**tates *(yes, this is the best I could come up with :P)*
 
@@ -6,7 +10,7 @@ taking care of rate-limiting, adding full typing to API responses, and providing
 for easy requests-building and understanding of responses - while also offering additional methods
 and customisation for API interactions to support more advanced and/or niche use cases.
 
-The current ALfoNS version (1.0.2) is tailored to version `12` of the NS API and supports all
+The current ALfoNS version (1.0.3) is tailored to version `12` of the NS API and supports all
 endpoints it offers.
 
 ## Installation

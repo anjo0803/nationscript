@@ -1,7 +1,7 @@
 /**
  * @file Index file to collect all exports intended for direct usage by the user.
  * @author anjo/Tepertopia
- * @version 1.0.1
+ * @version 1.0.3
  * @license {@linkplain https://mozilla.org/MPL/2.0/ MPL-2.0}
  */
 

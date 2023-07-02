@@ -36,6 +36,8 @@ const { CensusDataNation, parseCensusNation }	= require('../typedefs/census-data
 const { CensusRankUnscored, parseCensusRankUnscored }	= require('../typedefs/census-rank-unscored');
 const { DeathData, parseDeath }					= require('../typedefs/death-data');
 const { FreedomsData, parseFreedoms }			= require('../typedefs/freedoms-data');
+const { FreedomsTextData, parseFreedomsText }	= require('../typedefs/freedoms-descriptions');
+const { FreedomsScoreData, parseFreedomsValue }	= require('../typedefs/freedoms-scores');
 const { ListDispatch, parseDispatchOverview }	= require('../typedefs/dispatch-list-item');
 const { Happening, parseHappening }				= require('../typedefs/happening');
 const { HDIData, parseHDI }						= require('../typedefs/hdi-data');
@@ -802,11 +804,28 @@ class Nation {
 
 			case 'FREEDOM':
 				/**
+				 * Textual description of the levels of civil, economic, and political freedoms in
+				 * the nation.
+				 * @type FreedomsTextData
+				 * @see {@linkcode NationShard.FREEDOM_DESCRIPTIONS}
+				 */
+				this.freedomDescriptions = handle(parsed[tag][0], parseFreedomsText);
+				/**
 				 * Details on the levels of civil, economic, and political freedoms in the nation.
 				 * @type FreedomsData
 				 * @see {@linkcode NationShard.FREEDOM}
+				 * @deprecated in favor of {@linkcode Nation.freedomDescriptions}.
 				 */
 				this.freedoms = handle(parsed[tag][0], parseFreedoms);
+				break;
+
+			case 'FREEDOM':
+				/**
+				 * The nation's numerical score for civil, economic, and political freedoms.
+				 * @type FreedomsScoreData
+				 * @see {@linkcode NationShard.FREEDOM_SCORES}
+				 */
+				this.freedomValues = handle(parsed[tag][0], parseFreedomsValue);
 				break;
 
 			case 'GOVT':
