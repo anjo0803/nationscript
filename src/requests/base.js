@@ -19,7 +19,7 @@ const { txt } = require('./converter');
  * The mother of all superclasses, being inherited by all specialised request classes.
  * 
  * Holds static properties configurable by the user to en/disable the built-in rate-limiter of
- * ALfoNS and, most importantly, set the user agent for identifying the user to NS admins.
+ * NationScript and, most importantly, set the user agent for identifying the user to NS admins.
  * 
  * The {@linkcode NSRequest.send()} function is invoked upon execution of any subclass and parses
  * responses from the API via the `xml-flow` package, while the {@linkcode NSRequest.raw()}

@@ -41,11 +41,11 @@ const {
 } = require('./requests/dump');
 
 /**
- * The `NS` class is the entry point to any ALfoNS usage.
+ * The `NS` class is the entry point to any NationScript usage.
  * 
- * It contains several functions for changing settings of ALfoNS:
+ * It contains several functions for changing settings of NationScript:
  * * {@linkcode NS.setAgent()} for setting the - **mandatory** - custom user agent,
- * * {@linkcode NS.setUseRateLimit()} for en-/disabling the built-in rate-limiter of ALfoNS,
+ * * {@linkcode NS.setUseRateLimit()} for en-/disabling the built-in rate-limiter of NationScript,
  * * {@linkcode NS.setUseVersion()} to specify a specific API version to make all calls to,
  * * {@linkcode NS.setTGClientKey()} to register the client key to use for TG API requests,
  * * {@linkcode NS.setDumpDirectory()} to set a custom directory to save local Data Dump copies in.
@@ -99,9 +99,9 @@ class NS {
 	}
 
 	/**
-	 * Enables or disables the built-in automatic rate-limiting function of ALfoNS. Useful if you
-	 * want to use a custom, slower rate of sending requests, or have other programs making
-	 * requests to the NS API that aren't run by this ALfoNS instance. Enabled by default.
+	 * Enables or disables the built-in automatic rate-limiting function of NationScript. Useful if
+	 * you want to use a custom, slower rate of sending requests, or have other programs making
+	 * requests to the NS API that aren't run by this NationScript instance. Enabled by default.
 	 * @param {boolean} state `true` to use built-in rate-limiting, `false` to disable it.
 	 */
 	static setUseRateLimit(state) {

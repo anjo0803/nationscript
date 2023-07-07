@@ -1,11 +1,11 @@
 {
-	"name": "alfons.js",
+	"name": "nationscript",
 	"version": "1.0.3",
 	"description": "Library for interacting with the NationStates API",
 	"author": "anjo/Tepertopia (https://www.nationstates.net/tepertopia)",
 	"license": "MPL-2.0",
-	"repository": "github:anjo0803/alfons.js",
-	"bugs": "https://github.com/anjo0803/alfons.js/issues",
+	"repository": "github:anjo0803/nationscript",
+	"bugs": "https://github.com/anjo0803/nationscript/issues",
 	"keywords": [
 		"NationStates",
 		"API",
