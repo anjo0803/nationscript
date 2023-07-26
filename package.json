@@ -1,9 +1,10 @@
 {
 	"name": "nationscript",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Library for interacting with the NationStates API",
 	"author": "anjo/Tepertopia (https://www.nationstates.net/tepertopia)",
 	"license": "MPL-2.0",
+
 	"repository": "github:anjo0803/nationscript",
 	"bugs": "https://github.com/anjo0803/nationscript/issues",
 	"keywords": [
@@ -25,7 +26,6 @@
 	},
 
 	"scripts": {
-		"doc": "jsdoc -c jsdoc.json",
-		"test": "node testing.js"
+		"doc": "jsdoc -c jsdoc.json"
 	}
 }

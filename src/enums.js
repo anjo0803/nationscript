@@ -134,7 +134,12 @@ exports.CensusScale = {
 	AVERAGE_DISPOSABLE_INCOME: 85,
 	INTERNATIONAL_ARTWORK: 86,
 	PATRIOTISM: 87,
-	FOOD_QUALITY: 88
+	FOOD_QUALITY: 88,
+
+	/** **Works for regions only!** */
+	REGION_ALPHABET: 254,
+	/** **Works for regions only!** */
+	REGION_POPULATION: 255
 };
 
 /**
@@ -416,7 +421,8 @@ exports.NoticeType = {
 	RMB_QUOTE: 'RMBQ',
 	RMB_MENTION: 'RMB',
 	POLICY: 'P',
-	EMBASSY: 'EMB'
+	EMBASSY: 'EMB',
+	BAD_LOGIN: 'PW'
 };
 
 /**
@@ -653,7 +659,7 @@ exports.WABadgeType = {
 	COMMENDATION: 'commend',
 	CONDEMNATION: 'condemn',
 	LIBERATION: 'liberate',
-	//  INJUNCTION: 'injunct' i guess? The badges aren't live yet ¯\_(ツ)_/¯
+	INJUNCTION: 'injunct'
 };
 
 /**
