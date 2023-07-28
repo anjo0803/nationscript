@@ -10,7 +10,7 @@ const {
 } = require('./base');
 
 /**
- * @summary Request subclass for building requests to the telegrams API.
+ * Request subclass for building requests to the telegrams API.
  */
 class TGRequest extends ParameterRequest {
 
@@ -141,5 +141,5 @@ function streamToString(stream) {
 }
 
 exports.TGRequest = TGRequest;
-exports.UserAgentRequest = UserAgentRequest;
 exports.VersionRequest = VersionRequest;
+exports.UserAgentRequest = UserAgentRequest;

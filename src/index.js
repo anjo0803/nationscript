@@ -53,3 +53,31 @@ exports.NationPrivateShard	= SHARDS.NationPrivateShard;
 exports.RegionShard			= SHARDS.RegionShard;
 exports.WorldShard			= SHARDS.WorldShard;
 exports.WAShard				= SHARDS.WAShard;
+
+
+/*
+ * For some reason, VS Code does not properly load these when require()'d in the API module, and
+ * including them here seems to fix it...?
+ * IDK why that happens, but until I figure out a proper solution, this should probably stay here. 
+ */
+const {
+	CardIndividualRequest,
+	CardWorldRequest
+} = require('./requests/card');
+const { NationRequest } = require('./requests/nation');
+const { RegionRequest } = require('./requests/region');
+const { WorldRequest } = require('./requests/world');
+const { WARequest } = require('./requests/wa');
+const {
+	IssueCommand,
+	RMBPostCommand,
+	DispatchAddCommand,
+	DispatchDeleteCommand,
+	DispatchEditCommand,
+	GiftCardCommand
+} = require('./requests/command');
+const {
+	TGRequest,
+	UserAgentRequest,
+	VersionRequest
+} = require('./requests/misc');

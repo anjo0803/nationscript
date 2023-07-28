@@ -21,7 +21,7 @@ const { Proposal, parseProposal }		= require('../typedefs/proposal');
 const { Resolution, parseResolution }	= require('../typedefs/resolution');
 
 /**
- * @summary Request subclass for building and customising requests to the WA endpoint of the API.
+ * Request subclass for building and customising requests to the WA endpoint of the API.
  */
 class WARequest extends ShardableRequest {
 	constructor(council) {

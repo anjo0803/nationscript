@@ -357,11 +357,16 @@ function same(date1, date2) {
 
 /* === Exports === */
 
+exports.DumpRequest = DumpRequest;
+exports.CardDumpRequest = CardDumpRequest;
+exports.NationDumpRequest = NationDumpRequest;
+exports.RegionDumpRequest = RegionDumpRequest;
+
 /**
  * Supported ways of getting Daily Data Dump contents.
  * @enum number
  */
-exports.DumpMode =  {
+exports.DumpMode = {
 	/**
 	 * Download the Dump, then read the local copy. Makes one API request.
 	 */
@@ -386,8 +391,3 @@ exports.DumpMode =  {
 	 */
 	READ_REMOTE: 4
 };
-
-exports.DumpRequest			= DumpRequest;
-exports.CardDumpRequest		= CardDumpRequest;
-exports.NationDumpRequest	= NationDumpRequest;
-exports.RegionDumpRequest	= RegionDumpRequest;

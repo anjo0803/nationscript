@@ -39,7 +39,7 @@ const { Poll, parsePoll }						= require('../typedefs/poll');
 const { TGQueue, parseTGQueue }					= require('../typedefs/tg-queue');
 
 /**
- * @summary Request subclass for building requests to the world endpoint of the API.
+ * Request subclass for building requests to the world endpoint of the API.
  */
 class WorldRequest extends ShardableRequest {
 

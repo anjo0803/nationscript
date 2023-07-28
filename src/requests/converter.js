@@ -11,7 +11,7 @@
  * @returns {string} The string value of the named attribute, or `undefined` if not found.
  * @ignore
  */
-exports.attr = function(obj, name) {
+exports.attr = (obj, name) => {
 	return obj?.['$attrs']?.[name];
 }
 
@@ -23,7 +23,7 @@ exports.attr = function(obj, name) {
  * @returns {string} The string value at the given position, or `null` if not found.
  * @ignore
  */
-exports.txt = function(obj, property, index = 0) {
+exports.txt = (obj, property, index = 0) => {
 	let x = obj?.[property];
 	if(Array.isArray(x)) return x[index]?.toString().trim();
 	else if(x) return x.toString().trim();
@@ -38,7 +38,7 @@ exports.txt = function(obj, property, index = 0) {
  * @returns {number} The numerical value at the given position, or `NaN` if not found.
  * @ignore
  */
-exports.num = function(obj, property, index = 0) {
+exports.num = (obj, property, index = 0) => {
 	let val = exports.txt(obj, property, index);
 	if(/^\d+\.\d+$/.test(val)) return parseFloat(val);
 	else if(/^\d+$/.test(val)) return parseInt(val);
@@ -53,7 +53,7 @@ exports.num = function(obj, property, index = 0) {
  * @returns {any[]} The array of values at the given position, or `null` if not found.
  * @ignore
  */
-exports.arr = function(obj, property, index = 0) {
+exports.arr = (obj, property, index = 0) => {
 	let ret = obj?.[property];
 	if(ret === undefined) return null;
 
@@ -69,7 +69,7 @@ exports.arr = function(obj, property, index = 0) {
  * @returns {boolean} `true` if iterable, `false` if not.
  * @ignore
  */
-exports.iterable = function(obj) {
+exports.iterable = (obj) => {
 	if(obj == null) return false;
 	return typeof obj[Symbol.iterator] === 'function';
 }
@@ -81,7 +81,7 @@ exports.iterable = function(obj) {
  * @returns The return value of the handler function.
  * @ignore
  */
-exports.handle = function(root, handler) {
+exports.handle = (root, handler) => {
 	if(root === undefined || typeof handler !== 'function') return undefined;
 	else return handler(root);
 }
@@ -93,7 +93,7 @@ exports.handle = function(root, handler) {
  * @returns A list with the results from the handler function for each element of the root.
  * @ignore
  */
-exports.handleList = function(root, handler) {
+exports.handleList = (root, handler) => {
 	if(root === undefined || typeof handler !== 'function') return [];
 	let ret = [];
 	let iterate = exports.secureArray(root);
@@ -107,7 +107,7 @@ exports.handleList = function(root, handler) {
  * @returns {any[]} The value, if it's an array, otherwise a single-element array with the value.
  * @ignore
  */
-exports.secureArray = function(arr) {
+exports.secureArray = (arr) => {
 	if(!Array.isArray(arr)) arr = [arr];
 	return arr;
 }

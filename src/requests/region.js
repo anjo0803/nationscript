@@ -39,7 +39,7 @@ const { VoteTally, parseVoteTally }					= require('../typedefs/vote-tally');
 const { ZombieDataRegion, parseZombieRegion }		= require('../typedefs/zombie-data-region');
 
 /**
- * @summary Request subclass for building requests to the regions endpoint of the API.
+ * Request subclass for building requests to the regions endpoint of the API.
  */
 class RegionRequest extends ShardableRequest {
 	constructor(region) {

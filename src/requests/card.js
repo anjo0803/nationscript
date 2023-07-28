@@ -61,7 +61,7 @@ class CardIndividualRequest extends ShardableRequest {
 	 * @returns {Promise<Card>} A card object holding all data returned.
 	 */
 	async send() {
-		return new exports.Card(await super.send('CARD'));
+		return new Card(await super.send('CARD'));
 	}
 
 	/*
@@ -153,7 +153,7 @@ class CardWorldRequest extends ShardableRequest {
 	 * @returns {Promise<Card[]>} An list of card objects representing those in the nation's deck.
 	 */
 	async send() {
-		return new exports.CardWorld(await super.send('CARDS'));
+		return new CardWorld(await super.send('CARDS'));
 	}
 
 
