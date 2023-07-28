@@ -20,6 +20,7 @@ const { num } = require('../requests/converter');
  * Builds a spending object from the provided parsed response XML.
  * @param {object} root The root object - the `<GOVT>` tag in the parsed XML object.
  * @returns {SpendingData} The built spending object.
+ * @ignore
  */
 exports.parseSpending = (root) => {
 	return {

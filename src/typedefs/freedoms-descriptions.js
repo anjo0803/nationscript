@@ -11,6 +11,7 @@ const { txt } = require('../requests/converter');
  * Builds a freedoms text data object from the provided parsed response XML.
  * @param {object} root The root object - the `<FREEDOM>` tag in the parsed XML object.
  * @returns {FreedomsTextData} The built freedoms text data object.
+ * @ignore
  */
 exports.parseFreedomsText = (root) => {
 	return {

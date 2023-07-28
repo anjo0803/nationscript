@@ -18,6 +18,7 @@ const {
  * Builds a rank object from the provided parsed response XML.
  * @param {object} scale The root object - a `<SCALE>` tag in the parsed XML object.
  * @returns {CensusDataNation} The built rank object.
+ * @ignore
  */
 exports.parseCensusNation = (scale) => {
 	return {

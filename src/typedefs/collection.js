@@ -17,6 +17,7 @@ const { parseCardItem } = require('./card-list-item');
  * Builds a collection object from the provided parsed response XML.
  * @param {object} c The root object - the `<COLLECTION>` tag in the parsed XML object.
  * @returns {Collection} The built collection object.
+ * @ignore
  */
 exports.parseCollection = (c) => {
 	return {

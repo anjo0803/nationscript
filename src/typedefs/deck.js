@@ -21,6 +21,7 @@ const {
  * Builds a deck object from the provided parsed response XML.
  * @param {object} deck The root object - the `<INFO>` tag in the parsed XML object.
  * @returns {Deck} The built deck object.
+ * @ignore
  */
 exports.parseDeckSummary = (deck) => {
 	return {

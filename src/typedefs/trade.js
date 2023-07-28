@@ -18,6 +18,7 @@ const { parseCardItem } = require('./card-list-item');
  * Builds a trade object from the provided parsed response XML.
  * @param {object} trade The root object - a `<TRADE>` tag in the parsed XML object.
  * @returns {Trade} The built trade object.
+ * @ignore
  */
 exports.parseTrade = (trade) => {
 	return {

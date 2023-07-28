@@ -15,6 +15,7 @@ const {
  * Builds a market object from the provided parsed response XML.
  * @param {object} market The root object - a `<MARKET>` tag in the parsed XML object.
  * @returns {Market} The built market object.
+ * @ignore
  */
 exports.parseMarket = (market) => {
 	return {

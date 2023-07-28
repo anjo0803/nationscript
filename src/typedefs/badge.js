@@ -12,6 +12,7 @@ const { attr } = require('../requests/converter')
  * Builds a badge object from the provided parsed response XML.
  * @param {object} badge The root object - a `<WABADGE>` tag in the parsed XML object.
  * @returns {WABadge} The built badge object.
+ * @ignore
  */
 exports.parseBadge = (badge) => {
 	return {

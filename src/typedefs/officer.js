@@ -18,6 +18,7 @@ const {
  * Builds an officer object from the provided parsed response XML.
  * @param {object} o The root object - the `<OFFICER>` tag in the parsed XML object.
  * @returns {Officer} The built officer object.
+ * @ignore
  */
 exports.parseOfficer = (o) => {
 	return {

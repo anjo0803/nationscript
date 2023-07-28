@@ -26,6 +26,7 @@ const {
  * Builds a proposal object from the provided parsed response XML.
  * @param {object} p The root object - a `<PROPOSAL>` tag in the parsed XML object.
  * @returns {Proposal} The built proposal object.
+ * @ignore
  */
 exports.parseProposal = (p) => {
 	return {
@@ -55,6 +56,7 @@ exports.parseProposal = (p) => {
  * Builds a legality object from the provided parsed response XML.
  * @param {object} root The root object - the `<GENSEC>` tag in the parsed XML object.
  * @returns {LegalityData} The built legality object.
+ * @ignore
  */
 function parseLegality(root) {
 	return {
@@ -78,6 +80,7 @@ function parseLegality(root) {
  * Builds a legality-decision object from the provided parsed response XML.
  * @param {object} decision The root object - an `<ENTRY>` tag in the parsed XML object.
  * @returns {Proposal} The built legality-decision object.
+ * @ignore
  */
 function parseLegalityDecision(decision) {
 	return {

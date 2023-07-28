@@ -20,6 +20,7 @@ const {
  * Builds an issue object from the provided parsed response XML.
  * @param {object} issue The root object - an `<ISSUE>` tag in the parsed XML object.
  * @returns {Issue} The built issue object.
+ * @ignore
  */
 exports.parseIssue = (issue) => {
 	return {

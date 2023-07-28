@@ -13,6 +13,7 @@ const { num } = require('../requests/converter');
  * Builds an HDI data object from the provided parsed response XML.
  * @param {object} root The - due to the response XML structure - actual root object.
  * @returns {HDIData} The built HDI data object.
+ * @ignore
  */
 exports.parseHDI = (root) => {
 	return {

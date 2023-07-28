@@ -21,6 +21,7 @@ const {
  * Builds a dispatch object from the provided parsed response XML.
  * @param {object} obj The root object - a `<DISPATCH>` tag in the parsed XML object.
  * @returns {ListDispatch} The built dispatch object.
+ * @ignore
  */
 exports.parseDispatchOverview = (obj) => {
 	return {

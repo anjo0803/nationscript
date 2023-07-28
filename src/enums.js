@@ -1,10 +1,8 @@
-/**
- * The Enums module provides a variety of constant ID values used in requests to or responses from
- * the NS API, so that they are more readable.
- * @module enums
- * @license {@linkplain https://mozilla.org/MPL/2.0/ MPL-2.0}
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 
 /**
  * Admirable traits of a nation.

@@ -15,6 +15,7 @@ const {
  * Builds a collection-overview object from the provided parsed response XML.
  * @param {object} c The root object - a `<COLLECTION>` tag in the parsed XML object.
  * @returns {ListCollection} The built collection-overview object.
+ * @ignore
  */
 exports.parseCollectionOverview = (c) => {
 	return {

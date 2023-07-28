@@ -21,6 +21,7 @@ const {
  * Builds a poll object from the provided parsed response XML.
  * @param {object} root The root object - the `<POLL>` tag in the parsed XML object.
  * @returns {Poll} The built poll object.
+ * @ignore
  */
 exports.parsePoll = (root) => {
 	return {

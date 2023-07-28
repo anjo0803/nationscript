@@ -20,6 +20,7 @@ const {
  * Builds a scored rank object from the provided parsed response XML.
  * @param {object} nation The root object - a `<NATION>` tag in the parsed XML object.
  * @returns {CensusRankScored} The built scored rank object.
+ * @ignore
  */
 exports.parseCensusRank = (nation) => {
 	return {

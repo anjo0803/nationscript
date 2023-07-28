@@ -21,6 +21,7 @@ const {
  * Builds a RMB post object from the provided parsed response XML.
  * @param {object} msg The root object - the `<MESSAGE>` tag in the parsed XML object.
  * @returns {RMBPost} The built post object.
+ * @ignore
  */
 exports.parseRMBMessage = (msg) => {
 	return {

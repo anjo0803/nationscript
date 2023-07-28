@@ -1,8 +1,7 @@
-/**
- * The request base module provides different levels of superclasses for the more specialised
- * request modules to inherit.
- * @module requests/base
- * @license {@linkplain https://mozilla.org/MPL/2.0/ MPL-2.0}
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
 const {
@@ -54,19 +53,19 @@ class NSRequest {
 	 * @private
 	 */
 	static #policy = {
-		/** Number of milliseconds treated as one time window by the NS API. */
+		/* Number of milliseconds treated as one time window by the NS API. */
 		period: 30000,
-		/** Total number of requests that may be made within one time window. */
+		/* Total number of requests that may be made within one time window. */
 		amount: 49,	// Leave space for one TG request that might come from the TG queue
-		/** Number of requests sent to the API in the current time window. */
+		/* Number of requests sent to the API in the current time window. */
 		sent: 0,
-		/** Number of requests currently waiting for the active time window to expire. */
+		/* Number of requests currently waiting for the active time window to expire. */
 		queued: 0,
-		/** Unix ms timestamp for when the active time window expires. */
+		/* Unix ms timestamp for when the active time window expires. */
 		expires: 0,
-		/** Number of milliseconds to add to time window calculations as a safety buffer. */
+		/* Number of milliseconds to add to time window calculations as a safety buffer. */
 		buffer: 200,
-		/** Unix ms timestamp of when a new time window starts, as stated by the API. */
+		/* Unix ms timestamp of when a new time window starts, as stated by the API. */
 		retry: 0
 	}
 
@@ -467,6 +466,7 @@ class NSCredential {
  * Pauses execution for the specified amount of time if `await`ed.
  * @param {number} period Number of milliseconds to pause.
  * @private
+ * @ignore
  */
 async function timeout(period) {
 	return new Promise((resolve, reject) => setTimeout(() => resolve(), Math.max(0, period)));
@@ -478,6 +478,7 @@ async function timeout(period) {
  * @param {string} name String to adjust.
  * @returns {string | null} The adjusted string, if it was a string, otherwise `null`.
  * @package
+ * @ignore
  */
 exports.nsify = (name) => {
 	if(typeof name == 'string') return name.trim().replace(/ /g, '_').toLowerCase();
@@ -490,6 +491,7 @@ exports.nsify = (name) => {
  * @param {string[]} names List to adjust all the elements of.
  * @returns {string[] | null} The given array, or `null` if mutation failed.
  * @package
+ * @ignore
  */
 exports.nsifyList = (names) => {
 	try {
@@ -507,6 +509,7 @@ exports.nsifyList = (names) => {
  * @param {string} postData Data to write to the request body
  * @returns {Promise<IncomingMessage>} The response from the queried URL.
  * @package
+ * @ignore
  */
 exports.call = (url, options, postData = null) => {
 	return new Promise((resolve, reject) => {

@@ -12,6 +12,7 @@ const { num } = require('../requests/converter');
  * Builds a queue object from the provided parsed response XML.
  * @param {object} queue The root object - the `<TGQUEUE>` tag in the parsed XML object.
  * @returns {TGQueue} The built queue object.
+ * @ignore
  */
 exports.parseTGQueue = (queue) => {
 	return {

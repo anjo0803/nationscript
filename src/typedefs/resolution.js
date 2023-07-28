@@ -29,6 +29,7 @@ const { VoteTally } = require('./vote-tally');
  * Builds a resolution object from the provided parsed response XML.
  * @param {object} r The root object - the `<RESOLUTION>` tag in the parsed XML object.
  * @returns {Resolution} The built resolution object.
+ * @ignore
  */
 exports.parseResolution = (r) => {
 	if(!r) return null;
@@ -70,6 +71,7 @@ exports.parseResolution = (r) => {
  * Builds a vote summary object from the provided parsed response XML.
  * @param {object} r The root object - the `<RESOLUTION>` tag in the parsed XML object.
  * @returns {VoteSummary} The built vote summary object.
+ * @ignore
  */
 function parseVoteData(r) {
 
@@ -121,6 +123,7 @@ function parseVoteData(r) {
  * Builds a delegate-vote object from the provided parsed response XML.
  * @param {object} root The root object - a `<DELEGATE>` tag in the parsed XML object.
  * @returns {DelegateActiveVote} The built delegate-vote object.
+ * @ignore
  */
 function parseDelegateActiveVote(v) {
 	return {
@@ -143,6 +146,7 @@ function parseDelegateActiveVote(v) {
  * Builds a delegate-vote object from the provided parsed response XML.
  * @param {object} log The root object - an `<ENTRY>` tag in the parsed XML object.
  * @returns {DelegateLogVote} The built delegate-vote object.
+ * @ignore
  */
 function parseDelegateLogVote(log) {
 	return {
@@ -164,6 +168,7 @@ function parseDelegateLogVote(log) {
  * Builds a delegate-vote summary object from the provided parsed response XML.
  * @param {object} root The root object - the `<RESOLUTION>` tag in the parsed XML object.
  * @returns {DelegateVoteSummary} The built delegate-vote summary object.
+ * @ignore
  */
 function parseDelegateVotes(root) {
 	return {

@@ -10,7 +10,7 @@ providing a variety of enums for easy requests-building and understanding of res
 offering additional methods and customisation for API interactions to support more advanced and/or
 niche use cases.
 
-The current NationScript version (1.0.4) is tailored to version `12` of the NS API and supports all
+The current NationScript version (1.0.5) is tailored to version `12` of the NS API and supports all
 endpoints it offers.
 
 ## Installation

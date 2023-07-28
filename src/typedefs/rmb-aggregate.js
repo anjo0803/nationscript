@@ -14,6 +14,7 @@ const {
  * @param {object} obj The object to use as root.
  * @param {string} type The type of activity aggregated - `'POSTS'`, `'LIKES'`, or `'LIKED'`.
  * @returns {RMBActivityAggregate[]} The built array.
+ * @ignore
  */
 exports.parseRMBLeaderboard = (obj, type) => {
 	if(obj.length != 1) return undefined;

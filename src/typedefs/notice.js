@@ -21,6 +21,7 @@ const {
  * Builds a notice object from the provided parsed response XML.
  * @param {object} notice The root object - a `<NOTICE>` tag in the parsed XML object.
  * @returns {Notice} The built notice object.
+ * @ignore
  */
 exports.parseNotice = (notice) => {
 	return {

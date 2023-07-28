@@ -17,6 +17,7 @@ const {
  * Builds a zombie data object from the provided parsed response XML.
  * @param {object} root The root object - the `<ZOMBIE>` tag in the parsed XML object.
  * @returns {ZombieDataNation} The built zombie data object.
+ * @ignore
  */
 exports.parseZombieNation = (root) => {
 	return {

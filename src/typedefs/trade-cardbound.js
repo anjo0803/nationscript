@@ -16,6 +16,7 @@ const {
  * Builds a trade object from the provided parsed response XML.
  * @param {object} trade The root object - a `<TRADE>` tag in the parsed XML object.
  * @returns {TradeCardbound} The built trade object.
+ * @ignore
  */
 exports.parseTradeCardbound = (trade) => {
 	return {

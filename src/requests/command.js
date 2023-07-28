@@ -1,7 +1,7 @@
-/**
- * The Command module contains command functionality targeting the nations endpoint of the API.
- * @module requests/command
- * @license {@linkplain https://mozilla.org/MPL/2.0/ MPL-2.0}
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
 const { txt } = require('./converter');
@@ -351,7 +351,8 @@ class RMBPostCommand extends TwoStepCommand {
  * 
  * Yes I know it's not exactly orthodox :P
  * @param {string} str String to encode.
- * @returns {string} The given string, encoded to be passed to the NS API. 
+ * @returns {string} The given string, encoded to be passed to the NS API.
+ * @ignore
  */
 function win1252Workaround(str) {
 	let ret = '';

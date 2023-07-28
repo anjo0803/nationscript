@@ -15,6 +15,7 @@ const {
  * Builds a census-average object from the provided parsed response XML.
  * @param {object} scale The root object - a `<SCALE>` tag in the parsed XML object.
  * @returns {WCensusAverage} The built census-average object.
+ * @ignore
  */
 exports.parseCensusWorld = (scale) => {
 	return {

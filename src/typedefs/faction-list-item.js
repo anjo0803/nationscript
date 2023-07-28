@@ -18,6 +18,7 @@ const {
  * Builds a faction object from the provided parsed response XML.
  * @param {object} faction The root object - a `<FACTION>` tag in the parsed XML object.
  * @returns {ListFaction} The built faction object.
+ * @ignore
  */
 exports.parseFaction = (faction) => {
 	return {

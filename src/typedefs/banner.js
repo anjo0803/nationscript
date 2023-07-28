@@ -14,6 +14,7 @@ const {
  * Builds a banner object from the provided parsed response XML.
  * @param {object} banner The root object - a `<BANNER>` tag in the parsed XML object.
  * @returns {Banner} The built banner object.
+ * @ignore
  */
 exports.parseBanner = (banner) => {
 	return {

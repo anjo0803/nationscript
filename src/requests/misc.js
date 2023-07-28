@@ -1,9 +1,7 @@
-/**
- * The miscellaneous request module contains functionality for API endpoints that don't really fit
- * into any of the other specialised request modules, namely the telegrams endpoint as well as the
- * checking functionalities for `User-Agent`s and the current API version.
- * @module requests/misc
- * @license {@linkplain https://mozilla.org/MPL/2.0/ MPL-2.0}
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
 const {

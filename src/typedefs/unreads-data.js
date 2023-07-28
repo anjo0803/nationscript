@@ -15,6 +15,7 @@ const { num } = require('../requests/converter');
  * Builds an unreads data object from the provided parsed response XML.
  * @param {object} root The root object - the `<UNREADS>` tag in the parsed XML object.
  * @returns {UnreadsData} The built unreads data object.
+ * @ignore
  */
 exports.parseUnreads = (root) => {
 	return {

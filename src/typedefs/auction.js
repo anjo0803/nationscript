@@ -16,6 +16,7 @@ const {
  * Builds an auction object from the provided parsed response XML.
  * @param {object} auction The root object - an `<AUCTION>` tag in the parsed XML object.
  * @returns {Auction} The built auction object.
+ * @ignore
  */
 exports.parseAuction = (auction) => {
 	return {

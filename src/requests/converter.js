@@ -1,8 +1,7 @@
-/**
- * The Converter module provides functions for standardised access to values in the XML object
- * returned by the `xml-flow` module for the API's response XML.
- * @module requests/converter
- * @license {@linkplain https://mozilla.org/MPL/2.0/ MPL-2.0}
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
 /**
@@ -10,6 +9,7 @@
  * @param {object} obj The object returned by the XML parser from which to read an attribute.
  * @param {string} property Name of the desired attribute of `obj`.
  * @returns {string} The string value of the named attribute, or `undefined` if not found.
+ * @ignore
  */
 exports.attr = function(obj, name) {
 	return obj?.['$attrs']?.[name];
@@ -21,6 +21,7 @@ exports.attr = function(obj, name) {
  * @param {string} property Name of the property of `obj` that should be used.
  * @param {number} index Index of the desired value within the property. The default is `0`.
  * @returns {string} The string value at the given position, or `null` if not found.
+ * @ignore
  */
 exports.txt = function(obj, property, index = 0) {
 	let x = obj?.[property];
@@ -35,6 +36,7 @@ exports.txt = function(obj, property, index = 0) {
  * @param {string} property Name of the property of `obj` that should be used.
  * @param {number} index Index of the desired value within the property. The default is `0`.
  * @returns {number} The numerical value at the given position, or `NaN` if not found.
+ * @ignore
  */
 exports.num = function(obj, property, index = 0) {
 	let val = exports.txt(obj, property, index);
@@ -49,6 +51,7 @@ exports.num = function(obj, property, index = 0) {
  * @param {string} property Name of the property of `obj` that should be used.
  * @param {number} index Index of the desired array within the property. The default is `0`.
  * @returns {any[]} The array of values at the given position, or `null` if not found.
+ * @ignore
  */
 exports.arr = function(obj, property, index = 0) {
 	let ret = obj?.[property];
@@ -64,6 +67,7 @@ exports.arr = function(obj, property, index = 0) {
  * Checks whether the given value can be iterated over e.g. via `for`.
  * @param {any} obj Value to check.
  * @returns {boolean} `true` if iterable, `false` if not.
+ * @ignore
  */
 exports.iterable = function(obj) {
 	if(obj == null) return false;
@@ -75,6 +79,7 @@ exports.iterable = function(obj) {
  * @param {object} root Part of the object returned by the XML parser to use as root element.
  * @param {function} handler Handler function to use on the root.
  * @returns The return value of the handler function.
+ * @ignore
  */
 exports.handle = function(root, handler) {
 	if(root === undefined || typeof handler !== 'function') return undefined;
@@ -86,6 +91,7 @@ exports.handle = function(root, handler) {
  * @param {any[]} root Array property of the object returned by the XML parser to use as root.
  * @param {function} handler Handler function to use on the elements of the root.
  * @returns A list with the results from the handler function for each element of the root.
+ * @ignore
  */
 exports.handleList = function(root, handler) {
 	if(root === undefined || typeof handler !== 'function') return [];
@@ -99,6 +105,7 @@ exports.handleList = function(root, handler) {
  * Wraps the given value into a single-element array, if it isn't already an array.
  * @param {*} arr Value to confirm as array.
  * @returns {any[]} The value, if it's an array, otherwise a single-element array with the value.
+ * @ignore
  */
 exports.secureArray = function(arr) {
 	if(!Array.isArray(arr)) arr = [arr];

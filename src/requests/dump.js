@@ -1,7 +1,7 @@
-/**
- * The Dump module contains all functionality targeting NS' Daily Data Dump archives.
- * @module requests/dump
- * @license {@linkplain https://mozilla.org/MPL/2.0/ MPL-2.0}
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
 /* === Imports === */
@@ -293,6 +293,7 @@ class CardDumpRequest extends DumpRequest {
  * numbers less than `10` will receive a `'0'` prefix.
  * @param {number} num Number to modify.
  * @returns {string} The number as string, if necessary prefixed with a 0.
+ * @ignore
  */
 function twoDigit(num) {
 	return num >= 10 ? num.toString() : '0' + num;
@@ -302,6 +303,7 @@ function twoDigit(num) {
  * Formats the given date into a string usable to create Dump addresses on the NS servers.
  * @param {Date} date Date to format.
  * @returns {string} A string of the format `YYYY-MM-DD`.
+ * @ignore
  */
 function formatDateDump(date) {
 	return [date.getFullYear(),
@@ -310,16 +312,23 @@ function formatDateDump(date) {
 	].join('-');
 }
 
-/** Indexed list of day-of-week abbreviations for the {@linkcode formatDateHeader} function. */
+/**
+ * Indexed list of day-of-week abbreviations for the {@linkcode formatDateHeader} function.
+ * @ignore
+ */
 const DAY = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-/** Indexed list of month abbreviations for the {@linkcode formatDateHeader} function. */
+/**
+ * Indexed list of month abbreviations for the {@linkcode formatDateHeader} function.
+ * @ignore
+ */
 const MONTH = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 /**
  * Formats the given date into a string usable for the `If-Modified-Since` HTTP request header.
  * @param {Date} date Date to format.
  * @returns {string} A string of the format `Weekday, DD Month YYYY HH:MM:SS GMT`.
+ * @ignore
  */
 function formatDateHeader(date) {
 	return DAY[date.getDay() - 1]
@@ -337,6 +346,7 @@ function formatDateHeader(date) {
  * @param {Date} date1 First of the two `Date`s to compare.
  * @param {Date} date2 Second of the two `Date`s to compare.
  * @returns {boolean} `true` if both `Date`s point to the same day, otherwise `false`.
+ * @ignore
  */
 function same(date1, date2) {
 	return date1.getUTCDate() === date2.getUTCDate()
@@ -351,7 +361,7 @@ function same(date1, date2) {
  * Supported ways of getting Daily Data Dump contents.
  * @enum number
  */
-exports.DumpMode =  Object.freeze({
+exports.DumpMode =  {
 	/**
 	 * Download the Dump, then read the local copy. Makes one API request.
 	 */
@@ -375,7 +385,7 @@ exports.DumpMode =  Object.freeze({
 	 * Read the Dump directly from the API without creating a local copy. Makes one API request.
 	 */
 	READ_REMOTE: 4
-});
+};
 
 exports.DumpRequest			= DumpRequest;
 exports.CardDumpRequest		= CardDumpRequest;

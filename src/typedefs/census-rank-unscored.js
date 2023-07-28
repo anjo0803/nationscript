@@ -14,6 +14,7 @@ const { attr } = require('../requests/converter');
  * Builds a rank object from the provided parsed response XML.
  * @param {object} scale The root object - a `<WCENSUS>` or `<RCENSUS>` tag in the parsed XML object.
  * @returns {CensusRankUnscored} The built rank object.
+ * @ignore
  */
 exports.parseCensusRankUnscored = (scale) => {
 	return {

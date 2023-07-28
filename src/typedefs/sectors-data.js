@@ -12,6 +12,7 @@ const { num } = require('../requests/converter');
  * Builds a sectors data object from the provided parsed response XML.
  * @param {object} root The root object - the `<SECTORS>` tag in the parsed XML object.
  * @returns {SectorsData} The built sectors data object.
+ * @ignore
  */
 exports.parseSectors = (root) => {
 	return {

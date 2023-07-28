@@ -16,6 +16,7 @@ const {
  * Builds a card-overview object from the provided parsed response XML.
  * @param {object} c The root object - a `<CARD>` tag in the parsed XML object.
  * @returns {ListCard} The built card-overview object.
+ * @ignore
  */
 exports.parseCardItem = (c) => {
 	return {

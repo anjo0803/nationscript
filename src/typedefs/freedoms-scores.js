@@ -12,6 +12,7 @@ const { num } = require('../requests/converter');
  * Builds a freedoms score data object from the provided parsed response XML.
  * @param {object} root The root object - the `<FREEDOMSCORES>` tag in the parsed XML object.
  * @returns {FreedomsScoreData} The built freedoms score data object.
+ * @ignore
  */
 exports.parseFreedomsValue = (root) => {
 	return {

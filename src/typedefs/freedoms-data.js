@@ -13,6 +13,7 @@ const { txt } = require('../requests/converter');
  * @param {object} root The root object - the `<FREEDOM>` tag in the parsed XML object.
  * @returns {FreedomsData} The built freedoms data object.
  * @deprecated in favor of `parseFreedomsText`.
+ * @ignore
  */
 exports.parseFreedoms = (root) => {
 	return {

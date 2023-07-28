@@ -18,6 +18,7 @@ const {
  * Builds the embassies object from the provided parsed response XML.
  * @param {object} p The root object - the embassies tag in the parsed XML object.
  * @returns {EmbassyData} The built embassies object.
+ * @ignore
  */
 exports.parseEmbassies = (embassies) => {
 	let ret = {

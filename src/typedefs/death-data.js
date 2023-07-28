@@ -11,6 +11,7 @@ const { attr } = require('../requests/converter');
  * Builds a death data object from the provided parsed response XML.
  * @param {object} nation The root object - a `<CAUSE>` tag in the parsed XML object.
  * @returns {DeathData} The built death data object.
+ * @ignore
  */
 exports.parseDeath = (cause) => {
 	return {

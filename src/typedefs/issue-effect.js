@@ -26,6 +26,7 @@ const {
  * Builds an issue-answer object from the provided parsed response XML.
  * @param {object} auction The root object - an `<ISSUE>` tag in the parsed XML object.
  * @returns {IssueEffect} The built issue-answer object.
+ * @ignore
  */
 exports.parseIssueEffect = (effect) => {
 	return {

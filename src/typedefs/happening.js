@@ -13,6 +13,7 @@ const {
  * Builds a happening object from the provided parsed response XML.
  * @param {object} event The root object - a `<HAPPENING>` tag in the parsed XML object.
  * @returns {Happening} The built happening object.
+ * @ignore
  */
 exports.parseHappening = (event) => {
 	return {

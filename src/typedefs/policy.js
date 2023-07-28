@@ -12,6 +12,7 @@ const { txt } = require('../requests/converter');
  * Builds a policy object from the provided parsed response XML.
  * @param {object} policy The root object - a `<POLICY>` tag in the parsed XML object.
  * @returns {Policy} The built policy object.
+ * @ignore
  */
 exports.parsePolicy = (policy) => {
 	return {

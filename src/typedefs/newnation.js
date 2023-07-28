@@ -15,6 +15,7 @@ const {
  * Builds a new-nation details object from the provided parsed response XML.
  * @param {object} nation The root object - a `<NEWNATIONDETAILS>` tag in the parsed XML object.
  * @returns {NewNation} The built new-nation details object.
+ * @ignore
  */
 exports.parseNewNationsDetails = (nation) => {
 	return {
