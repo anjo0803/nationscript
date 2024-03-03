@@ -138,7 +138,7 @@ function parseDelegateActiveVote(v) {
  * This may be a since-overridden or a still active vote.
  * @typedef {object} DelegateLogVote
  * @prop {string} delegate Name of the delegate.
- * @prop {('FOR' | 'AGAINST')} vote Which way the delegate voted.
+ * @prop {boolean} vote `true` if the delegate voted in favour, `false` if they voted against.
  * @prop {number} weight Number of votes the delegate currently has.
  * @prop {number} timestamp Unix epoch timestamp of when the vote was cast.
  */
@@ -151,7 +151,7 @@ function parseDelegateActiveVote(v) {
 function parseDelegateLogVote(log) {
 	return {
 		delegate:	txt(log, 'NATION'),
-		vote:		txt(log, 'ACTION'),
+		vote:		txt(log, 'ACTION') == 'FOR',
 		weight:		num(log, 'VOTES'),
 		timestamp:	num(log, 'TIMESTAMP')
 	};
