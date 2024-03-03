@@ -364,7 +364,7 @@ class ShardableRequest extends ParameterRequest {
 
 	/**
 	 * Adds more shards to any already set for this request.
-	 * @param  {...any} shards Identifiers of the desired shards.
+	 * @param  {...string} shards Identifiers of the desired shards.
 	 * @returns {this} The request, for chaining.
 	 */
 	addShards(...shards) {

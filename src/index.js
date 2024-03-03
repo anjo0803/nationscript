@@ -10,7 +10,6 @@ exports.NS = NS;
 const { NSCredential } = require('./requests/base');
 exports.NSCredential = NSCredential;
 
-
 /* === Enums === */
 
 const ENUMS = require('./enums');
@@ -55,7 +54,7 @@ exports.WorldShard			= SHARDS.WorldShard;
 exports.WAShard				= SHARDS.WAShard;
 
 
-/*
+/* === Types ===
  * For some reason, VS Code does not properly load these when require()'d in the API module, and
  * including them here seems to fix it...?
  * IDK why that happens, but until I figure out a proper solution, this should probably stay here. 
@@ -81,3 +80,49 @@ const {
 	UserAgentRequest,
 	VersionRequest
 } = require('./requests/misc');
+const { Auction } = require('./typedefs/auction');
+const { WABadge } = require('./typedefs/badge');
+const { Banner } = require('./typedefs/banner');
+const { ListCard } = require('./typedefs/card-list-item');
+const { CensusDataNation } = require('./typedefs/census-data-nation');
+const { CensusDataRegion } = require('./typedefs/census-data-region');
+const { WCensusAverage } = require('./typedefs/census-data-world');
+const { CensusRankScored } = require('./typedefs/census-rank-scored');
+const { CensusRankUnscored } = require('./typedefs/census-rank-unscored');
+const { ListCollection } = require('./typedefs/collection-list-item');
+const { Collection } = require('./typedefs/collection');
+const { DeathData } = require('./typedefs/death-data');
+const { Deck } = require('./typedefs/deck');
+const { ListDispatch } = require('./typedefs/dispatch-list-item');
+const { Dispatch } = require('./typedefs/dispatch');
+const { EmbassyData } = require('./typedefs/embassy-data');
+const { ListFaction } = require('./typedefs/faction-list-item');
+const { Faction } = require('./typedefs/faction');
+const { FreedomsData } = require('./typedefs/freedoms-data');
+const { FreedomsTextData } = require('./typedefs/freedoms-descriptions');
+const { FreedomsScoreData } = require('./typedefs/freedoms-scores');
+const { IDHappening } = require('./typedefs/happening-id');
+const { Happening } = require('./typedefs/happening');
+const { HDIData } = require('./typedefs/hdi-data');
+const { IssueEffect } = require('./typedefs/issue-effect');
+const { ListIssue } = require('./typedefs/issue-list-item');
+const { Issue } = require('./typedefs/issue');
+const { Market } = require('./typedefs/market');
+const { NewNation } = require('./typedefs/newnation');
+const { Notice } = require('./typedefs/notice');
+const { Officer } = require('./typedefs/officer');
+const { Policy } = require('./typedefs/policy');
+const { Poll } = require('./typedefs/poll');
+const { Proposal } = require('./typedefs/proposal');
+const { Resolution } = require('./typedefs/resolution');
+const { RMBActivityAggregate } = require('./typedefs/rmb-aggregate');
+const { RMBPost } = require('./typedefs/rmb-post');
+const { SectorsData } = require('./typedefs/sectors-data');
+const { SpendingData } = require('./typedefs/spending-data');
+const { TGQueue } = require('./typedefs/tg-queue');
+const { TradeCardbound } = require('./typedefs/trade-cardbound');
+const { Trade } = require('./typedefs/trade');
+const { UnreadsData } = require('./typedefs/unreads-data');
+const { VoteTally } = require('./typedefs/vote-tally');
+const { ZombieDataNation } = require('./typedefs/zombie-data-nation');
+const { ZombieDataRegion } = require('./typedefs/zombie-data-region');

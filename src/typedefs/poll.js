@@ -46,6 +46,7 @@ exports.parsePoll = (root) => {
  * Builds a poll option object from the provided parsed response XML.
  * @param {object} option The root object - an `<OPTION>` tag in the parsed XML object.
  * @returns {PollOption} The built poll option object.
+ * @ignore
  */
 function parsePollOption(option) {
 	return {

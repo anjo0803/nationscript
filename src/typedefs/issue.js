@@ -47,6 +47,7 @@ exports.parseIssue = (issue) => {
  * Builds an issue option object from the provided parsed response XML.
  * @param {object} option The root object - an `<OPTION>` tag in the parsed XML object.
  * @returns {IssueOption} The built issue option object.
+ * @ignore
  */
 function parseIssueOption(option) {
 	return {

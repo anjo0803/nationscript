@@ -53,6 +53,7 @@ exports.parseIssueEffect = (effect) => {
  * Builds a rank-change object from the provided parsed response XML.
  * @param {object} change The root object - a `<RANK>` tag in the parsed XML object.
  * @returns {RankChange} The built rank-change object.
+ * @ignore
  */
 function parseRankChange(change) {
 	return {
@@ -75,6 +76,7 @@ function parseRankChange(change) {
  * Builds a reclassification object from the provided parsed response XML.
  * @param {object} root The root object - a `<RECLASSIFY>` tag in the parsed XML object.
  * @returns {Reclassification} The built reclassification object.
+ * @ignore
  */
 function parseReclassification(root) {
 	return {
