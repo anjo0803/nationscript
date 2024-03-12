@@ -1,6 +1,6 @@
 {
 	"name": "nationscript",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"description": "Library for interacting with the NationStates API",
 	"author": "anjo/Tepertopia (https://www.nationstates.net/tepertopia)",
 	"license": "MPL-2.0",

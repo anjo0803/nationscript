@@ -402,25 +402,47 @@ exports.Notable = {
 };
 
 /**
+ * Icons of NationStates notices.
+ * @enum {string}
+ * @readonly
+ * @todo These are all I could identify, there might be more.
+ */
+exports.NoticeIcon = {
+	BADGE: 'award-1',
+	BELL: 'bell',
+	BUILDING: 'building',
+	MAIL: 'mail-alt',
+	NEWSPAPER: 'newspaper',
+	PERSON: 'male',
+	RMB: 'stackexchange',
+	SCALES: 'balance-scale',
+	TROPHY: 'award',
+	WA: 'wa'
+}
+
+/**
  * Types of NationStates notices.
  * @enum {string}
  * @readonly
  * @todo These are all I could identify, there might be more.
  */
 exports.NoticeType = {
-	ENDORSEMENT_GAINED: 'END',
-	ENDORSEMENT_LOST: 'UNEND',
+	BAD_LOGIN: 'PW',
+	CARDS: 'C',
 	CENSUS_RANK: 'T',
 	DISPATCH_MENTION: 'D',
-	UNLOCK: 'U',
-	CARDS: 'C',
+	EMBASSY: 'EMB',
+	ENDORSEMENT_GAINED: 'END',
+	ENDORSEMENT_LOST: 'UNEND',
+	NEW_ISSUE: 'I',
 	OFFICER: 'O',
+	POLICY: 'P',
 	RMB_LIKE: 'RMBL',
 	RMB_QUOTE: 'RMBQ',
+	RMB_QUOTE_DISPATCH: 'DQ',
 	RMB_MENTION: 'RMB',
-	POLICY: 'P',
-	EMBASSY: 'EMB',
-	BAD_LOGIN: 'PW'
+	TELEGRAM: 'TG',
+	UNLOCK: 'U'
 };
 
 /**

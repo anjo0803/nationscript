@@ -24,6 +24,7 @@ exports.DispatchSearchMode = ENUMS.DispatchSearchMode;
 exports.HappeningsFilter = ENUMS.HappeningsFilter;
 exports.Influence = ENUMS.Influence;
 exports.Notable = ENUMS.Notable;
+exports.NoticeIcon = ENUMS.NoticeIcon;
 exports.NoticeType = ENUMS.NoticeType;
 exports.OfficerAuthority = ENUMS.OfficerAuthority;
 exports.Rarity = ENUMS.Rarity;
