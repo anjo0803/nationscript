@@ -429,7 +429,6 @@ exports.NoticeIcon = {
  */
 exports.NoticeType = {
 	BAD_LOGIN: 'PW',
-	BANNER_UNLOCK: 'U',
 	CARDS: 'C',
 	CENSUS_RANK: 'T',
 	DISPATCH_MENTION: 'D',
