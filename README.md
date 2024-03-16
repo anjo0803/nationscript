@@ -1,12 +1,13 @@
 [![Documentation](https://github.com/anjo0803/nationscript/actions/workflows/deploy-docs.yml/badge.svg)](https://anjo0803.github.io/nationscript/)
 [![Licence](https://img.shields.io/npm/l/nationscript)](https://github.com/anjo0803/nationscript/blob/master/LICENCE.txt)
 [![Version](https://img.shields.io/npm/v/nationscript)](https://www.npmjs.com/package/nationscript)
+[![Package Quality](https://packagequality.com/shield/nationscript.svg)](https://packagequality.com/#?package=nationscript)
 
 # NationScript
 
 NationScript is a Node.js library that is meant to make interactions with the NationStates API
-beginner-friendly - taking care of rate-limiting, adding full typing to API responses, and
-providing a variety of enums for easy requests-building and understanding of responses - while also
+beginner-friendly ‒ taking care of rate-limiting, adding full typing to API responses, and
+providing a variety of enums for easy requests-building and understanding of responses ‒ while also
 offering additional methods and customisation for API interactions to support more advanced and/or
 niche use cases.
 
@@ -29,7 +30,7 @@ Doing so [is mandatory](https://www.nationstates.net/pages/api.html#terms) and N
 not execute any (although allow preparation of) requests before a user agent has been set.
 
 ### Request Initialisation
-To begin building a request, use one of the functions on the `NS` object - each of them returns a
+To begin building a request, use one of the functions on the `NS` object ‒ each of them returns a
 request subclass instance specifically adjusted to the API endpoint it is expected to address:
 
 | API Endpoint   | Instantiation Function                                                      |
@@ -53,7 +54,7 @@ let n = NS.nation('Tepertopia')
 	.shard(NationShard.REGION, NationShard.CENSUS) // Requesting custom shards, for which then a
 	.setCensusScales(CensusScale.RELIGIOUSNESS);   // special parameter (e.g. census scale) is set
 ```
-In this case, use of the `NationShard` and `CensusScale` enums is made - NationScript offers shard
+In this case, use of the `NationShard` and `CensusScale` enums is made ‒ NationScript offers shard
 enums for all shardable request types (nation, region, world, wa, cardDetails, and cards), in
 addition to a variety of other enums for string or number ID values that generally help to craft
 requests to or read responses from the API.
@@ -80,7 +81,7 @@ Once you've fully built your desired request, send it to the API:
 ```js
 let nationData = await n.send(); // Returns a Promise fulfilled by a Nation object
 ```
-Responses from the API are converted to custom object types according to what you requested - all
+Responses from the API are converted to custom object types according to what you requested ‒ all
 of them fully defined using [JSDoc](https://jsdoc.app/), so you can just use your editor's
 intellisense without having to memorise the exact makeup of API responses:
 ```js
