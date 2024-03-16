@@ -83,16 +83,18 @@ class NS {
 	/* === User Setup === */
 
 	/**
-	 * Registers the custom user agent for this script, which will be sent as the `User-Agent`
-	 * header in all HTTP requests to the NS API.
+	 * Registers the custom part of the user agent for this script, which will be sent as the
+	 * `User-Agent` header together with a notice that the request is being made using this library
+	 * in all HTTP requests to the NS API.
 	 * 
-	 * **Setting one [is mandatory](https://www.nationstates.net/pages/api.html#terms) per the
-	 * Terms of Use of the NS API!** As long as it's not deceptive and allows NS staff to contact
-	 * you in case something goes wrong, there are no specific requirements for it.
+	 * **Setting a UserAgent [is mandatory](https://www.nationstates.net/pages/api.html#terms) per
+	 * the Terms of Use of the NS API.** As long as it's not deceptive and allows NS staff to
+	 * contact you in case something goes wrong, there are no specific requirements for it.
 	 * @param {string} agent The string to send as user agent.
 	 */
 	static setAgent(agent) {
-		if (typeof agent === 'string') NSRequest.useragent = agent;
+		if (typeof agent === 'string') NSRequest.useragent = agent
+			+ ' (using NationScript v1.0.8 by Tepertopia)';
 		return this;
 	}
 
