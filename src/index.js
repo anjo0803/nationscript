@@ -55,19 +55,42 @@ exports.WorldShard			= SHARDS.WorldShard;
 exports.WAShard				= SHARDS.WAShard;
 
 
-/* === Types ===
+/* === Types === */
+const {
+	CardIndividualRequest,
+	CardWorldRequest,
+	Card,
+	CardWorld
+} = require('./requests/card');
+const {
+	Nation,
+	NationRequest
+} = require('./requests/nation');
+const {
+	Region,
+	RegionRequest
+} = require('./requests/region');
+const {
+	World,
+	WorldRequest
+} = require('./requests/world');
+const {
+	WorldAssembly,
+	WARequest
+} = require('./requests/wa');
+
+exports.Card = Card;
+exports.CardWorld = CardWorld;
+exports.Nation = Nation;
+exports.Region = Region;
+exports.World = World;
+exports.WorldAssembly = WorldAssembly;
+
+/* 
  * For some reason, VS Code does not properly load these when require()'d in the API module, and
  * including them here seems to fix it...?
  * IDK why that happens, but until I figure out a proper solution, this should probably stay here. 
  */
-const {
-	CardIndividualRequest,
-	CardWorldRequest
-} = require('./requests/card');
-const { NationRequest } = require('./requests/nation');
-const { RegionRequest } = require('./requests/region');
-const { WorldRequest } = require('./requests/world');
-const { WARequest } = require('./requests/wa');
 const {
 	IssueCommand,
 	RMBPostCommand,
