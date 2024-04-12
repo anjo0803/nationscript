@@ -23,6 +23,7 @@ exports.DispatchSubcategory = ENUMS.DispatchSubcategory;
 exports.DispatchSearchMode = ENUMS.DispatchSearchMode;
 exports.HappeningsFilter = ENUMS.HappeningsFilter;
 exports.Influence = ENUMS.Influence;
+exports.NationCategory = ENUMS.NationCategory;
 exports.Notable = ENUMS.Notable;
 exports.NoticeIcon = ENUMS.NoticeIcon;
 exports.NoticeType = ENUMS.NoticeType;

@@ -332,6 +332,42 @@ exports.Influence = [
 ];
 
 /**
+ * World Census classifications of nations.
+ * @enum {string}
+ * @readonly
+ */
+exports.NationCategory = {
+	ANARCHY: 'Anarchy',
+	AUTHORITARIAN_DEMOCRACY: 'Authoritarian Democracy',
+	BENEVOLENT_DICTATORSHIP: 'Benevolent Dictatorship',
+	CAPITALIST_PARADISE: 'Capitalist Paradise',
+	CAPITALIZT: 'Capitalizt',
+	CIVIL_RIGHTS_LOVEFEST: 'Civil Rights Lovefest',
+	COMPULSORY_CONSUMERIST: 'Compulsory Consumerist State',
+	CONSERVATIVE_DEMOCRACY: 'Conservative Democracy',
+	CORPORATE_BORDELLO: 'Corporate Bordello',
+	CORPORATE_POLICE: 'Corporate Police State',
+	CORRUPT_DICTATORSHIP: 'Corrupt Dictatorship',
+	DEMOCRATIC_SOCIALISTS: 'Democratic Socialists',
+	FATHER_KNOWS_BEST: 'Father Knows Best State',
+	FREE_MARKET_PARADISE: 'Free Market Paradise',
+	INOFFENSIVE: 'Inoffensive Centrist Democracy',
+	IRON_FIST_CONSUMERISTS: 'Iron Fist Consumerists',
+	IRON_FIST_SOCIALISTS: 'Iron Fist Socialists',
+	LEFT_COLLEGE: 'Left-Leaning College State',
+	LEFT_UTOPIA: 'Left-wing Utopia',
+	LIBERAL_DEMOCRATIC_SOCIALISTS: 'Liberal Democratic Socialists',
+	LIBERTARIAN_POLICE: 'Libertarian Police State',
+	MORALISTIC: 'Moralistic Democracy',
+	MOTHER_KNOWS_BEST: 'Mother Knows Best State',
+	NYT: 'New York Times Democracy',
+	PSYCHOTIC_DICTATORSHIP: 'Psychotic Dictatorship',
+	RIGHT_UTOPIA: 'Right-wing Utopia',
+	SCANDINAVIAN: 'Scandinavian Liberal Paradise',
+	TYRANNY_BY_MAJORITY: 'Tyranny by Majority'
+}
+
+/**
  * Special characteristics notable about a nation.
  * @enum {string}
  * @readonly
