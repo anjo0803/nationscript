@@ -326,6 +326,30 @@ class ArrayFactory extends NSFactory {
 	collection = [];
 
 	/**
+	 * The default converter function to apply to any primitive
+	 * {@link NSFactory#data data} encountered by this factory during parsing.
+	 * @type {DataConverter}
+	 * @protected
+	 */
+	defaultConverter;
+
+	/**
+	 * Instantiate a new `NSFactory` instance to handle emitted XML parsing
+	 * events on direct children of the given `root` node. If desired, a
+	 * default converter function for any primitive {@link NSFactory#data data}
+	 * encountered may also be registered.
+	 * @arg {string} root Name of the XML root tag to handle
+	 * @arg {DataConverter} converter Default converter function
+	 */
+	constructor(root, converter = (val) => val) {
+		super(root);
+
+		if(typeof converter === 'function')
+			this.defaultConverter = converter;
+		else throw new TypeError('Invalid default converter: ' + converter);
+	}
+
+	/**
 	 * Decides the course of action on a newly-opened tag in the XML source.
 	 * The basic ArrayFactory ignores all arguments, effectively making its
 	 * {@link NSFactory#product product} either a primitive value, or whatever
@@ -337,7 +361,7 @@ class ArrayFactory extends NSFactory {
 	 * @package
 	 */
 	decide(name, attrs) {
-		this.setTarget('');
+		this.setTarget('', this.defaultConverter);
 		return true;
 	}
 
