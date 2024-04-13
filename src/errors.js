@@ -104,6 +104,17 @@ class VirtualError extends NSError {
 	}
 }
 
+class ProductWithheldError extends NSError {
+	/**
+	 * 
+	 * @param {string} factory 
+	 */
+	constructor(factory) {
+		super('Factory ' + factory
+			+ ' withheld its still work-in-progress product!');
+	}
+}
+
 exports.NSError = NSError;
 exports.APIError = APIError;
 exports.EntityNotFoundError = EntityNotFoundError;
@@ -113,3 +124,4 @@ exports.PropertyError = PropertyError;
 exports.PropertyMissingError = PropertyMissingError;
 exports.PropertyInvalidError = PropertyInvalidError;
 exports.VirtualError = VirtualError;
+exports.ProductWithheldError = ProductWithheldError;
