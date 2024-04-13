@@ -4,7 +4,6 @@
 	"description": "Library for interacting with the NationStates API",
 	"author": "anjo/Tepertopia (https://www.nationstates.net/tepertopia)",
 	"license": "MPL-2.0",
-
 	"repository": "github:anjo0803/nationscript",
 	"bugs": "https://github.com/anjo0803/nationscript/issues",
 	"keywords": [
@@ -13,7 +12,6 @@
 		"wrapper",
 		"library"
 	],
-
 	"main": "./src/index.js",
 	"files": [
 		"src",
@@ -22,6 +20,7 @@
 		"README.md"
 	],
 	"dependencies": {
+		"node-xml-stream-parser": "^1.0.12",
 		"xml-flow": "^1.0.4"
 	},
 
