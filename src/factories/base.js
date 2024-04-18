@@ -6,37 +6,43 @@
 
 const {
 	NSError,
-	VirtualError,
-	ProductWithheldError
+	ProductWithheldError,
+	FactoryFinalisedError
 } = require('../errors');
 
 /**
  * @callback DataConverter
- * Contains an operation to be performed on the passed string. This might be a
- * conversion to a number value or a translation into a boolean, for example.
- * @arg {string} val Text value to operate on
- * @return {boolean|string|number} The result of the conversion
+ * Contains an operation to be performed on the passed value. This might be a
+ * conversion of a string to a number, the creation of a new class instance
+ * on the basis of asynchronously created data, or anything, really.
+ * @arg {any} val Value to operate on
+ * @return {boolean|string|number|object} The result of the conversion
  */
 
 /**
  * @callback TagHandler
  * 
- * @arg {Object.<string, string>} attrs Key-value map of the tag's attributes
+ * @arg {NSFactory} me `this` of the factory from which the handler is called
+ * @arg {Attributes} attrs Key-value pairs of the tag's attributes
  * @return {void}
  * @todo
+ */
+
+/**
+ * @typedef {Object.<string, string>} Attributes
  */
 
 /**
  * The basic factory class, containing functions for the handling of events
  * emitted by the XML parser on the responses from the NationStates API.
  * 
- * Each factory builds a configured {@link NSFactory#product product}. One at a
- * time, the factory targets a specific {@link NSFactory#property property} of
- * its `product`, using any data received from the XML parser to either
- * {@link NSFactory#data build primitive} values for its `product` itself, or
- * passing the data to an assigned {@link NSFactory#subFactory sub-factory},
- * which can use them to build its own `product`, later to be then added to the
- * parent factory's `product` as a property.
+ * Each factory builds exactly one instance of its configured
+ * {@link NSFactory#product product}. One at a time, the factory targets each
+ * {@link NSFactory#property property} of its `product`, using the data passed
+ * by the XML parser to either {@link NSFactory#data build primitive} values
+ * for its `product` itself, or further passing the data along to an assigned
+ * {@link NSFactory#subFactory sub-factory}, which can use them to build its
+ * own `product`, later to be used by the parent factory as a property.
  * 
  * Such data is received from the parser over the following events:
  * - {@link NSFactory#onOpen}
@@ -84,23 +90,19 @@ class NSFactory {
 	property = '';
 
 	/**
-	 * Container for the primitive data collected for a direct assignment to
-	 * the {@link NSFactory#property property}.
+	 * The primitive data collected for a direct assignment to the
+	 * {@link NSFactory#property property}.
+	 * @type {string}
 	 * @protected
 	 */
-	data = {
-		/**
-		 * The text value currently collected.
-		 * @type {string}
-		 */
-		value: '',
-		/**
-		 * A converter function to be called on the `value` before assigning it
-		 * to the target {@link NSFactory#property property}.
-		 * @type {DataConverter}
-		 */
-		convert: (val) => val
-	}
+	data = '';
+
+	/**
+	 * A converter function to be called on the `value` before assigning it
+	 * to the target {@link NSFactory#property property}.
+	 * @type {DataConverter}
+	 */
+	convert = (val) => val;
 
 	/**
 	 * The sub-factory currently assigned to handle events passed to this
@@ -162,9 +164,8 @@ class NSFactory {
 
 	/**
 	 * Requests this factory to deliver its {@link NSFactory#product product}.
-	 * factory. Should it not be {@link NSFactory#finalised finalised} yet, the
-	 * factory will withhold the `product`; If it is, the `product` is returned
-	 * and reset for producing a new instance.
+	 * Should it not be {@link NSFactory#finalised finalised} yet, the factory
+	 * will withhold the `product`.
 	 * @returns {ProductType} The `product`.
 	 * @throws {ProductWithheldError} The `product` must be `finalised`!
 	 * @public
@@ -172,10 +173,7 @@ class NSFactory {
 	deliver() {
 		if(!this.finalised)
 			throw new ProductWithheldError(this.constructor.name);
-
-		let ret = this.product;
-		this.product = {};
-		return ret;
+		return this.product;
 	}
 
 	/**
@@ -194,8 +192,8 @@ class NSFactory {
 			throw new TypeError('Invalid property converter: ' + convert);
 
 		this.property = name;
-		this.data.value = '';
-		this.data.convert = convert;
+		this.data = '';
+		this.convert = convert;
 		return this;
 	}
 
@@ -224,8 +222,9 @@ class NSFactory {
 	 * @protected
 	 */
 	addToProduct(val) {
-		if(this.property.length === 0) this.product = val;
-		else this.product[this.property] = val;
+		let add = this.convert(val);
+		if(this.property.length === 0) this.product = add;
+		else this.product[this.property] = add;
 	}
 
 	/**
@@ -262,8 +261,8 @@ class NSFactory {
 	/**
 	 * Creates a new entry in this factory's {@link NSFactory#cases cases} for
 	 * the given tag name.
-	 * @param {string} name Name of the XML tag to assign the handler to
-	 * @param {TagHandler} handler Function to invoke for handling the tag
+	 * @arg {string} name Name of the XML tag to assign the handler to
+	 * @arg {TagHandler} handler Function to invoke for handling the tag
 	 * @returns {this} The factory, for chaining multiple cases
 	 * @public
 	 */
@@ -283,27 +282,24 @@ class NSFactory {
 	 * separate - abstract - {@link NSFactory#decide} function with the same
 	 * parameters, and its return value is returned by this function as well.
 	 * @arg {string} name Name of the tag in the source XML
-	 * @arg {Object.<string, string>} attrs Key-value map of present attributes
+	 * @arg {Attributes} attrs Key-value map of present attributes
 	 * @returns {boolean} `true` if handled, otherwise `false`
 	 * @package
 	 */
 	handleOpen(name, attrs) {
+		if(this.finalised) throw new FactoryFinalisedError();
 		if(typeof name !== 'string') return false;
 		if(this.subFactory) return this.subFactory.handleOpen(name, attrs);
 
 		// If the currently ignored tag has not yet been closed, stay passive
 		if(this.ignore.length > 0) return false;
 
+		if(this.root === '') this.root = name;
+
 		// If there is a registered case for the tag, call associated handlers
 		if(name in this.cases) {
 			this.ignore = false;
-			for(let handler of this.cases[name]) handler(attrs);
-			return true;
-		}
-
-		// If the root is to be set automatically, take the first tag received
-		if(this.root === '') {
-			this.root = name;
+			for(let handler of this.cases[name]) handler(this, attrs);
 			return true;
 		}
 
@@ -323,12 +319,14 @@ class NSFactory {
 	 * @package
 	 */
 	handleClose(name) {
+		if(this.finalised) throw new FactoryFinalisedError();
 		if(typeof name !== 'string') return false;
 		if(this.subFactory) {
 			let ret = this.subFactory.handleClose(name);
 
 			// Receive final products of sub-factories
 			if(this.subFactory.finalised) this.emptySubFactory();
+			if(this.root === name) this.finalised = true;
 			return ret;
 		}
 
@@ -342,7 +340,7 @@ class NSFactory {
 		if(this.root === name) return this.finalised = true;
 
 		// Otherwise, append any received text to this factory's product
-		this.addToProduct(this.data.convert(this.data.value));
+		this.addToProduct(this.data);
 
 		return true;
 	}
@@ -355,12 +353,13 @@ class NSFactory {
 	 * @package
 	 */
 	handleText(text) {
+		if(this.finalised) throw new FactoryFinalisedError();
 		if(typeof text !== 'string') return false;
 		if(this.subFactory) return this.subFactory.handleText(text);
 
 		if(this.ignore.length > 0) return false;
 
-		this.data.value += text;
+		this.data += text;
 		return true;
 	}
 
@@ -392,10 +391,8 @@ class NSFactory {
 /**
  * A special factory that is not {@link NSFactory#finalised finalised} after
  * producing only a single {@link NSFactory#product product}, instead producing
- * multiple instances of it from the 
- *  {@link ArrayFactory#collection collection}
- * until it itself is
- * {@link NSFactory#finalised finalised}. 
+ * multiple instances for a {@link ArrayFactory#collection collection} of
+ * `product`s until that `collection` is {@link NSFactory#finalised finalised}.
  * @template ProductType
  */
 class ArrayFactory extends NSFactory {
@@ -406,20 +403,6 @@ class ArrayFactory extends NSFactory {
 	 * @protected
 	 */
 	collection = [];
-
-	/**
-	 * Pushes the assigned {@link NSFactory#subFactory sub-factory}'s current
-	 * {@link NSFactory#product product} to this factory's
-	 * {@link ArrayFactory#collection collection}; then replaces the old
-	 * sub-factory with a new one. This should only be done if the sub-factory
-	 * has declared its `product` to be {@link NSFactory#finalised finalised}.
-	 * @returns {void}
-	 * @package
-	 */
-	emptySubFactory() {
-		if(!(this.subFactory instanceof NSFactory)) return;
-		this.addToProduct(this.subFactory.deliver());
-	}
 
 	/**
 	 * Finally, the `product` gets pushed to this factory's
@@ -441,9 +424,7 @@ class ArrayFactory extends NSFactory {
 	deliver() {
 		if(!this.finalised)
 			throw new ProductWithheldError(this.constructor.name);
-		let ret = this.collection;
-		this.collection = [];
-		return ret;
+		return this.collection;
 	}
 }
 

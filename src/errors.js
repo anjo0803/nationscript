@@ -105,13 +105,14 @@ class VirtualError extends NSError {
 }
 
 class ProductWithheldError extends NSError {
-	/**
-	 * 
-	 * @param {string} factory 
-	 */
-	constructor(factory) {
-		super('Factory ' + factory
-			+ ' withheld its still work-in-progress product!');
+	constructor() {
+		super('Factory withheld still-work-in-progress product');
+	}
+}
+
+class FactoryFinalisedError extends NSError {
+	constructor() {
+		super('Finalised factory refused to process data');
 	}
 }
 
@@ -125,3 +126,4 @@ exports.PropertyMissingError = PropertyMissingError;
 exports.PropertyInvalidError = PropertyInvalidError;
 exports.VirtualError = VirtualError;
 exports.ProductWithheldError = ProductWithheldError;
+exports.FactoryFinalisedError = FactoryFinalisedError;
