@@ -8,7 +8,7 @@ const {
 	NSError,
 	ProductWithheldError,
 	FactoryFinalisedError
-} = require('../errors');
+} = require('./errors');
 
 /**
  * @callback DataConverter
