@@ -130,7 +130,6 @@ const { Dispatch } = require('./typedefs/dispatch');
 const { EmbassyData } = require('./typedefs/embassy-data');
 const { ListFaction } = require('./typedefs/faction-list-item');
 const { Faction } = require('./typedefs/faction');
-const { FreedomsData } = require('./typedefs/freedoms-data');
 const { FreedomsTextData } = require('./typedefs/freedoms-descriptions');
 const { FreedomsScoreData } = require('./typedefs/freedoms-scores');
 const { IDHappening } = require('./typedefs/happening-id');

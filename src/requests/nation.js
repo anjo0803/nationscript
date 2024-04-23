@@ -35,7 +35,6 @@ const { WABadge, parseBadge }					= require('../typedefs/badge');
 const { CensusDataNation, parseCensusNation }	= require('../typedefs/census-data-nation');
 const { CensusRankUnscored, parseCensusRankUnscored }	= require('../typedefs/census-rank-unscored');
 const { DeathData, parseDeath }					= require('../typedefs/death-data');
-const { FreedomsData, parseFreedoms }			= require('../typedefs/freedoms-data');
 const { FreedomsTextData, parseFreedomsText }	= require('../typedefs/freedoms-descriptions');
 const { FreedomsScoreData, parseFreedomsValue }	= require('../typedefs/freedoms-scores');
 const { ListDispatch, parseDispatchOverview }	= require('../typedefs/dispatch-list-item');
@@ -810,13 +809,6 @@ class Nation {
 				 * @see {@linkcode NationShard.FREEDOM_DESCRIPTIONS}
 				 */
 				this.freedomDescriptions = handle(parsed[tag][0], parseFreedomsText);
-				/**
-				 * Details on the levels of civil, economic, and political freedoms in the nation.
-				 * @type FreedomsData
-				 * @see {@linkcode NationShard.FREEDOM}
-				 * @deprecated in favor of {@linkcode Nation.freedomDescriptions}.
-				 */
-				this.freedoms = handle(parsed[tag][0], parseFreedoms);
 				break;
 
 			case 'FREEDOM':

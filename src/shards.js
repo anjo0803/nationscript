@@ -149,12 +149,6 @@ exports.NationShard = {
 	/** Get the Unix epoch timestamp for when the nation was founded. */
 	FOUNDED_TIME: 'foundedtime',
 
-	/**
-	 * Get the statuses of the nation's civil rights, economy, and political freedom scores, e.g. 'Good'.
-	 * @deprecated in favor of `FREEDOM_DESCRIPTIONS` for distinction to `FREEDOM_SCORES`.
-	 */
-	FREEDOM: 'freedom',
-
 	/** Get text descriptions of the nation's civil rights, economy, and political freedom scores, e.g. 'Good'. */
 	FREEDOM_DESCRIPTIONS: 'freedom',
 
