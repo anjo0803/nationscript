@@ -255,6 +255,28 @@ exports.DispatchSearchMode = {
 };
 
 /**
+ * Possible phases regional embassies can be in.
+ * @enum {string}
+ * @readonly
+ */
+exports.EmbassyPhase = {
+	/** The embassy exists. */
+	STANDING: '',
+	/** The region has received a request for the embassy. */
+	INVITED: 'invited',
+	/** The region has requested the embassy from another region. */
+	REQUESTED: 'requested',
+	/** The region has rejected another's request for the embassy. */
+	REJECTED: 'rejected',
+	/** The region's request for the embassy was denied. */
+	DENIED: 'denied',
+	/** The embassy is currently being constructed. */
+	OPENING: 'opening',
+	/** The embassy is currently being withdrawn. */
+	CLOSING: 'closing'
+}
+
+/**
  * Valid filters when querying one of the `HAPPENINGS` shards.
  * @enum {string}
  * @readonly
@@ -330,6 +352,17 @@ exports.Influence = [
 	'Hegemony',
 	'Hermit'
 ];
+
+/**
+ * Possible moderator/GenSec rulings on a proposal's legality.
+ * @enum {string}
+ * @readonly
+ */
+exports.LegalityRuling = {
+	LEGAL: 'Legal',
+	ILLEGAL: 'Illegal',
+	DISCARD: 'Discard'
+}
 
 /**
  * World Census classifications of nations.
@@ -767,6 +800,11 @@ exports.WAVote = {
 	AGAINST: 'AGAINST',
 	/** The nation has not voted on the resolution yet. */
 	UNDECIDED: 'UNDECIDED',
+	/** 
+	 * **Only used in the delegate voting log.** The nation has withdrawn
+	 * its previous vote on the resolution.
+	 */
+	WITHDRAWN: 'WITHDREW',
 	/** There currently is no resolution at vote. */
 	NONE_AT_VOTE: ''
 };

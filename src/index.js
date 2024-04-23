@@ -4,6 +4,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+/**
+ * Main module of NationScript
+ * @module nationscript
+ */
+
 const { NS } = require('./api');
 exports.NS = NS;
 
@@ -21,8 +26,10 @@ exports.DeathCause = ENUMS.DeathCause;
 exports.DispatchCategory = ENUMS.DispatchCategory;
 exports.DispatchSubcategory = ENUMS.DispatchSubcategory;
 exports.DispatchSearchMode = ENUMS.DispatchSearchMode;
+exports.EmbassyPhase = ENUMS.EmbassyPhase;
 exports.HappeningsFilter = ENUMS.HappeningsFilter;
 exports.Influence = ENUMS.Influence;
+exports.LegalityRuling = ENUMS.LegalityRuling;
 exports.NationCategory = ENUMS.NationCategory;
 exports.Notable = ENUMS.Notable;
 exports.NoticeIcon = ENUMS.NoticeIcon;

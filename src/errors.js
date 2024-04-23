@@ -97,10 +97,15 @@ class PropertyInvalidError extends NSError {
 }
 
 class VirtualError extends NSError {
+	/**
+	 * 
+	 * @param {Function} func 
+	 * @param {Function | null} parent 
+	 */
 	constructor(func, parent = null) {
 		super('Virtual function not implemented: '
-			+ (parent === null ? parent + '.' : '')
-			+ func);
+			+ (parent !== null ? parent.name + '.' : '')
+			+ func.name);
 	}
 }
 

@@ -23,7 +23,9 @@
 		"node-xml-stream-parser": "^1.0.12",
 		"xml-flow": "^1.0.4"
 	},
-
+	"engines": {
+		"node": ">=14.0.0"
+	},
 	"scripts": {
 		"doc": "jsdoc -c jsdoc.json"
 	}

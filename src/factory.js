@@ -51,15 +51,15 @@ const {
  * - {@link NSFactory#onCData}
  * 
  * Upon receiving an `onOpen()` call, the factory checks whether its registered
- * {@link NSFactory#cases cases} cover the associated XML node's name. If not,
- * If so, the factory will {@link NSFactory#ignore ignore} that XML node, so
- * that no events are acted upon until an `onClose()` call is received for the
- * ignored node. If the `cases` cover the node, any associated handler function
- * is executed with the received attributes as argument.
+ * {@link NSFactory#tags tags} cover the associated XML node's name. If not,
+ * the factory will {@link NSFactory#ignore ignore} that XML node, so that no
+ * events are acted upon until an `onClose()` call is received for the ignored
+ * node. If the `tags` cover the node, any associated handler function is
+ * executed, with the received attributes as argument.
  * 
  * For a non-ignored node, the factory requires a `subFactory` for handling. If
- * one is not assigned via the associated `cases` function(s), the factory will
- * assign itself a "blank" factory - without any `cases`. While a `subFactory`
+ * one is not assigned via the associated `tags` function(s), the factory will
+ * assign itself a "blank" factory - without any `tags`. While a `subFactory`
  * is assigned, any and all events passed to a factory will be handed further
  * down to the `subFactory`.
  * 
@@ -82,7 +82,7 @@ class NSFactory {
 	 * @type {*}
 	 * @protected
 	 */
-	product = {};
+	product = undefined;
 
 	/**
 	 * Name of the property of the {@link NSFactory#product product} that is
@@ -95,12 +95,11 @@ class NSFactory {
 	property = '';
 
 	/**
-	 * Combined content of any text nodes handled by this factory. If no text
-	 * node has been encountered yet, `null`.
-	 * @type {string|null}
+	 * Combined content of any text nodes handled by this factory.
+	 * @type {string}
 	 * @private
 	 */
-	data = null;
+	data = '';
 
 	/**
 	 * Function to pass a value through before assigning it to the target
@@ -141,7 +140,7 @@ class NSFactory {
 	 * @type {Object.<string, TagHandler[]>}
 	 * @private
 	 */
-	cases = {};
+	tags = {};
 
 	/**
 	 * Name of the currently ignored node in the source XML. If no node is
@@ -188,17 +187,29 @@ class NSFactory {
 	/**
 	 * Sets the given value as the given {@link NSFactory#property property} on
 	 * the {@link NSFactory#product product} directly. Shortcut for
-	 * {@link NSFactory#build buildProperty(name)}`.`
+	 * {@link NSFactory#build build(name, convert)}`.`
 	 * {@link NSFactory#addToProduct addToProduct(value)}.
 	 * @arg {string} name Name of target `property`
 	 * @arg {any} value Value to assign
+	 * @arg {DataConverter} convert Converter function to apply
 	 * @returns {this} The factory, for chaining
 	 * @public
 	 */
-	set(name, value) {
-		this.build(name)
+	set(name, value, convert = val => val) {
+		this.build(name, convert)
 			.addToProduct(value);
 		return this;
+	}
+
+	/**
+	 * Gets the value of the given property on the 
+	 * {@link NSFactory#product product}.
+	 * @param {string} property Name of target property
+	 * @returns {any} The property on the `product`; if not set, `undefined`
+	 * @package
+	 */
+	get(property) {
+		return this.product?.[property];
 	}
 
 	/**
@@ -211,8 +222,19 @@ class NSFactory {
 	 */
 	addToProduct(val) {
 		let add = this.convert(val);
-		if(this.property.length === 0) this.product = add;
-		else this.product[this.property] = add;
+		if(this.property.length === 0) {
+			this.product = add;
+			return;
+		}
+		if(this.product === undefined) this.product = {};
+		let target = this.product;
+		let subs = this.property.split('.');
+		for(let i = 0; i < subs.length - 1; i++) {
+			let prop = subs[i];
+			if(target[prop] === undefined) target[prop] = {};
+			target = target[prop];
+		}
+		target[subs[subs.length - 1]] = add;
 	}
 
 	/**
@@ -246,31 +268,31 @@ class NSFactory {
 	}
 
 	/**
-	 * Creates a new entry in this factory's {@link NSFactory#cases cases} for
+	 * Creates a new entry in this factory's {@link NSFactory#tags tags} for
 	 * the given tag name.
 	 * @arg {string} name Name of the XML tag to assign the handler to
 	 * @arg {TagHandler} handler Function to invoke for handling the tag
-	 * @returns {this} The factory, for chaining multiple cases
+	 * @returns {this} The factory, for chaining multiple tags
 	 * @public
 	 */
-	onCase(name, handler) {
+	onTag(name, handler) {
 		if(typeof name !== 'string')
-			throw new TypeError('Invalid case:' + name);
+			throw new TypeError('Invalid tag:' + name);
 		if(typeof handler !== 'function')
 			throw new TypeError('Invalid converter function: ' + handler);
 
-		if(this.cases[name] === undefined) this.cases[name] = [];
-		this.cases[name].push(handler);
+		if(this.tags[name] === undefined) this.tags[name] = [];
+		this.tags[name].push(handler);
 		return this;
 	}
 
 	/**
 	 * Called when a new tag gets opened in the source XML. Searches the
-	 * registered {@link NSFactory#cases cases} for a matching tag name,
-	 * invoking the associated {@link TagHandler}s and assigning a new
+	 * registered {@link NSFactory#tags tags} for a matching tag name, invoking
+	 * the associated {@link TagHandler}s and assigning a new
 	 * {@link NSFactory#subFactory subFactory} for receiving the node content,
-	 * if not done by one of the registered handlers. If the `cases` don't
-	 * cover the tag, {@link NSFactory#ignore ignore} mode is activated.
+	 * if not done by one of the registered handlers. If the `tags` don't cover
+	 * the tag, {@link NSFactory#ignore ignore} mode is activated.
 	 * @arg {string} name Name of the tag in the source XML
 	 * @arg {Attributes} attrs Key-value map of present attributes
 	 * @returns {boolean} `true` if handled, otherwise `false`
@@ -284,10 +306,10 @@ class NSFactory {
 		// If the currently ignored tag has not yet been closed, stay passive
 		if(this.ignore.length > 0) return false;
 
-		// If there is a registered case for the tag, call associated handlers
-		if(name in this.cases) {
+		// If there is a matching tag registered, call associated handlers
+		if(name in this.tags) {
 			this.ignore = '';
-			for(let handler of this.cases[name]) handler(this, attrs);
+			for(let handler of this.tags[name]) handler(this, attrs);
 
 			// All opened tags MUST be handled by a sub-factory!
 			if(!this.subFactory) this.assignSubFactory(new NSFactory());
@@ -330,8 +352,7 @@ class NSFactory {
 		 * not are ignored.
 		 */
 
-		// Append any received text to this factory's product, then finalise it
-		if(this.data !== null) this.addToProduct(this.data);
+		if(this.data !== '') this.addToProduct(this.data);
 		return this.finalised = true;
 	}
 
@@ -349,8 +370,7 @@ class NSFactory {
 
 		if(this.ignore.length > 0) return false;
 
-		if(this.data === null) this.data = text;
-		else this.data += text;
+		this.data += text;
 		return true;
 	}
 
@@ -416,6 +436,17 @@ class ArrayFactory extends NSFactory {
 		if(!this.finalised) throw new ProductWithheldError();
 		return this.collection;
 	}
+
+	/**
+	 * Creates a new {@link ArrayFactory} and registers the given `TagHandler`
+	 * for the given `tag` on it.
+	 * @param {string} tag Name of the tag to handle
+	 * @param {TagHandler} handler Handler function for the tag
+	 * @public
+	 */
+	static default(tag, handler) {
+		return new ArrayFactory().onTag(tag, handler);
+	}
 }
 
 /**
@@ -426,7 +457,7 @@ class ArrayFactory extends NSFactory {
  */
 function convertNumber(val) {
 	if(/^\d+\.\d+$/.test(val)) return parseFloat(val);
-	else return parseInt(val);
+	return parseInt(val);
 }
 
 /**
@@ -439,7 +470,19 @@ function convertBoolean(val) {
 	return val === '1';
 }
 
+/**
+ * Creates a converter function for splitting a string value as defined. If the
+ * value ultimately passed to the returned function can't be split, it returns
+ * an empty array.
+ * @param {string|RegExp} split String or regular expression to split values at
+ * @returns {DataConverter} A converter function splitting the value as defined
+ */
+function convertArray(split) {
+	return val => val?.split?.(split) ?? [];
+}
+
 exports.NSFactory = NSFactory;
 exports.ArrayFactory = ArrayFactory;
 exports.convertNumber = convertNumber;
 exports.convertBoolean = convertBoolean;
+exports.convertArray = convertArray;
