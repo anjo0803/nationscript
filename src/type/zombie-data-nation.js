@@ -23,14 +23,14 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<ZombieDataNation>} A new `ZombieDataNation` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('ZACTION', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('ZACTION', (me) => me
 		.build('action', val => val || ZombieAction.INACTION))
-	.onTag('ZACTIONINTENDED', me => me
+	.onTag('ZACTIONINTENDED', (me) => me
 		.build('intended', val => val || ZombieAction.INACTION))
-	.onTag('SURVIVORS', me => me
+	.onTag('SURVIVORS', (me) => me
 		.build('survivors', convertNumber))
-	.onTag('ZOMBIES', me => me
+	.onTag('ZOMBIES', (me) => me
 		.build('zombies', convertNumber))
-	.onTag('DEAD', me => me
+	.onTag('DEAD', (me) => me
 		.build('dead', convertNumber));

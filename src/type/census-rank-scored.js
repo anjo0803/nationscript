@@ -27,10 +27,10 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<CensusRankScored>} A new `CensusRankScored` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('NAME', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('NAME', (me) => me
 		.build('nation'))
-	.onTag('RANK', me => me
+	.onTag('RANK', (me) => me
 		.build('rank', convertNumber))
-	.onTag('SCORE', me => me
+	.onTag('SCORE', (me) => me
 		.build('score', convertNumber));

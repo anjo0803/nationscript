@@ -25,16 +25,16 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<UnreadsData>} A new `UnreadsData` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('ISSUES', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('ISSUES', (me) => me
 		.build('issue', convertNumber))
-	.onTag('TELEGRAMS', me => me
+	.onTag('TELEGRAMS', (me) => me
 		.build('telegram', convertNumber))
-	.onTag('NOTICES', me => me
+	.onTag('NOTICES', (me) => me
 		.build('notice', convertNumber))
-	.onTag('RMB', me => me
+	.onTag('RMB', (me) => me
 		.build('rmb', convertNumber))
-	.onTag('WA', me => me
+	.onTag('WA', (me) => me
 		.build('wa', convertNumber))
-	.onTag('NEWS', me => me
+	.onTag('NEWS', (me) => me
 		.build('news', convertNumber));

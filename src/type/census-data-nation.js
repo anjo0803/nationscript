@@ -24,15 +24,15 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<CensusDataNation>} A new `CensusDataNation` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('id', convertNumber(root['id']))
-	.onTag('SCORE', me => me
+	.onTag('SCORE', (me) => me
 		.build('score', convertNumber))
-	.onTag('RANK', me => me
+	.onTag('RANK', (me) => me
 		.build('rankWorld', convertNumber))
-	.onTag('PRANK', me => me
+	.onTag('PRANK', (me) => me
 		.build('rankWorldPercent', convertNumber))
-	.onTag('RRANK', me => me
+	.onTag('RRANK', (me) => me
 		.build('rankRegion', convertNumber))
-	.onTag('PRRANK', me => me
+	.onTag('PRRANK', (me) => me
 		.build('rankRegionPercent', convertNumber));

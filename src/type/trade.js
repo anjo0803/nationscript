@@ -24,21 +24,21 @@ const ListCard = require('./card-list-item');
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Trade>} A new `Trade` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('BUYER', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('BUYER', (me) => me
 		.build('buyer'))
-	.onTag('SELLER', me => me
+	.onTag('SELLER', (me) => me
 		.build('seller'))
-	.onTag('PRICE', me => me
+	.onTag('PRICE', (me) => me
 		.build('price', val => val ? convertNumber(val) : 0.0))
-	.onTag('TIMESTAMP', me => me
+	.onTag('TIMESTAMP', (me) => me
 		.build('timestamp', convertNumber))
 
 	// Sadly the tags describing the card aren't within their own dedicated tag
 	// so this can't be done via the ListCard factory
-	.onTag('CARDID', me => me
+	.onTag('CARDID', (me) => me
 		.build('card.id', convertNumber))
-	.onTag('CATEGORY', me => me
+	.onTag('CATEGORY', (me) => me
 		.build('card.rarity'))
-	.onTag('SEASON', me => me
+	.onTag('SEASON', (me) => me
 		.build('card.season'));

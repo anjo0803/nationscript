@@ -51,37 +51,35 @@ const TradeCardbound = require('./trade-cardbound');
  * @returns {NSFactory<Card>} A new `Card` factory
  */
 exports.create = root => new NSFactory()
-	.onTag('CARDID', me => me
+	.onTag('CARDID', (me) => me
 		.build('id', convertNumber))
-	.onTag('CATEGORY', me => me
+	.onTag('CATEGORY', (me) => me
 		.build('rarity'))
-	.onTag('FLAG', me => me
+	.onTag('FLAG', (me) => me
 		.build('depicted.flag'))
-	.onTag('GOVT', me => me
+	.onTag('GOVT', (me) => me
 		.build('depicted.category'))
-	.onTag('MARKET_VALUE', me => me
+	.onTag('MARKET_VALUE', (me) => me
 		.build('value', convertNumber))
-	.onTag('NAME', me => me
+	.onTag('NAME', (me) => me
 		.build('depicted.name'))
-	.onTag('OWNERS', me => me
+	.onTag('OWNERS', (me) => me
 		.build('owners')
-		.assignSubFactory(ArrayFactory.default('OWNER', me => me
-			.build(''))))
-	.onTag('REGION', me => me
+		.assignSubFactory(ArrayFactory
+			.primitive('OWNER')))
+	.onTag('REGION', (me) => me
 		.build('depicted.region'))
-	.onTag('SEASON', me => me
+	.onTag('SEASON', (me) => me
 		.build('season', convertNumber))
-	.onTag('SLOGAN', me => me
+	.onTag('SLOGAN', (me) => me
 		.build('depicted.motto'))
-	.onTag('TYPE', me => me
+	.onTag('TYPE', (me) => me
 		.build('depicted.pretitle'))
-	.onTag('MARKETS', me => me
+	.onTag('MARKETS', (me) => me
 		.build('asksBids')
-		.assignSubFactory(ArrayFactory.default('MARKET', (me, attrs) => me
-			.build('')
-			.assignSubFactory(Market.create(attrs)))))
-	.onTag('TRADES', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('MARKET', Market.create)))
+	.onTag('TRADES', (me) => me
 		.build('trades')
-		.assignSubFactory(ArrayFactory.default('TRADE', (me, attrs) => me
-			.build('')
-			.assignSubFactory(TradeCardbound.create(attrs)))));
+		.assignSubFactory(ArrayFactory
+			.complex('TRADE', TradeCardbound.create)));

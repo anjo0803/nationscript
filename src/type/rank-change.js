@@ -22,11 +22,11 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<RankChange>} A new `RankChange` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('scale', root['id'], convertNumber)
-	.onTag('CHANGE', me => me
+	.onTag('CHANGE', (me) => me
 		.build('changeAbsolute', convertNumber))
-	.onTag('PCHANGE', me => me
+	.onTag('PCHANGE', (me) => me
 		.build('changePercent', convertNumber))
-	.onTag('SCORE', me => me
+	.onTag('SCORE', (me) => me
 		.build('newScore', convertNumber));

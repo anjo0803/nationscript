@@ -25,18 +25,20 @@ const LegalityDecision = require('./legality-decision');
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<LegalityData>} A new `LegalityData` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('DISCARD', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('DISCARD', (me) => me
 		.build('discard')
-		.assignSubFactory(ArrayFactory.default('DISCARD', me => me.build(''))))
-	.onTag('ILLEGAL', me => me
+		.assignSubFactory(ArrayFactory
+			.primitive('DISCARD')))
+	.onTag('ILLEGAL', (me) => me
 		.build('illegal')
-		.assignSubFactory(ArrayFactory.default('ILLEGAL', me => me.build(''))))
-	.onTag('LEGAL', me => me
+		.assignSubFactory(ArrayFactory
+			.primitive('ILLEGAL')))
+	.onTag('LEGAL', (me) => me
 		.build('legal')
-		.assignSubFactory(ArrayFactory.default('LEGAL', me => me.build(''))))
-	.onTag('LOG', me => me
+		.assignSubFactory(ArrayFactory
+			.primitive('LEGAL')))
+	.onTag('LOG', (me) => me
 		.build('log')
-		.assignSubFactory(ArrayFactory.default('ENTRY', (me, attrs) => me
-			.build('')
-			.assignSubFactory(LegalityDecision.create(attrs)))));
+		.assignSubFactory(ArrayFactory
+			.complex('ENTRY', LegalityDecision.create)));

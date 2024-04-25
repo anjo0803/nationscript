@@ -23,11 +23,11 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<CensusDataRegion>} A new `CensusDataRegion` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('id', convertNumber(root['id']))
-	.onTag('SCORE', me => me
+	.onTag('SCORE', (me) => me
 		.build('average', convertNumber))
-	.onTag('RANK', me => me
+	.onTag('RANK', (me) => me
 		.build('rank', convertNumber))
-	.onTag('PRANK', me => me
+	.onTag('PRANK', (me) => me
 		.build('rankPercent', convertNumber));

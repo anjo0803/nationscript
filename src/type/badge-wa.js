@@ -21,6 +21,6 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<WABadge>} A new `WABadge` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('type', root['type'])
 	.build('resolution', convertNumber);

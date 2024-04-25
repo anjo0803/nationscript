@@ -33,36 +33,36 @@ const Reclassification = require('./reclassification');
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<IssueEffect>} A new `IssueEffect` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('OK', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('OK', (me) => me
 		.build('ok', convertBoolean))
-	.onTag('DESC', me => me
+	.onTag('DESC', (me) => me
 		.build('legislation'))
-	.onTag('HEADLINES', me => me
+	.onTag('HEADLINES', (me) => me
 		.build('headlines')
-		.assignSubFactory(ArrayFactory.default('', me => me
+		.assignSubFactory(ArrayFactory.default('', (me) => me
 			.build(''))))	// TODO
-	.onTag('UNLOCKS', me => me
+	.onTag('UNLOCKS', (me) => me
 		.build('banners')
-		.assignSubFactory(ArrayFactory.default('', me => me
+		.assignSubFactory(ArrayFactory.default('', (me) => me
 			.build(''))))	// TODO
-	.onTag('NEW_POLICIES', me => me
-		.build('id')
+	.onTag('NEW_POLICIES', (me) => me
+		.build('policiesEnacted')
 		.assignSubFactory(ArrayFactory.default('POLICY', (me, attrs) => me
 			.build('')
 			.assignSubFactory(Policy.create(attrs)))))
-	.onTag('REMOVED_POLICIES', me => me
-		.build('rarity')
+	.onTag('REMOVED_POLICIES', (me) => me
+		.build('policiesCancelled')
 		.assignSubFactory(ArrayFactory.default('POLICY', (me, attrs) => me
 			.build('')
 			.assignSubFactory(Policy.create(attrs)))))
-	.onTag('RANKINGS', me => me
-		.build('nation')
+	.onTag('RANKINGS', (me) => me
+		.build('census')
 		.assignSubFactory(ArrayFactory.default('RANK', (me, attrs) => me
 			.build('')
 			.assignSubFactory(RankChange.create(attrs)))))
-	.onTag('RECLASSIFICATIONS', me => me
-		.build('season')
+	.onTag('RECLASSIFICATIONS', (me) => me
+		.build('reclassifications')
 		.assignSubFactory(ArrayFactory.default('RECLASSIFY', (me, attrs) => me
 			.build('')
 			.assignSubFactory(Reclassification.create(attrs)))))

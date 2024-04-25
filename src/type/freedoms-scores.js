@@ -21,10 +21,10 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<FreedomsScoreData>} A new `FreedomsScoreData` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('CIVILRIGHTS', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('CIVILRIGHTS', (me) => me
 		.build('civil', convertNumber))
-	.onTag('ECONOMY', me => me
+	.onTag('ECONOMY', (me) => me
 		.build('economic', convertNumber))
-	.onTag('POLITICALFREEDOM', me => me
+	.onTag('POLITICALFREEDOM', (me) => me
 		.build('political', convertNumber));

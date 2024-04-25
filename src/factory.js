@@ -112,7 +112,7 @@ class NSFactory {
 	/**
 	 * Sub-factory currently assigned to handle events passed to this factory.
 	 * If none is assigned, `null`.
-	 * @type {NSFactory|null}
+	 * @type {?NSFactory}
 	 * @see {@link NSFactory#assignSubFactory}
 	 * @see {@link NSFactory#emptySubFactory}
 	 * @private
@@ -235,6 +235,7 @@ class NSFactory {
 			target = target[prop];
 		}
 		target[subs[subs.length - 1]] = add;
+		this.property = '';
 	}
 
 	/**
@@ -438,14 +439,39 @@ class ArrayFactory extends NSFactory {
 	}
 
 	/**
-	 * Creates a new {@link ArrayFactory} and registers the given `TagHandler`
-	 * for the given `tag` on it.
+	 * Creates a new `ArrayFactory` with the given handler assigned to the
+	 * given single tag name.
 	 * @param {string} tag Name of the tag to handle
 	 * @param {TagHandler} handler Handler function for the tag
 	 * @public
 	 */
-	static default(tag, handler) {
+	static single(tag, handler) {
 		return new ArrayFactory().onTag(tag, handler);
+	}
+
+	/**
+	 * Creates a new `ArrayFactory` that produces the text content of tags with
+	 * the given name, converted by the given function, as its products.
+	 * @param {string} tag Name of the tag to handle
+	 * @param {DataConverter} convert Converter function for tag content
+	 */
+	static primitive(tag, convert = (val) => val) {
+		return ArrayFactory.single(tag, (me) => me
+			.build('', convert));
+	}
+
+	/**
+	 * Creates a new `ArrayFactory` that assigns the given sub-factory to
+	 * itself upon encountering the given tag name.
+	 * @param {string} tag Name of the tag to handle
+	 * @param {Function} create Creator function for the sub-factory
+	 */
+	static complex(tag, create) {
+		if(typeof create !== 'function')
+			throw new TypeError('Not a function: ' + create);
+		return ArrayFactory.single(tag, (me, attrs) => me
+			.build('')
+			.assignSubFactory(create(attrs)));
 	}
 }
 

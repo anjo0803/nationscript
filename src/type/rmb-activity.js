@@ -19,13 +19,13 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<RMBActivity>} A new `RMBActivity` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('NAME', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('NAME', (me) => me
 		.build('nation'))
 	// These are mutually exclusive, so they can all target a uniform property
-	.onTag('POSTS', me => me
+	.onTag('POSTS', (me) => me
 		.build('score', convertNumber))
-	.onTag('LIKES', me => me
+	.onTag('LIKES', (me) => me
 		.build('score', convertNumber))
-	.onTag('LIKED', me => me
+	.onTag('LIKED', (me) => me
 		.build('score', convertNumber));

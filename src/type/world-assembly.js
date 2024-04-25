@@ -38,28 +38,26 @@ const Resolution = require('./resolution');
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<WorldAssembly>} A new `WorldAssembly` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('council', root['council'], convertNumber)
-	.onTag('LASTRESOLUTION', me => me
+	.onTag('LASTRESOLUTION', (me) => me
 		.build('lastResolution'))
-	.onTag('DELEGATES', me => me
+	.onTag('DELEGATES', (me) => me
 		.build('delegates', convertArray(',')))
-	.onTag('NUMDELEGATES', me => me
+	.onTag('NUMDELEGATES', (me) => me
 		.build('delegatesNum', convertNumber))
-	.onTag('MEMBERS', me => me
+	.onTag('MEMBERS', (me) => me
 		.build('members', convertArray(',')))
-	.onTag('NUMNATIONS', me => me
+	.onTag('NUMNATIONS', (me) => me
 		.build('membersNum', convertNumber))
-	.onTag('HAPPENINGS', me => me
+	.onTag('HAPPENINGS', (me) => me
 		.build('happenings')
-		.assignSubFactory(ArrayFactory.default('EVENT', (me, attrs) => me
-			.build('')
-			.assignSubFactory(Happening.create(attrs)))))
-	.onTag('PROPOSALS', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('EVENT', Happening.create)))
+	.onTag('PROPOSALS', (me) => me
 		.build('proposals')
-		.assignSubFactory(ArrayFactory.default('PROPOSAL', (me, attrs) => me
-			.build('')
-			.assignSubFactory(Proposal.create(attrs)))))
+		.assignSubFactory(ArrayFactory
+			.complex('PROPOSAL', Proposal.create)))
 	.onTag('RESOLUTION', (me, attrs) => me
 		.build('resolution')
 		.assignSubFactory(Resolution.create(attrs)));

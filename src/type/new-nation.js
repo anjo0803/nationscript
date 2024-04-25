@@ -20,9 +20,9 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<NewNation>} A new `NewNation` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('nation', root['name'])
-	.onTag('REGION', me => me
+	.onTag('REGION', (me) => me
 		.build('region'))
-	.onTag('FOUNDEDTIME', me => me
+	.onTag('FOUNDEDTIME', (me) => me
 		.build('founded', convertNumber));

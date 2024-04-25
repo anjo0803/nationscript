@@ -27,22 +27,21 @@ const PollOption = require('./poll-option');
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Poll>} A new `Poll` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('id', root['id'], convertNumber)
-	.onTag('TITLE', me => me
+	.onTag('TITLE', (me) => me
 		.build('title'))
-	.onTag('TEXT', me => me
+	.onTag('TEXT', (me) => me
 		.build('description'))
-	.onTag('AUTHOR', me => me
+	.onTag('AUTHOR', (me) => me
 		.build('author'))
-	.onTag('REGION', me => me
+	.onTag('REGION', (me) => me
 		.build('region'))
-	.onTag('START', me => me
+	.onTag('START', (me) => me
 		.build('opens', convertNumber))
-	.onTag('STOP', me => me
+	.onTag('STOP', (me) => me
 		.build('closes', convertNumber))
-	.onTag('OPTIONS', me => me
+	.onTag('OPTIONS', (me) => me
 		.build('options')
-		.assignSubFactory(ArrayFactory.default('OPTION', (me, attrs) => me
-			.build('')
-			.assignSubFactory(PollOption.create(attrs)))));
+		.assignSubFactory(ArrayFactory
+			.complex('OPTION', PollOption.create)));

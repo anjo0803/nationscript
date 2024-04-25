@@ -28,22 +28,22 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Notice>} A new `Notice` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('TITLE', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('TITLE', (me) => me
 		.build('title'))
-	.onTag('TEXT', me => me
+	.onTag('TEXT', (me) => me
 		.build('text'))
-	.onTag('TIMESTAMP', me => me
+	.onTag('TIMESTAMP', (me) => me
 		.build('time', convertNumber))
-	.onTag('TYPE', me => me
+	.onTag('TYPE', (me) => me
 		.build('type'))
-	.onTag('TYPE_ICON', me => me
+	.onTag('TYPE_ICON', (me) => me
 		.build('icon'))
-	.onTag('URL', me => me
+	.onTag('URL', (me) => me
 		.build('url'))
-	.onTag('WHO', me => me
+	.onTag('WHO', (me) => me
 		.build('who'))
-	.onTag('NEW', me => me
+	.onTag('NEW', (me) => me
 		.build('isNew', convertBoolean))
-	.onTag('OK', me => me
+	.onTag('OK', (me) => me
 		.build('ok', convertBoolean));

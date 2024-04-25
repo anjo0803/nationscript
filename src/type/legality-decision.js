@@ -23,12 +23,12 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<LegalityDecision>} A new `LegalityDecision` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('NATION', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('NATION', (me) => me
 		.build('nation'))
-	.onTag('DECISION', me => me
+	.onTag('DECISION', (me) => me
 		.build('ruling'))
-	.onTag('REASON', me => me
+	.onTag('REASON', (me) => me
 		.build('reason'))
-	.onTag('T', me => me
+	.onTag('T', (me) => me
 		.build('timestamp', convertNumber));

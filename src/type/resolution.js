@@ -55,77 +55,74 @@ const DelegateLogVote = require('./vote-delegate-log');
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Resolution>} A new `Trade` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('ID', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('ID', (me) => me
 		.build('id'))
-	.onTag('COUNCILID', me => me
+	.onTag('COUNCILID', (me) => me
 		.build('id'))
-	.onTag('NAME', me => me
+	.onTag('NAME', (me) => me
 		.build('title'))
-	.onTag('PROPOSED_BY', me => me
+	.onTag('PROPOSED_BY', (me) => me
 		.build('author'))
-	.onTag('COAUTHOR', me => me
+	.onTag('COAUTHOR', (me) => me
 		.build('coauthors'))	// TODO structure
-	.onTag('DESC', me => me
+	.onTag('DESC', (me) => me
 		.build('text'))
-	.onTag('CREATED', me => me
+	.onTag('CREATED', (me) => me
 		.build('submitted', convertNumber))
-	.onTag('PROMOTED', me => me
+	.onTag('PROMOTED', (me) => me
 		.build('promoted', convertNumber))
-	.onTag('IMPLEMENTED', me => me
+	.onTag('IMPLEMENTED', (me) => me
 		.build('implemented', convertNumber))
-	.onTag('REPEALED_BY', me => me
+	.onTag('REPEALED_BY', (me) => me
 		.build('repealed', convertNumber))
-	.onTag('CATEGORY', me => me
+	.onTag('CATEGORY', (me) => me
 		.build('category'))
-	.onTag('OPTION', me => me
+	.onTag('OPTION', (me) => me
 		.build('option'))
-	.onTag('TOTAL_VOTES_AGAINST', me => me
+	.onTag('TOTAL_VOTES_AGAINST', (me) => me
 		.build('vote.total.against', convertNumber))
-	.onTag('TOTAL_VOTES_FOR', me => me
+	.onTag('TOTAL_VOTES_FOR', (me) => me
 		.build('vote.total.for', convertNumber))
 
 	// Only displayed while at-vote
-	.onTag('TOTAL_NATIONS_AGAINST', me => me
+	.onTag('TOTAL_NATIONS_AGAINST', (me) => me
 		.build('vote.nationsNum.against', convertNumber))
-	.onTag('TOTAL_NATIONS_FOR', me => me
+	.onTag('TOTAL_NATIONS_FOR', (me) => me
 		.build('vote.nationsNum.for', convertNumber))
 
 	// votetrack shard
-	.onTag('VOTE_TRACK_AGAINST', me => me
+	.onTag('VOTE_TRACK_AGAINST', (me) => me
 		.build('vote.track.against')
-		.assignSubFactory(ArrayFactory.default('N', me => me
-			.build('', convertNumber))))
-	.onTag('VOTE_TRACK_FOR', me => me
+		.assignSubFactory(ArrayFactory
+			.primitive('N', convertNumber)))
+	.onTag('VOTE_TRACK_FOR', (me) => me
 		.build('vote.track.for')
-		.assignSubFactory(ArrayFactory.default('N', me => me
-			.build('', convertNumber))))
+		.assignSubFactory(ArrayFactory
+			.primitive('N', convertNumber)))
 
 	// voters shard
-	.onTag('VOTES_AGAINST', me => me
+	.onTag('VOTES_AGAINST', (me) => me
 		.build('votes.nations.against')
-		.assignSubFactory(ArrayFactory.default('N', me => me
-			.build(''))))
-	.onTag('VOTES_FOR', me => me
+		.assignSubFactory(ArrayFactory
+			.primitive('N')))
+	.onTag('VOTES_FOR', (me) => me
 		.build('votes.nations.for')
-		.assignSubFactory(ArrayFactory.default('N', me => me
-			.build(''))))
+		.assignSubFactory(ArrayFactory
+			.primitive('N')))
 
 	// delvotes shard
-	.onTag('DELVOTES_AGAINST', me => me
+	.onTag('DELVOTES_AGAINST', (me) => me
 		.build('vote.delegates.against')
-		.assignSubFactory(ArrayFactory.default('DELEGATE', (me, attrs) => me
-			.build('')
-			.assignSubFactory(DelegateActiveVote.create(attrs)))))
-	.onTag('DELVOTES_FOR', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('DELEGATE', DelegateActiveVote.create)))
+	.onTag('DELVOTES_FOR', (me) => me
 		.build('vote.delegates.for')
-		.assignSubFactory(ArrayFactory.default('DELEGATE', (me, attrs) => me
-			.build('')
-			.assignSubFactory(DelegateActiveVote.create(attrs)))))
+		.assignSubFactory(ArrayFactory
+			.complex('DELEGATE', DelegateActiveVote.create)))
 
 	// dellog shard
 	.onTag('DELLOG', (me, attrs) => me
 		.build('vote.delegatesLog')
-		.assignSubFactory(ArrayFactory.default('ENTRY', (me, attrs) => me
-			.build('')
-			.assignSubFactory(DelegateLogVote.create(attrs)))));
+		.assignSubFactory(ArrayFactory
+			.complex('ENTRY', DelegateLogVote.create)));

@@ -20,6 +20,6 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<DeathData>} A new `DeathData` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('cause', root['type'])
 	.build('percent', convertNumber);

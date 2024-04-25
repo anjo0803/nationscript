@@ -22,12 +22,12 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<SectorsData>} A new `SectorsData` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('BLACKMARKET', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('BLACKMARKET', (me) => me
 		.build('blackMarket', convertNumber))
-	.onTag('GOVERNMENT', me => me
+	.onTag('GOVERNMENT', (me) => me
 		.build('government', convertNumber))
-	.onTag('INDUSTRY', me => me
+	.onTag('INDUSTRY', (me) => me
 		.build('private', convertNumber))
-	.onTag('PUBLIC', me => me
+	.onTag('PUBLIC', (me) => me
 		.build('stateOwned', convertNumber));

@@ -21,10 +21,10 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<TGQueue>} A new `TGQueue` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('MANUAL', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('MANUAL', (me) => me
 		.build('manual', convertNumber))
-	.onTag('MASS', me => me
+	.onTag('MASS', (me) => me
 		.build('mass', convertNumber))
-	.onTag('API', me => me
+	.onTag('API', (me) => me
 		.build('api', convertNumber));

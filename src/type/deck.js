@@ -28,24 +28,24 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Deck>} A new `Deck` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('ID', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('ID', (me) => me
 		.build('nationID', convertNumber))
-	.onTag('NAME', me => me
+	.onTag('NAME', (me) => me
 		.build('nationName'))
-	.onTag('BANK', me => me
+	.onTag('BANK', (me) => me
 		.build('bank', convertNumber))
-	.onTag('DECK_CAPACITY_RAW', me => me
+	.onTag('DECK_CAPACITY_RAW', (me) => me
 		.build('capacity', convertNumber))
-	.onTag('NUM_CARDS', me => me
+	.onTag('NUM_CARDS', (me) => me
 		.build('numCards', convertNumber))
-	.onTag('DECK_VALUE', me => me
+	.onTag('DECK_VALUE', (me) => me
 		.build('value', convertNumber))
-	.onTag('LAST_VALUED', me => me
+	.onTag('LAST_VALUED', (me) => me
 		.build('valueTime', convertNumber))
-	.onTag('RANK', me => me
+	.onTag('RANK', (me) => me
 		.build('rank', convertNumber))
-	.onTag('REGION_RANK', me => me
+	.onTag('REGION_RANK', (me) => me
 		.build('rankRegion', convertNumber))
-	.onTag('LAST_PACK_OPENED', me => me
+	.onTag('LAST_PACK_OPENED', (me) => me
 		.build('lastPack', convertNumber));

@@ -36,7 +36,7 @@ const Policy = require('./policy');
 const CensusRankUnscored = require('./census-rank-unscored');
 const SectorsData = require('./sectors-data');
 const UnreadsData = require('./unreads-data');
-const WABadge = require('./badge');
+const WABadge = require('./badge-wa');
 const ZombieDataNation = require('./zombie-data-nation');
 
 /**
@@ -179,162 +179,158 @@ const ZombieDataNation = require('./zombie-data-nation');
  */
 exports.create = root => new NSFactory()
 	.set('idForm', root['id'])
-	.onTag('ADMIRABLE', me => me
+	.onTag('ADMIRABLE', (me) => me
 		.build('admirable'))
-	.onTag('ADMIRABLES', me => me
+	.onTag('ADMIRABLES', (me) => me
 		.build('admirables')
-		.assignSubFactory(ArrayFactory.default('ADMIRABLE', me => me
-			.build(''))))
-	.onTag('ANIMAL', me => me
+		.assignSubFactory(ArrayFactory
+			.primitive('ADMIRABLE')))
+	.onTag('ANIMAL', (me) => me
 		.build('animal'))
-	.onTag('ANIMALTRAIT', me => me
+	.onTag('ANIMALTRAIT', (me) => me
 		.build('animalTrait'))
-	.onTag('BANNER', me => me
+	.onTag('BANNER', (me) => me
 		.build('banner'))
-	.onTag('BANNERS', me => me
+	.onTag('BANNERS', (me) => me
 		.build('banners')
-		.assignSubFactory(ArrayFactory.default('BANNER', me => me
-			.build(''))))
-	.onTag('CATEGORY', me => me
+		.assignSubFactory(ArrayFactory
+			.primitive('BANNER')))
+	.onTag('CATEGORY', (me) => me
 		.build('category'))
-	.onTag('CRIME', me => me
+	.onTag('CRIME', (me) => me
 		.build('crime'))
-	.onTag('CURRENCY', me => me
+	.onTag('CURRENCY', (me) => me
 		.build('currency'))
-	.onTag('DBID', me => me
+	.onTag('DBID', (me) => me
 		.build('dbID'))
-	.onTag('DEMONYM', me => me
+	.onTag('DEMONYM', (me) => me
 		.build('demonymAdjective'))
-	.onTag('DEMONYM2', me => me
+	.onTag('DEMONYM2', (me) => me
 		.build('demonymNoun'))
-	.onTag('DEMONYM2PLURAL', me => me
+	.onTag('DEMONYM2PLURAL', (me) => me
 		.build('demonymPlural'))
-	.onTag('DISPATCHES', me => me
+	.onTag('DISPATCHES', (me) => me
 		.build('dispatchNum', convertNumber))
-	.onTag('DOSSIER', me => me
+	.onTag('DOSSIER', (me) => me
 		.build('dossierNations')
-		.assignSubFactory(ArrayFactory.default('NATION', me => me
-			.build(''))))
-	.onTag('ENDORSEMENTS', me => me
+		.assignSubFactory(ArrayFactory
+			.primitive('NATION')))
+	.onTag('ENDORSEMENTS', (me) => me
 		.build('endorsements', convertArray(',')))
-	.onTag('FACTBOOKS', me => me
+	.onTag('FACTBOOKS', (me) => me
 		.build('factbookNum', convertNumber))
-	.onTag('FIRSTLOGIN', me => me
+	.onTag('FIRSTLOGIN', (me) => me
 		.build('firstLogin', convertNumber))
-	.onTag('FLAG', me => me
+	.onTag('FLAG', (me) => me
 		.build('flag'))
-	.onTag('FOUNDED', me => me
+	.onTag('FOUNDED', (me) => me
 		.build('founded'))
-	.onTag('FOUNDEDTIME', me => me
+	.onTag('FOUNDEDTIME', (me) => me
 		.build('foundedTimestamp', convertNumber))
-	.onTag('FULLNAME', me => me
+	.onTag('FULLNAME', (me) => me
 		.build('nameFull'))
-	.onTag('GAVOTE', me => me
+	.onTag('GAVOTE', (me) => me
 		.build('voteGA'))
-	.onTag('GDP', me => me
+	.onTag('GDP', (me) => me
 		.build('gdp', convertNumber))
-	.onTag('GOVTDESC', me => me
+	.onTag('GOVTDESC', (me) => me
 		.build('government'))
-	.onTag('GOVTPRIORITY', me => me
+	.onTag('GOVTPRIORITY', (me) => me
 		.build('spendingPriority'))
-	.onTag('INCOME', me => me
+	.onTag('INCOME', (me) => me
 		.build('incomeAverage', convertNumber))
-	.onTag('INDUSTRYDESC', me => me
+	.onTag('INDUSTRYDESC', (me) => me
 		.build('descriptionIndustry'))
-	.onTag('INFLUENCE', me => me
+	.onTag('INFLUENCE', (me) => me
 		.build('influence'))
-	.onTag('ISSUES_ANSWERED', me => me
+	.onTag('ISSUES_ANSWERED', (me) => me
 		.build('issuesAnswered', convertNumber))
-	.onTag('LASTACTIVITY', me => me
+	.onTag('LASTACTIVITY', (me) => me
 		.build('lastLogin'))
-	.onTag('LASTLOGIN', me => me
+	.onTag('LASTLOGIN', (me) => me
 		.build('lastLoginTimestamp', convertNumber))
-	.onTag('LEGISLATION', me => me
+	.onTag('LEGISLATION', (me) => me
 		.build('legislation')
-		.assignSubFactory(ArrayFactory.default('LAW', me => me
-			.build(''))))
-	.onTag('MAJORINDUSTRY', me => me
+		.assignSubFactory(ArrayFactory
+			.primitive('LAW')))
+	.onTag('MAJORINDUSTRY', (me) => me
 		.build('majorIndustry'))
-	.onTag('MOTTO', me => me
+	.onTag('MOTTO', (me) => me
 		.build('motto'))
-	.onTag('NAME', me => me
+	.onTag('NAME', (me) => me
 		.build('name'))
-	.onTag('NEXTISSUE', me => me
+	.onTag('NEXTISSUE', (me) => me
 		.build('nextIssue'))
-	.onTag('NEXTISSUETIME', me => me
+	.onTag('NEXTISSUETIME', (me) => me
 		.build('nextIssueTimestamp', convertNumber))
-	.onTag('NOTABLE', me => me
+	.onTag('NOTABLE', (me) => me
 		.build('notable'))
-	.onTag('NOTABLES', me => me
+	.onTag('NOTABLES', (me) => me
 		.build('notables')
-		.assignSubFactory(ArrayFactory.default('NOTABLE', me => me
-			.build(''))))
-	.onTag('PACKS', me => me
+		.assignSubFactory(ArrayFactory
+			.primitive('NOTABLE')))
+	.onTag('PACKS', (me) => me
 		.build('packs', convertNumber))
-	.onTag('PING', me => me
+	.onTag('PING', (me) => me
 		.build('ping', convertBoolean))
-	.onTag('POOREST', me => me
+	.onTag('POOREST', (me) => me
 		.build('incomePoorest', convertNumber))
-	.onTag('POPULATION', me => me
+	.onTag('POPULATION', (me) => me
 		.build('population', convertNumber))
-	.onTag('PUBLICSECTOR', me => me
+	.onTag('PUBLICSECTOR', (me) => me
 		.build('gdpGovernment', convertNumber))
-	.onTag('RDOSSIER', me => me
+	.onTag('RDOSSIER', (me) => me
 		.build('dossierRegions')
-		.assignSubFactory(ArrayFactory.default('REGION', me => me
-			.build(''))))
-	.onTag('REGION', me => me
+		.assignSubFactory(ArrayFactory
+			.primitive('REGION')))
+	.onTag('REGION', (me) => me
 		.build('region'))
-	.onTag('RICHEST', me => me
+	.onTag('RICHEST', (me) => me
 		.build('incomeRichest', convertNumber))
-	.onTag('SCVOTE', me => me
+	.onTag('SCVOTE', (me) => me
 		.build('voteSC'))
-	.onTag('SENSIBILITIES', me => me
-		.build('sensibilities', convertArray(',')))
-	.onTag('TAX', me => me
+	.onTag('SENSIBILITIES', (me) => me
+		.build('sensibilities', convertArray(', ')))
+	.onTag('TAX', (me) => me
 		.build('tax', convertNumber))
-	.onTag('TGCANCAMPAIGN', me => me
+	.onTag('TGCANCAMPAIGN', (me) => me
 		.build('receivesCampaign', convertBoolean))
-	.onTag('TGCANRECRUIT', me => me
+	.onTag('TGCANRECRUIT', (me) => me
 		.build('receivesRecruit', convertBoolean))
-	.onTag('TYPE', me => me
+	.onTag('TYPE', (me) => me
 		.build('pretitle'))
-	.onTag('UNSTATUS', me => me
+	.onTag('UNSTATUS', (me) => me
 		.build('waStatus'))
-	.onTag('VERIFY', me => me
+	.onTag('VERIFY', (me) => me
 		.build('verified', convertBoolean))
-	.onTag('CAPITAL',
-		me => {
+	/* .onTag('CAPITAL',
+		(me) => {
 
 		})
 	.onTag('LEADER',
-		me => {
+		(me) => {
 
 		})
 	.onTag('RELIGION',
-		me => {
+		(me) => {
 
-		})
-	.onTag('CENSUS', me => me
+		}) */
+	.onTag('CENSUS', (me) => me
 		.build('census')
-		.assignSubFactory(ArrayFactory.default('SCALE', (me, attrs) => me
-			.build('')
-			.assignSubFactory(CensusDataNation.create(attrs)))))
-	.onTag('DEATHS', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('SCALE', CensusDataNation.create)))
+	.onTag('DEATHS', (me) => me
 		.build('deaths')
-		.assignSubFactory(ArrayFactory.default('CAUSE', (me, attrs) => me
-			.build('')
-			.assignSubFactory(DeathData.create(attrs)))))
-	.onTag('DISPATCHLIST', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('CAUSE', DeathData.create)))
+	.onTag('DISPATCHLIST', (me) => me
 		.build('dispatchList')
-		.assignSubFactory(ArrayFactory.default('DISPATCH', (me, attrs) => me
-			.build('')
-			.assignSubFactory(ListDispatch.create(attrs)))))
-	.onTag('FACTBOOKLIST', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('DISPATCH', ListDispatch.create)))
+	.onTag('FACTBOOKLIST', (me) => me
 		.build('factbookList')
-		.assignSubFactory(ArrayFactory.default('', (me, attrs) => me // TODO
-			.build('')
-			.assignSubFactory(ListDispatch.create(attrs)))))
+		.assignSubFactory(ArrayFactory
+			.complex('', ListDispatch.create)))	// TODO tag name
 	.onTag('FREEDOM', (me, attrs) => me
 		.build('freedomDescriptions')
 		.assignSubFactory(FreedomsTextData.create(attrs)))
@@ -344,31 +340,26 @@ exports.create = root => new NSFactory()
 	.onTag('GOVT', (me, attrs) => me
 		.build('expenditure')
 		.assignSubFactory(SpendingData.create(attrs)))
-	.onTag('HAPPENINGS', me => me
+	.onTag('HAPPENINGS', (me) => me
 		.build('happenings')
-		.assignSubFactory(ArrayFactory.default('HAPPENING', (me, attrs) => me
-			.build('')
-			.assignSubFactory(Happening.create(attrs)))))
-	.onTag('ISSUES', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('HAPPENING', Happening.create)))
+	.onTag('ISSUES', (me) => me
 		.build('issues')
-		.assignSubFactory(ArrayFactory.default('ISSUE', (me, attrs) => me
-			.build('')
-			.assignSubFactory(Issue.create(attrs)))))
-	.onTag('ISSUESUMMARY', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('ISSUE', Issue.create)))
+	.onTag('ISSUESUMMARY', (me) => me
 		.build('issuesSummaries')
-		.assignSubFactory(ArrayFactory.default('ISSUE', (me, attrs) => me
-			.build('')
-			.assignSubFactory(ListIssue.create(attrs)))))
-	.onTag('NOTICES', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('ISSUE', ListIssue.create)))
+	.onTag('NOTICES', (me) => me
 		.build('notices')
-		.assignSubFactory(ArrayFactory.default('NOTICE', (me, attrs) => me
-			.build('')
-			.assignSubFactory(Notice.create(attrs)))))
-	.onTag('POLICIES', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('NOTICE', Notice.create)))
+	.onTag('POLICIES', (me) => me
 		.build('policies')
-		.assignSubFactory(ArrayFactory.default('POLICY', (me, attrs) => me
-			.build('')
-			.assignSubFactory(Policy.create(attrs)))))
+		.assignSubFactory(ArrayFactory
+			.complex('POLICY', Policy.create)))
 	.onTag('RCENSUS', (me, attrs) => me
 		.build('censusRankRegion')
 		.assignSubFactory(CensusRankUnscored.create(attrs)))
@@ -378,11 +369,10 @@ exports.create = root => new NSFactory()
 	.onTag('UNREAD', (me, attrs) => me
 		.build('unreads')
 		.assignSubFactory(UnreadsData.create(attrs)))
-	.onTag('WABADGES', me => me
+	.onTag('WABADGES', (me) => me
 		.build('badges')
-		.assignSubFactory(ArrayFactory.default('', (me, attrs) => me
-			.build('')
-			.assignSubFactory(WABadge.create(attrs)))))
+		.assignSubFactory(ArrayFactory
+			.complex('', WABadge.create)))	// TODO tag name
 	.onTag('WCENSUS', (me, attrs) => me
 		.build('censusRank')
 		.assignSubFactory(CensusRankUnscored.create(attrs)))
@@ -391,11 +381,11 @@ exports.create = root => new NSFactory()
 		.assignSubFactory(ZombieDataNation.create(attrs)))
 
 	// Sadly these aren't grouped in their own tag, so this gotta do it
-	.onTag('HDI', me => me
+	.onTag('HDI', (me) => me
 		.build('hdi.score', convertNumber))
-	.onTag('HDI-ECONOMY', me => me
+	.onTag('HDI-ECONOMY', (me) => me
 		.build('hdi.economy', convertNumber))
-	.onTag('HDI-SMART', me => me
+	.onTag('HDI-SMART', (me) => me
 		.build('hdi.education', convertNumber))
-	.onTag('HDI-LIFESPAN', me => me
+	.onTag('HDI-LIFESPAN', (me) => me
 		.build('hdi.lifespan', convertNumber));

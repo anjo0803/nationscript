@@ -22,12 +22,12 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Auction>} A new `Auction` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('CARDID', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('CARDID', (me) => me
 		.build('id', convertNumber))
-	.onTag('CATEGORY', me => me
+	.onTag('CATEGORY', (me) => me
 		.build('rarity'))
-	.onTag('NAME', me => me
+	.onTag('NAME', (me) => me
 		.build('nation'))
-	.onTag('SEASON', me => me
+	.onTag('SEASON', (me) => me
 		.build('season', convertNumber));

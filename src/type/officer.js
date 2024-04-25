@@ -25,16 +25,16 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Officer>} A new `Officer` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('NATION', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('NATION', (me) => me
 		.build('nation'))
-	.onTag('OFFICE', me => me
+	.onTag('OFFICE', (me) => me
 		.build('office'))
-	.onTag('BY', me => me
+	.onTag('BY', (me) => me
 		.build('appointer'))
-	.onTag('AUTHORITY', me => me
+	.onTag('AUTHORITY', (me) => me
 		.build('authorities', convertArray('')))
-	.onTag('TIME', me => me
+	.onTag('TIME', (me) => me
 		.build('appointment', convertNumber))
-	.onTag('ORDER', me => me
+	.onTag('ORDER', (me) => me
 		.build('order', convertNumber));

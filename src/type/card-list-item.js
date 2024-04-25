@@ -22,10 +22,10 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<ListCard>} A new `ListCard` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('CARDID', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('CARDID', (me) => me
 		.build('id', convertNumber))
-	.onTag('SEASON', me => me
+	.onTag('SEASON', (me) => me
 		.build('season', convertNumber))
-	.onTag('CATEGORY', me => me
+	.onTag('CATEGORY', (me) => me
 		.build('rarity'));

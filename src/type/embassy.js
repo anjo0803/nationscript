@@ -19,6 +19,6 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Embassy>} A new `Embassy` factory.
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('type', root['type'] ?? EmbassyPhase.STANDING)
 	.build('region');

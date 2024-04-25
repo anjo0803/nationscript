@@ -23,12 +23,12 @@ const { WAVote } = require('../enums');
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<DelegateLogVote>} A new `DelegateLogVote` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('NATION', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('NATION', (me) => me
 		.build('delegate'))
-	.onTag('ACTION', me => me
+	.onTag('ACTION', (me) => me
 		.build('vote'))
-	.onTag('VOTES', me => me
+	.onTag('VOTES', (me) => me
 		.build('weight', convertNumber))
-	.onTag('TIMESTAMP', me => me
+	.onTag('TIMESTAMP', (me) => me
 		.build('timestamp', convertNumber));

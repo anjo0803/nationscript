@@ -19,6 +19,7 @@ exports.NSCredential = NSCredential;
 
 const ENUMS = require('./enums');
 exports.Admirable = ENUMS.Admirable;
+exports.CardBadgeType = ENUMS.CardBadgeType;
 exports.CensusMode = ENUMS.CensusMode;
 exports.CensusScale = ENUMS.CensusScale;
 exports.CrosspostingPolicy = ENUMS.CrosspostingPolicy;

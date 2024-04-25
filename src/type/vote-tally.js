@@ -20,8 +20,8 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<VoteTally>} A new `VoteTally` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('FOR', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('FOR', (me) => me
 		.build('for', convertNumber))
-	.onTag('AGAINST', me => me
+	.onTag('AGAINST', (me) => me
 		.build('against', convertNumber));

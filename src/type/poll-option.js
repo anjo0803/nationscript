@@ -22,11 +22,11 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<PollOption>} A new `Auction` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('id', root['id'], convertNumber)
-	.onTag('OPTIONTEXT', me => me
+	.onTag('OPTIONTEXT', (me) => me
 		.build('text'))
-	.onTag('VOTES', me => me
+	.onTag('VOTES', (me) => me
 		.build('votes', convertNumber))
-	.onTag('VOTERS', me => me
+	.onTag('VOTERS', (me) => me
 		.build('voters', convertArray(':')));

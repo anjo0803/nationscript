@@ -21,10 +21,10 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<ListCollection>} A new `ListCollection` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('COLLECTIONID', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('COLLECTIONID', (me) => me
 		.build('id', convertNumber))
-	.onTag('NAME', me => me
+	.onTag('NAME', (me) => me
 		.build('name'))
-	.onTag('LAST_UPDATED', me => me
+	.onTag('LAST_UPDATED', (me) => me
 		.build('edited', convertNumber));

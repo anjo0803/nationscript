@@ -33,23 +33,23 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Dispatch>} A new `Dispatch` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('id', root['id'], convertNumber)
-	.onTag('TITLE', me => me
+	.onTag('TITLE', (me) => me
 		.build('title'))
-	.onTag('AUTHOR', me => me
+	.onTag('AUTHOR', (me) => me
 		.build('author'))
-	.onTag('CATEGORY', me => me
+	.onTag('CATEGORY', (me) => me
 		.build('categoryTop'))
-	.onTag('SUBCATEGORY', me => me
+	.onTag('SUBCATEGORY', (me) => me
 		.build('categorySub'))
-	.onTag('TEXT', me => me
+	.onTag('TEXT', (me) => me
 		.build('body'))
-	.onTag('CREATED', me => me
+	.onTag('CREATED', (me) => me
 		.build('posted', convertNumber))
-	.onTag('EDITED', me => me
+	.onTag('EDITED', (me) => me
 		.build('edited', convertNumber))
-	.onTag('VIEWS', me => me
+	.onTag('VIEWS', (me) => me
 		.build('views', convertNumber))
-	.onTag('SCORE', me => me
+	.onTag('SCORE', (me) => me
 		.build('score', convertNumber));

@@ -72,75 +72,68 @@ const TGQueue = require('./tg-queue');
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<World>} A new `World` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('CENSUSID', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('CENSUSID', (me) => me
 		.build('censusID', convertNumber))
-	.onTag('FEATUREDREGION', me => me
+	.onTag('FEATUREDREGION', (me) => me
 		.build('featured'))
-	.onTag('LASTEVENTID', me => me
+	.onTag('LASTEVENTID', (me) => me
 		.build('lastEventID', convertNumber))
-	.onTag('NATIONS', me => me
+	.onTag('NATIONS', (me) => me
 		.build('nations', convertArray(',')))
-	.onTag('NEWNATIONS', me => me
+	.onTag('NEWNATIONS', (me) => me
 		.build('nationsNew', convertArray(',')))
-	.onTag('NUMNATIONS', me => me
+	.onTag('NUMNATIONS', (me) => me
 		.build('nationsNum', convertNumber))
-	.onTag('NUMREGIONS', me => me
+	.onTag('NUMREGIONS', (me) => me
 		.build('regionsNum', convertNumber))
-	.onTag('REGIONS', me => me
+	/* .onTag('REGIONS', (me) => me
 		.build('', val => {
 			// TODO: duplicate tags
-		}))
-	.onTag('BANNERS', me => me
+		})) */
+	.onTag('BANNERS', (me) => me
 		.build('banners')
-		.assignSubFactory(ArrayFactory.default('BANNER', (me, attrs) => me
-			.build('')
-			.assignSubFactory(Banner.create(attrs)))))
-	.onTag('CENSUS', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('BANNER', Banner.create)))
+	.onTag('CENSUS', (me) => me
 		.build('censusAverages')
-		.assignSubFactory(ArrayFactory.default('SCALE', (me, attrs) => me
-			.build('')
-			.assignSubFactory(CensusDataWorld.create(attrs)))))
-	.onTag('CENSUSSCALE', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('SCALE', CensusDataWorld.create)))
+	.onTag('CENSUSSCALE', (me) => me
 		.build('censusScale'))
-	.onTag('CENSUSTITLE', me => me
+	.onTag('CENSUSTITLE', (me) => me
 		.build('censusTitle'))
 	.onTag('CENSUSDESC', (me, attrs) => me
 		.build('censusDescription')
 		.assignSubFactory(CensusDescription.create(attrs)))
-	.onTag('CENSUSRANKS', me => me
+	.onTag('CENSUSRANKS', (me) => me
 		.build('censusRanks')
 		// For some reason, the actual data is wrapped in another <NATIONS> tag
-		.assignSubFactory(new NSFactory().onTag('NATIONS', me => me.build('')
-			.assignSubFactory(ArrayFactory.default('NATION', (me, attrs) => me
-				.build('')
-				.assignSubFactory(CensusRankScored.create(attrs)))))))
+		.assignSubFactory(new NSFactory().onTag('NATIONS', (me) => me.build('')
+			.assignSubFactory(ArrayFactory
+				.complex('NATION', CensusRankScored.create)))))
 	.onTag('DISPATCH', (me, attrs) => me
 		.build('dispatch')
 		.assignSubFactory(Dispatch.create(attrs)))
-	.onTag('DISPATCHLIST', me => me
+	.onTag('DISPATCHLIST', (me) => me
 		.build('dispatchList')
-		.assignSubFactory(ArrayFactory.default('DISPATCH', (me, attrs) => me
-			.build('')
-			.assignSubFactory(ListDispatch.create(attrs)))))
+		.assignSubFactory(ArrayFactory
+			.complex('DISPATCH', ListDispatch.create)))
 	.onTag('FACTION', (me, attrs) => me
 		.build('faction')
 		.assignSubFactory(Faction.create(attrs)))
-	.onTag('FACTIONS', me => me
+	.onTag('FACTIONS', (me) => me
 		.build('factionList')
-		.assignSubFactory(ArrayFactory.default('FACTION', (me, attrs) => me
-			.build('')
-			.assignSubFactory(ListFaction.create(attrs)))))
-	.onTag('HAPPENINGS', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('FACTION', ListFaction.create)))
+	.onTag('HAPPENINGS', (me) => me
 		.build('happenings')
-		.assignSubFactory(ArrayFactory.default('EVENT', (me, attrs) => me
-			.build('')
-			.assignSubFactory(IDHappening.create(attrs)))))
-	.onTag('NEWNATIONDETAILS', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('EVENT', IDHappening.create)))
+	.onTag('NEWNATIONDETAILS', (me) => me
 		.build('nationsNewDetails')
-		.assignSubFactory(ArrayFactory.default('NEWNATION', (me, attrs) => me
-			.build('')
-			.assignSubFactory(NewNation.create(attrs)))))
+		.assignSubFactory(ArrayFactory
+			.complex('NEWNATION', NewNation.create)))
 	.onTag('POLL', (me, attrs) => me
 		.build('poll')
 		.assignSubFactory(Poll.create(attrs)))

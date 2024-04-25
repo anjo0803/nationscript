@@ -20,12 +20,12 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Policy>} A new `Policy` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('CAT', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('CAT', (me) => me
 		.build('category'))
-	.onTag('NAME', me => me
+	.onTag('NAME', (me) => me
 		.build('name'))
-	.onTag('DESC', me => me
+	.onTag('DESC', (me) => me
 		.build('description'))
-	.onTag('PIC', me => me
+	.onTag('PIC', (me) => me
 		.build('image'));

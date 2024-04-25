@@ -26,23 +26,23 @@ const IssueOption = require('./issue-option');
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Issue>} A new `Issue` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('id', root['id'], convertNumber)
-	.onTag('TITLE', me => me
+	.onTag('TITLE', (me) => me
 		.build('title'))
-	.onTag('TEXT', me => me
+	.onTag('TEXT', (me) => me
 		.build('description'))
-	.onTag('OPTION', me => me
+	.onTag('OPTION', (me) => me
 		.build('options', val => {
 			let alreadyThere = me.get('options');
 			if(alreadyThere === undefined) return [val];
 			return [...me.get('options'), val];
 	}))
-	.onTag('AUTHOR', me => me
+	.onTag('AUTHOR', (me) => me
 		.build('author', val => val.split(', ')))
-	.onTag('EDITOR', me => me
+	.onTag('EDITOR', (me) => me
 		.build('editor', val => val.split(', ')))
-	.onTag('PIC1', me => me
+	.onTag('PIC1', (me) => me
 		.build('imageLarge'))
-	.onTag('PIC2', me => me
+	.onTag('PIC2', (me) => me
 		.build('imageSmall'));

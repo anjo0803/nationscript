@@ -20,9 +20,9 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Reclassification>} A new `Reclassification` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('category', root['type'])
-	.onTag('FROM', me => me
+	.onTag('FROM', (me) => me
 		.build('from'))
-	.onTag('TO', me => me
+	.onTag('TO', (me) => me
 		.build('to'));

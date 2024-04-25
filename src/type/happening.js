@@ -19,8 +19,8 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Happening>} A new `Happening` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('TIMESTAMP', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('TIMESTAMP', (me) => me
 		.build('timestamp', convertNumber))
-	.onTag('TEXT', me => me
+	.onTag('TEXT', (me) => me
 		.build('text'));

@@ -20,10 +20,10 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<ZombieDataRegion>} A new `ZombieDataRegion` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('SURVIVORS', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('SURVIVORS', (me) => me
 		.build('survivors', convertNumber))
-	.onTag('ZOMBIES', me => me
+	.onTag('ZOMBIES', (me) => me
 		.build('zombies', convertNumber))
-	.onTag('DEAD', me => me
+	.onTag('DEAD', (me) => me
 		.build('dead', convertNumber));

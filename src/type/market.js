@@ -21,12 +21,12 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Market>} A new `Market` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('NATION', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('NATION', (me) => me
 		.build('nation'))
-	.onTag('PRICE', me => me
+	.onTag('PRICE', (me) => me
 		.build('bank', convertNumber))
-	.onTag('TYPE', me => me
+	.onTag('TYPE', (me) => me
 		.build('isAsk', val => val === 'ask'))
-	.onTag('TIMESTAMP', me => me
+	.onTag('TIMESTAMP', (me) => me
 		.build('timestamp', convertNumber));

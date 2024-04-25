@@ -27,21 +27,21 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<RMBPost>} A new `RMBPost` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('id', root['id'], convertNumber)
-	.onTag('NATION', me => me
+	.onTag('NATION', (me) => me
 		.build('nation'))
-	.onTag('MESSAGE', me => me
+	.onTag('MESSAGE', (me) => me
 		.build('text'))
-	.onTag('LIKES', me => me
+	.onTag('LIKES', (me) => me
 		.build('likes', convertNumber))
-	.onTag('LIKERS', me => me
+	.onTag('LIKERS', (me) => me
 		.build('likers', convertArray(':')))
-	.onTag('TIMESTAMP', me => me
+	.onTag('TIMESTAMP', (me) => me
 		.build('timestamp', convertNumber))
-	.onTag('STATUS', me => me
+	.onTag('STATUS', (me) => me
 		.build('status', convertNumber))
-	.onTag('SUPPRESSOR', me => me
+	.onTag('SUPPRESSOR', (me) => me
 		.build('suppressor'))
 
 	// <LIKERS> is not returned by the API if the post has no likes

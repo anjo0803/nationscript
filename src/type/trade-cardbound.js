@@ -22,12 +22,12 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<TradeCardbound>} A new `TradeCardbound` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('BUYER', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('BUYER', (me) => me
 		.build('buyer'))
-	.onTag('SELLER', me => me
+	.onTag('SELLER', (me) => me
 		.build('seller'))
-	.onTag('PRICE', me => me
+	.onTag('PRICE', (me) => me
 		.build('price', val => val ? convertNumber(val) : 0.0))
-	.onTag('TIMESTAMP', me => me
+	.onTag('TIMESTAMP', (me) => me
 		.build('timestamp', convertNumber));

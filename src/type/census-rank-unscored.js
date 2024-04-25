@@ -24,6 +24,6 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<CensusRankUnscored>} A new `CensusRankUnscored` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('scale', root['id'], convertNumber)
 	.build('rank', convertNumber);

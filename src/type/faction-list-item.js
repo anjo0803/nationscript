@@ -23,13 +23,13 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<ListFaction>} A new `ListFaction` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('id', root['id'], convertNumber)
-	.onTag('NAME', me => me
+	.onTag('NAME', (me) => me
 		.build('name'))
-	.onTag('SCORE', me => me
+	.onTag('SCORE', (me) => me
 		.build('score', convertNumber))
-	.onTag('REGION', me => me
+	.onTag('REGION', (me) => me
 		.build('region'))
-	.onTag('NATIONS', me => me
+	.onTag('NATIONS', (me) => me
 		.build('numMembers', convertNumber));

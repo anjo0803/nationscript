@@ -21,9 +21,9 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<CensusDescription>} A new `CensusDescription` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('id', root['id'], convertNumber)
-	.onTag('NDESC', me => me
+	.onTag('NDESC', (me) => me
 		.build('national'))
-	.onTag('RDESC', me => me
+	.onTag('RDESC', (me) => me
 		.build('regional'));

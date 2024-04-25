@@ -21,6 +21,33 @@ exports.Admirable = {
 };
 
 /**
+ * Types of badges displayed on a trading card.
+ * @enum {string}
+ * @readonly
+ * @todo These are all I found with a quick search, there might be more.
+ */
+exports.CardBadgeType = {
+	ADMIN: 'Admin',
+	AUTHOR_GA: 'General Assembly Resolution Author',
+	AUTHOR_HISTORICAL: 'Historical Resolution Author',
+	AUTHOR_ISSUE: 'Issues Author',
+	AUTHOR_SC: 'Security Council Resolution Author',
+	COMMENDED: 'Commended',
+	CONDEMNED: 'Condemned',
+	EASTER_EGG: 'Easter Egg',
+	EDITOR: 'Issues Editor',
+	FOUNDER: 'Founder',
+	MODERATOR: 'Moderator',
+	MODERATOR_GAME: 'Game Mod',
+	MODERATOR_RETIRED: 'Retired Moderator',
+	SUPPORTER: 'Site Supporter',
+	PMG: 'Postmaster-General',
+	POSTMASTER: 'Postmaster',
+	WA_DELEGATE: 'Delegate',
+	WA_MEMBER: 'WA'
+}
+
+/**
  * Valid display modes for the results of the various `census` shards.
  * @enum {string}
  * @readonly
@@ -207,38 +234,38 @@ exports.DispatchCategory = {
  */
 exports.DispatchSubcategory = {
 	FACTBOOK: {
-		OVERVIEW: `${this.DispatchCategory.FACTBOOK}:Overview`,
-		HISTORY: `${this.DispatchCategory.FACTBOOK}:History`,
-		GEOGRAPHY: `${this.DispatchCategory.FACTBOOK}:Geography`,
-		CULTURE: `${this.DispatchCategory.FACTBOOK}:Culture`,
-		POLITICS: `${this.DispatchCategory.FACTBOOK}:Politics`,
-		LEGISLATION: `${this.DispatchCategory.FACTBOOK}:Legislation`,
-		RELIGION: `${this.DispatchCategory.FACTBOOK}:Religion`,
-		MILITARY: `${this.DispatchCategory.FACTBOOK}:Military`,
-		ECONOMY: `${this.DispatchCategory.FACTBOOK}:Economy`,
-		INTERNATIONAL: `${this.DispatchCategory.FACTBOOK}:International`,
-		TRIVIA: `${this.DispatchCategory.FACTBOOK}:Trivia`,
-		MISCELLANEOUS: `${this.DispatchCategory.FACTBOOK}:Miscellaneous`
+		OVERVIEW: 'Overview',
+		HISTORY: 'History',
+		GEOGRAPHY: 'Geography',
+		CULTURE: 'Culture',
+		POLITICS: 'Politics',
+		LEGISLATION: 'Legislation',
+		RELIGION: 'Religion',
+		MILITARY: 'Military',
+		ECONOMY: 'Economy',
+		INTERNATIONAL: 'International',
+		TRIVIA: 'Trivia',
+		MISCELLANEOUS: 'Miscellaneous'
 	},
 	BULLETIN: {
-		POLICY: `${this.DispatchCategory.BULLETIN}:Policy`,
-		NEWS: `${this.DispatchCategory.BULLETIN}:News`,
-		OPINION: `${this.DispatchCategory.BULLETIN}:Opinion`,
-		CAMPAIGN: `${this.DispatchCategory.BULLETIN}:Campaign`
+		POLICY: 'Policy',
+		NEWS: 'News',
+		OPINION: 'Opinion',
+		CAMPAIGN: 'Campaign'
 	},
 	ACCOUNT: {
-		MILITARY: `${this.DispatchCategory.ACCOUNT}:Military`,
-		TRADE: `${this.DispatchCategory.ACCOUNT}:Trade`,
-		SPORT: `${this.DispatchCategory.ACCOUNT}:Sport`,
-		DRAMA: `${this.DispatchCategory.ACCOUNT}:Drama`,
-		DIPLOMACY: `${this.DispatchCategory.ACCOUNT}:Diplomacy`,
-		SCIENCE: `${this.DispatchCategory.ACCOUNT}:Science`,
-		CULTURE: `${this.DispatchCategory.ACCOUNT}:Culture`,
-		OTHER: `${this.DispatchCategory.ACCOUNT}:Other`
+		MILITARY: 'Military',
+		TRADE: 'Trade',
+		SPORT: 'Sport',
+		DRAMA: 'Drama',
+		DIPLOMACY: 'Diplomacy',
+		SCIENCE: 'Science',
+		CULTURE: 'Culture',
+		OTHER: 'Other'
 	},
 	META: {
-		GAMEPLAY: `${this.DispatchCategory.META}:Gameplay`,
-		REFERENCE: `${this.DispatchCategory.META}:Reference`
+		GAMEPLAY: 'Gameplay',
+		REFERENCE: 'Reference'
 	}
 };
 

@@ -19,9 +19,9 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Banner>} A new `Banner` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('id', root['id'])
-	.onTag('NAME', me => me
+	.onTag('NAME', (me) => me
 		.build('name'))
-	.onTag('VALIDITY', me => me
+	.onTag('VALIDITY', (me) => me
 		.build('condition'))

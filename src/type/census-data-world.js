@@ -20,7 +20,7 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<WCensusAverage>} A new `WCensusAverage` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('id', convertNumber(root['id']))
-	.onTag('SCORE', me => me
+	.onTag('SCORE', (me) => me
 		.build('average', convertNumber));

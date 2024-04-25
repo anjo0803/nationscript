@@ -33,23 +33,23 @@ const LegalityData = require('./legality-data');
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Proposal>} A new `Proposal` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (root) => new NSFactory()
 	.set('id', root['id'], convertNumber)
-	.onTag('NAME', me => me
+	.onTag('NAME', (me) => me
 		.build('title'))
-	.onTag('PROPOSED_BY', me => me
+	.onTag('PROPOSED_BY', (me) => me
 		.build('author'))
-	.onTag('COAUTHORS', me => me
-		.build(''))	// TODO
-	.onTag('DESC', me => me
+	.onTag('COAUTHORS', (me) => me
+		.build(''))	// TODO tag names? or split by char?
+	.onTag('DESC', (me) => me
 		.build('text'))
-	.onTag('APPROVALS', me => me
+	.onTag('APPROVALS', (me) => me
 		.build('approvals', convertArray(':')))
-	.onTag('CREATED', me => me
+	.onTag('CREATED', (me) => me
 		.build('submitted', convertNumber))
-	.onTag('CATEGORY', me => me
+	.onTag('CATEGORY', (me) => me
 		.build('category'))
-	.onTag('OPTION', me => me
+	.onTag('OPTION', (me) => me
 		.build('option'))
 	.onTag('GENSEC', (me, attrs) => me
 		.build('legality')

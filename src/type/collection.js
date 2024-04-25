@@ -23,15 +23,14 @@ const ListCard = require('./card-list-item');
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Collection>} A new `Collection` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('NAME', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('NAME', (me) => me
 		.build('name'))
-	.onTag('NATION', me => me
+	.onTag('NATION', (me) => me
 		.build('owner'))
-	.onTag('UPDATED', me => me
+	.onTag('UPDATED', (me) => me
 		.build('edited', convertNumber))
-	.onTag('DECK', me => me
+	.onTag('DECK', (me) => me
 		.build('cards')
-		.assignSubFactory(ArrayFactory.default('CARD', (me, attrs) => me
-			.build('')
-			.assignSubFactory(ListCard.create(attrs)))));
+		.assignSubFactory(ArrayFactory
+			.complex('CARD', ListCard.create)));

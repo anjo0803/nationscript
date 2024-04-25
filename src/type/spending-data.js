@@ -30,28 +30,28 @@ const {
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<SpendingData>} A new `SpendingData` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('ADMINISTRATION', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('ADMINISTRATION', (me) => me
 		.build('admin', convertNumber))
-	.onTag('DEFENCE', me => me
+	.onTag('DEFENCE', (me) => me
 		.build('defence', convertNumber))
-	.onTag('EDUCATION', me => me
+	.onTag('EDUCATION', (me) => me
 		.build('education', convertNumber))
-	.onTag('ENVIRONMENT', me => me
+	.onTag('ENVIRONMENT', (me) => me
 		.build('nature', convertNumber))
-	.onTag('HEALTHCARE', me => me
+	.onTag('HEALTHCARE', (me) => me
 		.build('healthcare', convertNumber))
-	.onTag('COMMERCE', me => me
+	.onTag('COMMERCE', (me) => me
 		.build('industry', convertNumber))
-	.onTag('INTERNATIONALAID', me => me
+	.onTag('INTERNATIONALAID', (me) => me
 		.build('aid', convertNumber))
-	.onTag('LAWANDORDER', me => me
+	.onTag('LAWANDORDER', (me) => me
 		.build('order', convertNumber))
-	.onTag('PUBLICTRANSPORT', me => me
+	.onTag('PUBLICTRANSPORT', (me) => me
 		.build('transport', convertNumber))
-	.onTag('SOCIALEQUALITY', me => me
+	.onTag('SOCIALEQUALITY', (me) => me
 		.build('social', convertNumber))
-	.onTag('SPIRITUALITY', me => me
+	.onTag('SPIRITUALITY', (me) => me
 		.build('religion', convertNumber))
-	.onTag('WELFARE', me => me
+	.onTag('WELFARE', (me) => me
 		.build('welfare', convertNumber));

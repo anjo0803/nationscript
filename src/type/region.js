@@ -19,7 +19,7 @@ const {
 	convertArray
 } = require('../factory');
 
-const WABadge = require('./badge');
+const WABadge = require('./badge-wa');
 const CensusDataRegion = require('./census-data-region');
 const CensusRankScored = require('./census-rank-scored');
 const Embassy = require('./embassy');
@@ -44,8 +44,7 @@ const toNullIfZero = val => val === '0' ? null : val;
  *     fly a custom banner, `null`.
  * @prop {?string} [bannerCreator] Nation that set the regional banner. If the
  *     region doesn't fly a custom banner, `null`.
- * @prop {?string} [bannerURL] Relative URL of the regional banner image file.
- *     If the region doesn't fly a custom banner, `null`.
+ * @prop {string} [bannerURL] Relative URL of the regional banner image file.
  * @prop {number} [dbID] Database ID of the region.
  * @prop {number[]} [pinnedDispatches] IDs of dispatches currently pinned to
  *     the region's WFE.
@@ -110,134 +109,123 @@ const toNullIfZero = val => val === '0' ? null : val;
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Region>} A new `Region` factory
  */
-exports.create = root => new NSFactory()
-	.onTag('BANNED', me => me
+exports.create = (root) => new NSFactory()
+	.onTag('BANNED', (me) => me
 		.build('banlist', convertArray(':')))
-	.onTag('BANNER', me => me
-		.build('bannerID'))	// TODO: convert to null if there is no banner
-	.onTag('BANNERBY', me => me
+	.onTag('BANNER', (me) => me
+		.build('bannerID', toNullIfZero))
+	.onTag('BANNERBY', (me) => me
 		.build('bannerCreator'))	// TODO: convert to null if there is no banner
-	.onTag('BANNERURL', me => me
-		.build('bannerURL'))	// TODO: convert to null if there is no banner
-	.onTag('DBID', me => me
+	.onTag('BANNERURL', (me) => me
+		.build('bannerURL'))
+	.onTag('DBID', (me) => me
 		.build('dbID', convertNumber))
-	.onTag('DISPATCHES', me => me
+	.onTag('DISPATCHES', (me) => me
 		.build('pinnedDispatches', val => {
 			let ret = [];
 			let vals = val?.split?.(',');
 			if(val) for(let v of vals) ret.push(convertNumber(v));
 			return ret;
 		}))
-	.onTag('DELEGATE', me => me
+	.onTag('DELEGATE', (me) => me
 		.build('delegateName', toNullIfZero))
-	.onTag('DELEGATEAUTH', me => me
+	.onTag('DELEGATEAUTH', (me) => me
 		.build('delegateAuthorities', convertArray('')))
-	.onTag('DELEGATEVOTES', me => me
+	.onTag('DELEGATEVOTES', (me) => me
 		.build('delegateVotes', convertNumber))
-	.onTag('EMBASSYRMB', me => me
+	.onTag('EMBASSYRMB', (me) => me
 		.build('crossposting'))
-	.onTag('FACTBOOK', me => me
+	.onTag('FACTBOOK', (me) => me
 		.build('wfe', val => val ?? ''))
-	.onTag('FLAG', me => me
+	.onTag('FLAG', (me) => me
 		.build('flag'))
-	.onTag('FOUNDED', me => me
+	.onTag('FOUNDED', (me) => me
 		.build('founded'))
-	.onTag('FOUNDER', me => me
+	.onTag('FOUNDER', (me) => me
 		.build('founder', toNullIfZero))
-	.onTag('FOUNDEDTIME', me => me
+	.onTag('FOUNDEDTIME', (me) => me
 		.build('foundedTimestamp', convertNumber))
-	.onTag('FRONTIER', me => me
+	.onTag('FRONTIER', (me) => me
 		.build('isFrontier', convertBoolean))
-	.onTag('GOVERNOR', me => me
+	.onTag('GOVERNOR', (me) => me
 		.build('governor', toNullIfZero))
-	.onTag('LASTUPDATE', me => me
+	.onTag('LASTUPDATE', (me) => me
 		.build('updateLast', convertNumber))
-	.onTag('LASTMAJORUPDATE', me => me
+	.onTag('LASTMAJORUPDATE', (me) => me
 		.build('updateMajor', convertNumber))
-	.onTag('LASTMINORUPDATE', me => me
+	.onTag('LASTMINORUPDATE', (me) => me
 		.build('updateMinor', convertNumber))
-	.onTag('NAME', me => me
+	.onTag('NAME', (me) => me
 		.build('name'))
-	.onTag('NATIONS', me => me
+	.onTag('NATIONS', (me) => me
 		.build('nations', convertArray(':')))
-	.onTag('NUMNATIONS', me => me
+	.onTag('NUMNATIONS', (me) => me
 		.build('nationsNum', convertNumber))
-	.onTag('UNNATIONS', me => me
+	.onTag('UNNATIONS', (me) => me
 		.build('nationsWA', convertArray(':')))
-	.onTag('NUMUNNATIONS', me => me
+	.onTag('NUMUNNATIONS', (me) => me
 		.build('nationsWANum', convertNumber))
-	.onTag('POWER', me => me
+	.onTag('POWER', (me) => me
 		.build('powerLevel'))
-	.onTag('TAGS', me => me
+	.onTag('TAGS', (me) => me
 		.build('tags')
-		.assignSubFactory(ArrayFactory.default('TAG', me => me
-			.build(''))))
+		.assignSubFactory(ArrayFactory
+			.primitive('TAG')))
 	.onTag('CENSUS', (me, attrs) => me
 		.build('census')
-		.assignSubFactory(ArrayFactory.default('SCALE', (me, attrs) => me
-			.build('')
-			.assignSubFactory(CensusDataRegion.create(attrs)))))
-	.onTag('CENSUSRANKS', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('SCALE', CensusDataRegion.create)))
+	.onTag('CENSUSRANKS', (me) => me
 		.build('censusRanks')
 		// For some reason, the actual data is wrapped in another <NATIONS> tag
-		.assignSubFactory(new NSFactory().onTag('NATIONS', me => me.build('')
-			.assignSubFactory(ArrayFactory.default('NATION', (me, attrs) => me
-				.build('')
-				.assignSubFactory(CensusRankScored.create(attrs)))))))
-	.onTag('EMBASSIES', me => me
+		.assignSubFactory(new NSFactory().onTag('NATIONS', (me) => me.build('')
+			.assignSubFactory(ArrayFactory
+				.complex('NATION', CensusRankScored.create)))))
+	.onTag('EMBASSIES', (me) => me
 		.build('embassies')
-		.assignSubFactory(ArrayFactory.default('EMBASSY', (me, attrs) => me
-			.build('')
-			.assignSubFactory(Embassy.create(attrs)))))
+		.assignSubFactory(ArrayFactory
+			.complex('EMBASSY', Embassy.create)))
 	.onTag('GAVOTE', (me, attrs) => me
 		.build('voteGA')
 		.assignSubFactory(VoteTally.create(attrs)))
-	.onTag('HAPPENINGS', me => me
+	.onTag('HAPPENINGS', (me) => me
 		.build('happenings')
-		.assignSubFactory(ArrayFactory.default('EVENT', (me, attrs) => me
-			.build('')
-			.assignSubFactory(Happening.create(attrs)))))
-	.onTag('HISTORY', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('EVENT', Happening.create)))
+	.onTag('HISTORY', (me) => me
 		.build('history')
-		.assignSubFactory(ArrayFactory.default('EVENT', (me, attrs) => me
-			.build('')
-			.assignSubFactory(Happening.create(attrs)))))
-	.onTag('MESSAGES', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('EVENT', Happening.create)))
+	.onTag('MESSAGES', (me) => me
 		.build('messages')
-		.assignSubFactory(ArrayFactory.default('POST', (me, attrs) => me
-			.build('')
-			.assignSubFactory(RMBPost.create(attrs)))))
-	.onTag('MOSTPOSTS', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('POST', RMBPost.create)))
+	.onTag('MOSTPOSTS', (me) => me
 		.build('rmbMostPosts')
-		.assignSubFactory(ArrayFactory.default('NATION', (me, attrs) => me
-			.build('')
-			.assignSubFactory(RMBActivity.create(attrs)))))
-	.onTag('MOSTLIKES', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('NATION', RMBActivity.create)))
+	.onTag('MOSTLIKES', (me) => me
 		.build('rmbMostLikesReceived')
-		.assignSubFactory(ArrayFactory.default('NATION', (me, attrs) => me
-			.build('')
-			.assignSubFactory(RMBActivity.create(attrs)))))
-	.onTag('MOSTLIKED', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('NATION', RMBActivity.create)))
+	.onTag('MOSTLIKED', (me) => me
 		.build('rmbMostLikesGiven')
-		.assignSubFactory(ArrayFactory.default('NATION', (me, attrs) => me
-			.build('')
-			.assignSubFactory(RMBActivity.create(attrs)))))
-	.onTag('OFFICERS', me => me
+		.assignSubFactory(ArrayFactory
+			.complex('NATION', RMBActivity.create)))
+	.onTag('OFFICERS', (me) => me
 		.build('officers')
-		.assignSubFactory(ArrayFactory.default('OFFICER', (me, attrs) => me
-			.build('')
-			.assignSubFactory(Officer.create(attrs)))))
+		.assignSubFactory(ArrayFactory
+			.complex('OFFICER', Officer.create)))
 	.onTag('POLL', (me, attrs) => me
 		.build('poll')
 		.assignSubFactory(Poll.create(attrs)))	// TODO: check API behaviour if there is no poll
 	.onTag('SCVOTE', (me, attrs) => me
 		.build('voteSC')
 		.assignSubFactory(VoteTally.create(attrs)))
-	.onTag('WABADGES', me => me
+	.onTag('WABADGES', (me) => me
 		.build('badges')
-		.assignSubFactory(ArrayFactory.default('WABADGE', (me, attrs) => me
-			.build('')
-			.assignSubFactory(WABadge.create(attrs)))))
+		.assignSubFactory(ArrayFactory
+			.complex('', WABadge.create)))	// TODO tag name
 	.onTag('ZOMBIE', (me, attrs) => me
 		.build('zombie')
 		.assignSubFactory(ZombieDataRegion.create(attrs)));
