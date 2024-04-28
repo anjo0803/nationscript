@@ -7,7 +7,8 @@
 const {
 	NSError,
 	ProductWithheldError,
-	FactoryFinalisedError
+	FactoryFinalisedError,
+	APIError
 } = require('./errors');
 
 /**
@@ -140,7 +141,12 @@ class NSFactory {
 	 * @type {Object.<string, TagHandler[]>}
 	 * @private
 	 */
-	tags = {};
+	tags = {
+		// Some errors are only returned within <ERROR> tags by the API
+		'ERROR': [(me, attrs) => me.build('', (val) => {
+			throw new APIError(val);
+		})]
+	};
 
 	/**
 	 * Name of the currently ignored node in the source XML. If no node is
@@ -507,8 +513,16 @@ function convertArray(split) {
 	return val => val?.split?.(split) ?? [];
 }
 
+/** @type {TagHandler} */
+function createError(me, attrs) {
+	me.build('', val => {
+		throw new APIError(val);
+	});
+}
+
 exports.NSFactory = NSFactory;
 exports.ArrayFactory = ArrayFactory;
 exports.convertNumber = convertNumber;
 exports.convertBoolean = convertBoolean;
 exports.convertArray = convertArray;
+exports.createError = createError;

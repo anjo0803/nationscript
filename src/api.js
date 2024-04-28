@@ -7,7 +7,7 @@
 const {
 	NSRequest,
 	NSCredential,
-	ParameterRequest
+	DataRequest
 } = require('./requests/base');
 const {
 	CardIndividualRequest,
@@ -37,6 +37,7 @@ const {
 	RegionDumpRequest,
 	CardDumpRequest
 } = require('./requests/dump');
+const { NSError } = require('./errors');
 
 /**
  * The `NS` class is the entry point to any NationScript usage.
@@ -113,10 +114,10 @@ class NS {
 	 * Registers a custom NS API version to use with all requests. The API supports the two most
 	 * recent versions; the current version number can be checked via the API itself using
 	 * [this link](https://www.nationstates.net/cgi-bin/api.cgi?a=version).
-	 * @param {number} version API version to request the data in; `null` to use the most recent.
+	 * @param {string} version API version to request the data in; `null` to use the most recent.
 	 */
 	static setUseVersion(version) {
-		if (typeof version === 'number' || version === null) ParameterRequest.version = version;
+		if (typeof version === 'string' || version === null) DataRequest.version = version;
 		return this;
 	}
 
@@ -203,12 +204,15 @@ class NS {
 
 	/**
 	 * Have a nation address the specified issue!
-	 * @param {number} id ID of the issue to address.
-	 * @param {NSCredential} credentials Login credentials for the nation.
+	 * @arg {number} id ID of the issue to address
+	 * @arg {number} option (Issue-internal) ID of the option to choose for the
+	 *     issue; `-1` to dismiss
 	 * @returns {IssueCommand} A request instance with functions for customisation.
 	 */
-	static issue(id, credentials) {
-		return new IssueCommand(id, credentials);
+	static issue(id, option = -1) {
+		return new IssueCommand()
+			.setIssue(id)
+			.setOption(option);
 	}
 
 	/**
@@ -217,7 +221,8 @@ class NS {
 	 * @returns {DispatchAddCommand} A request instance with functions for customisation.
 	 */
 	static dispatchAdd(credentials) {
-		return new DispatchAddCommand(credentials);
+		return new DispatchAddCommand()
+			.authenticate(credentials);
 	}
 
 	/**
@@ -226,7 +231,8 @@ class NS {
 	 * @returns {DispatchDeleteCommand} A request instance with functions for customisation.
 	 */
 	static dispatchRemove(credentials) {
-		return new DispatchDeleteCommand(credentials);
+		return new DispatchDeleteCommand()
+			.authenticate(credentials);
 	}
 
 	/**
@@ -235,7 +241,8 @@ class NS {
 	 * @returns {DispatchEditCommand} A request instance with functions for customisation.
 	 */
 	static dispatchEdit(credentials) {
-		return new DispatchEditCommand(credentials);
+		return new DispatchEditCommand()
+			.authenticate(credentials);
 	}
 
 	/**
@@ -245,7 +252,9 @@ class NS {
 	 * @returns {GiftCardCommand} A request instance with functions for customisation.
 	 */
 	static giftCard(recipient, credentials) {
-		return new GiftCardCommand(recipient, credentials);
+		return new GiftCardCommand()
+			.authenticate(credentials)
+			.setRecipient(recipient);
 	}
 
 	/**
@@ -256,7 +265,10 @@ class NS {
 	 * @returns {RMBPostCommand} A request instance ready for execution.
 	 */
 	static rmb(region, message, credentials) {
-		return new RMBPostCommand(region, message, credentials);
+		return new RMBPostCommand()
+			.authenticate(credentials)
+			.setRegion(region)
+			.setText(message);
 	}
 
 
@@ -289,10 +301,10 @@ class NS {
 
 	/**
 	 * Build a request to the NS API completely from scratch!
-	 * @returns {ParameterRequest} A request instance ready for customisation.
+	 * @returns {DataRequest} A request instance ready for customisation.
 	 */
 	static custom() {
-		return new ParameterRequest();
+		return new DataRequest();
 	}
 
 

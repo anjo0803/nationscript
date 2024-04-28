@@ -12,7 +12,7 @@ class NSError extends Error {
 	 * Instantiates a new {@linkcode NSError}.
 	 * @param {string} message Error message to display
 	 */
-	constructor(message) {
+	constructor(message = 'Internal error') {
 		super(message);
 		this.name = this.constructor.name;
 	}
@@ -82,6 +82,11 @@ class PropertyError extends NSError {
 }
 
 class PropertyMissingError extends NSError {
+	/**
+	 * 
+	 * @arg {string} property 
+	 * @arg {?string} parent 
+	 */
 	constructor(property, parent = null) {
 		super('Missing property: '
 			+ (parent === null ? parent + '.' : '')
@@ -100,7 +105,7 @@ class VirtualError extends NSError {
 	/**
 	 * 
 	 * @param {Function} func 
-	 * @param {Function | null} parent 
+	 * @param {?Function} parent 
 	 */
 	constructor(func, parent = null) {
 		super('Virtual function not implemented: '

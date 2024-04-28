@@ -4,8 +4,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+const { ReclassificationCategory } = require('../enums');
 const {
-	NSFactory
+	NSFactory,
+	convertNumber
 } = require('../factory');
 
 /**
@@ -21,7 +23,7 @@ const {
  * @returns {NSFactory<Reclassification>} A new `Reclassification` factory
  */
 exports.create = (root) => new NSFactory()
-	.set('category', root['type'])
+	.set('category', root['type'], convertNumber)
 	.onTag('FROM', (me) => me
 		.build('from'))
 	.onTag('TO', (me) => me

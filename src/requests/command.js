@@ -4,141 +4,206 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-const { txt } = require('./converter');
-
-const { DispatchSubcategory } = require('../enums');
+const {
+	DataRequest,
+	NSCredential,
+	toIDForm
+} = require('./base');
+const {
+	DispatchCategory,
+	DispatchSubcategory
+} = require('../enums');
+const {
+	PropertyMissingError,
+	NSError
+} = require('../errors');
 
 const {
-	NSRequest,
-	ParameterRequest,
-	NSCredential,
-	nsify
-} = require('./base');
+	NSFactory,
+	createError
+} = require('../factory');
+const IssueEffect = require('../type/issue-effect');
 
-const { IssueEffect, parseIssueEffect } = require('../typedefs/issue-effect');
 
 /**
- * Superclass for all nation private command request instances.
+ * Request subclass for building requests to the commands endpoint of the API.
  * 
- * Stores the login credentials and pre-defines the root tag of the result XML, since all
- * commands return their results in `<NATION>` tags.
- * 
- * **Intended for internal use only!**
+ * Stores the login credential and ensures it is sent together with the request
+ * and the {@link NSCredential#pin pin} stays up-to-date.
  */
-class CommandRequest extends ParameterRequest {
+class CommandRequest extends DataRequest {
 	/**
-	 * The login credentials for the nation that should execute the command.
-	 * @type NSCredential
+	 * {@link DataRequest#mandate mandate}s the `nation` and `c` arguments.
 	 */
-	#credentials;
-
-	constructor(credentials, ...required) {
-		super('nation', 'c', ...required);    // Use the nation name from the provided credentials
-		this.setArgument('nation', nsify(credentials?.nation));
-		this.#credentials = credentials;
+	constructor() {
+		super();
+		this.mandate('nation', 'c');
 	}
 
 	/**
-	 * Gets the login credentials currently set for this request.
-	 * @returns {NSCredential} The login credentials.
+	 * Login credential for the nation this command should be executed as.
+	 * @type {?NSCredential}
+	 * @private
 	 */
-	getCredentials() {
-		return this.#credentials;
+	credential = null;
+
+	/**
+	 * Provide a login credential for the nation to execute this command as.
+	 * @arg {NSCredential} credential Login credential to use
+	 * @returns {this} The request, for chaining
+	 */
+	authenticate(credential) {
+		if(!(credential instanceof NSCredential))
+			throw TypeError('Invalid credential: ' + credential);
+
+		// Infer the command's target nation from the provided credential
+		if(!credential.nation)
+			throw new PropertyMissingError('nation', 'NSCredential');
+		this.setArgument('nation', toIDForm(credential.nation));
+
+		if(credential.password)
+			this.setHeader('X-Password', credential.password);
+		if(credential.autologin)
+			this.setHeader('X-Autologin', credential.autologin);
+		if(credential.pin)
+			this.setHeader('X-Pin', credential.pin);
+
+		this.credential = credential;
+		return this;
 	}
 
 	/**
-	 * Executes this command by invoking {@linkcode NSRequest.send()} with
-	 * the result root tag to look for pre-defined as `<NATION>`.
+	 * For a stored {@link CommandRequest#credential credential}, the
+	 * {@link NSCredential#updateFromResponse} method is invoked with the
+	 * received response headers.
+	 * @inheritdoc
 	 */
-	async send() {
-		return await super.send('NATION');
+	async raw() {
+		let ret = await super.raw();
+		this.credential?.updateFromResponse(ret.headers);
+		return ret;
 	}
 }
 
 /**
- * Superclass for all instances of nation private command requests where the command requires two
- * steps for execution - one HTTP request in preparation and one in execution mode.
- * 
- * Defines the `mode` argument as required and sets it to `'prepare'` for the initial request.
- * Overrides {@linkcode CommandRequest.send()} to accomodate to the two-step process.
- * 
- * **Intended for internal use only!**
+ * Request subclass for building requests to the commands endpoint of the API
+ * where the ultimate execution of the represented command must happen in a
+ * two-step process - one HTTP request having to be made in preparation mode,
+ * and another one in execution mode, using an execution token obtained from
+ * that first request.
  */
 class TwoStepCommand extends CommandRequest {
-	constructor(credentials, ...required) {
-		super(credentials, 'mode', ...required);
-		this.setArgument('mode', 'prepare');
+	/**
+	 * Additionally {@link DataRequest#mandate mandate}s the `mode` argument.
+	 */
+	constructor() {
+		super();
+		this.mandate('mode')
+			.setArgument('mode', 'prepare');
 	}
 
 	/**
-	 * Fully executes the command - sends one request to the API in preparation mode, and,
-	 * if an execution token was returned, another right after in execution mode.
+	 * @inheritdoc
+	 * @returns {Promise<string>} Content of the returned `<SUCCESS>` tag
 	 */
 	async send() {
-		let token = txt(await super.send(), 'SUCCESS');
-		if (token) {
-			this.setArgument('token', token)
-				.setArgument('mode', 'execute');
-			return await super.send();
-		} else throw new Error('Command preparation failed - no execution token obtained')
+		// First, send this command in prepare mode
+		this.setArgument('mode', 'prepare')
+			// Everything is returned within <NATION> tags
+			.useFactory((root) => new NSFactory().onTag('NATION', (me) => me
+				.build('')
+				.assignSubFactory(new NSFactory()
+					// Both the execution token and the ultimate result of
+					// execution are returned within <SUCCESS> tags
+					.onTag('SUCCESS', (me) => me.build(''))
+
+					// If there is an internal error, the error message is
+					// ususally within <ERROR> tags, but can also be in a <div>
+					.onTag('div', createError)
+					.onTag('ERROR', createError)
+				)));
+
+		let ret = await super.send();
+		if(typeof ret !== 'string')
+			throw new NSError('Failed to obtain command execution token');
+
+		// Switch to execution mode, send again and return the result
+		this.setArgument('token', ret)
+			.setArgument('mode', 'execute');
+		return await super.send();
 	}
 }
 
 /**
- * Request subclass for building and customizing requests to the commands endpoint of the API,
+ * Request subclass for building requests to the commands endpoint of the API,
  * specifically for executing the `c=issue` nation private command.
  */
 class IssueCommand extends CommandRequest {
-	constructor(issue, credentials) {
-		super(credentials, 'issue', 'option');
-		this.setArgument('c', 'issue')
-			.setArgument('issue', issue);
+	/**
+	 * Additionally {@link DataRequest#mandate mandate}s the `issue` and
+	 * `option` arguments and sets the `c` argument.
+	 */
+	constructor() {
+		super();
+		this.mandate('issue', 'option')
+			.setArgument('c', 'issue');
 	}
 
 	/**
-	 * Defines the option that should be selected when answering the issue.
-	 * @param {number} option ID of the chosen option of the issue.
-	 * @returns {this} The command, for chaining.
+	 * Define the issue to answer via this command.
+	 * @arg {number} issue ID of the issue to address
+	 * @returns {this} The command, for chaining
 	 */
-	answer(option) {
+	setIssue(issue) {
+		return this.setArgument('issue', issue);
+	}
+
+	/**
+	 * Set the option that will be chosen on the issue.
+	 * @arg {number} option ID of the option to choose; `-1` to dismiss
+	 * @returns {this} The command, for chaining
+	 */
+	setOption(option = -1) {
 		return this.setArgument('option', option);
 	}
 
 	/**
-	 * Sets the issue to be dismissed, instead of choosing one of its options.
-	 * Identical to `answer(-1)`.
-	 * @returns {this} The command, for chaining.
-	 */
-	dismiss() {
-		return this.setArgument('option', '-1');
-	}
-
-	/**
-	 * Executes this command, sending an HTTP request with all data specified in this
-	 * instance to the API and parsing its response.
-	 * @returns {IssueEffect} The effects of the chosen answer to the issue.
+	 * @inheritdoc
+	 * @returns {Promise<IssueEffect.IssueEffect>}
 	 */
 	async send() {
-		return parseIssueEffect((await super.send())?.['ISSUE']);
+		this.useFactory(() => new NSFactory()
+			// The actual result is also wrapped in a <NATION> tag
+			.onTag('NATION', (me, attrs) => me
+				.build('')
+				.assignSubFactory(new NSFactory()
+					.onTag('ISSUE', (me, attrs) => me
+						.assignSubFactory(IssueEffect.create(attrs)))
+					.onTag('ERROR', createError))));
+		return await super.send();
 	}
 }
 
 /**
- * Request subclass for building and customizing requests to the commands endpoint of the API,
+ * Request subclass for building requests to the commands endpoint of the API,
  * specifically for executing the `c=giftcard` nation private command.
  */
 class GiftCardCommand extends TwoStepCommand {
-	constructor(recipient, credentials) {
-		super(credentials, 'cardid', 'season', 'to');
-		this.setArgument('c', 'giftcard')
-			.setArgument('to', nsify(recipient));
+	/**
+	 * Additionally {@link DataRequest#mandate mandate}s the `cardid`, `to`,
+	 * and `season` arguments and sets the `c` argument.
+	 */
+	constructor() {
+		super();
+		this.mandate('cardid', 'season', 'to')
+			.setArgument('c', 'giftcard');
 	}
 
 	/**
-	 * Defines the trading card to send by its ID and season.
-	 * @param {number} id ID of the card to send; equal to the database ID of the nation depicted.
-	 * @param {number} season Season number of the card.
-	 * @returns {this} The command, for chaining.
+	 * Define the trading card to send by its card ID and season.
+	 * @arg {number} id ID of the card to send
+	 * @arg {number} season Season ID of the card
+	 * @returns {this} The command, for chaining
 	 */
 	setCard(id, season) {
 		return this.setArgument('cardid', id)
@@ -146,223 +211,244 @@ class GiftCardCommand extends TwoStepCommand {
 	}
 
 	/**
-	 * Executes this command, sending two HTTP requests with all data specified in this instance to
-	 * the API (once in preparation, once in execution mode) and parses its response.
-	 * @returns {number | null} The amount of bank paid for gifting, or `null` if gifting failed.
+	 * Define the nation that should receive the trading card.
+	 * @arg {string} name Name of the recipient
+	 * @returns {this} The command, for chaining
 	 */
-	async send() {
-		let res = await super.send();
-		if(res['SUCCESS']) return parseInt(res['SUCCESS'][0].replace(/[^0-9\.]+/, ''));
-		else return null;
+	setRecipient(name) {
+		return this.setArgument('to', toIDForm(name));
 	}
 }
 
 /**
- * Superclass for the {@linkcode DispatchAddCommand}, {@linkcode DispatchEditCommand} and
- * {@linkcode DispatchDeleteCommand} commands.
- * 
- * Defines the `c` argument and registers the `dispatch` argument as required at instantiation,
- * but that's it.
- * 
- * **Intended for internal use only!**
+ * Request subclass for building requests to the commands endpoint of the API,
+ * specifically for executing the `c=dispatch` nation private command; only
+ * serves as a layer of abstraction for the {@link DispatchAddCommand},
+ * {@link DispatchEditCommand}, and {@link DispatchDeleteCommand} classes.
  */
 class DispatchCommand extends TwoStepCommand {
-	constructor(credentials, ...required) {
-		super(credentials, 'dispatch', ...required);
-		this.setArgument('c', 'dispatch');
+	/**
+	 * Additionally {@link DataRequest#mandate mandate}s the `dispatch`
+	 * argument and sets the `c` argument.
+	 */
+	constructor() {
+		super();
+		this.mandate('dispatch')
+			.setArgument('c', 'dispatch');
 	}
 }
 
 /**
- * Request subclass for building and customizing requests to the commands endpoint of the API,
- * specifically for executing the `c=dispatch` nation private command with `dispatch=add`.
+ * Request subclass for building requests to the commands endpoint of the API,
+ * specifically for executing the `c=dispatch` nation private command with the
+ * `dispatch=add` sub-command.
  */
 class DispatchAddCommand extends DispatchCommand {
-	constructor(credentials, ...required) {
-		super(credentials, 'title', 'text', 'category', 'subcategory', ...required);
-		this.setArgument('dispatch', 'add');
+	/**
+	 * Additionally {@link DataRequest#mandate mandate}s the `title`, `text`,
+	 * `category`, and `subcategory` arguments and sets the `c` argument.
+	 */
+	constructor() {
+		super();
+		this.mandate('title', 'text', 'category', 'subcategory')
+			.setArgument('dispatch', 'add');
 	}
 
 	/**
-	 * Defines the title that the dispatch should bear.
-	 * @param {string} title The desired title.
-	 * @returns {this} The command, for chaining.
+	 * Set the title that the dispatch should bear.
+	 * @arg {string} title The desired title
+	 * @returns {this} The command, for chaining
 	 */
 	setTitle(title) {
 		return this.setArgument('title', win1252Workaround(title));
 	}
 
 	/**
-	 * Defines the text content that the dispatch should have.
-	 * @param {string} content The desired body text.
-	 * @returns {this} The command, for chaining.
+	 * Set the text content that the dispatch should have.
+	 * @arg {string} content The desired body text
+	 * @returns {this} The command, for chaining
 	 */
 	setContent(content) {
 		return this.setArgument('text', win1252Workaround(content));
 	}
 
 	/**
-	 * Defines the category and subcategory that the dispatch should be put in.
-	 * @param {string} category The desired {@linkcode DispatchSubcategory} to put the dispatch in.
-	 * @returns {this} The command, for chaining.
+	 * Set the {@link DispatchCategory} and {@link DispatchSubcategory} that
+	 * the dispatch should be put in.
+	 * @arg {string} category Desired category
+	 * @arg {string} subcategory Desired subcategory
+	 * @returns {this} The command, for chaining
 	 */
-	setCategory(category) {
-		let cat, sub;
-		switch(category) {
-			case DispatchSubcategory.FACTBOOK.OVERVIEW:		cat = 1; sub = 100; break;
-			case DispatchSubcategory.FACTBOOK.HISTORY:		cat = 1; sub = 101; break;
-			case DispatchSubcategory.FACTBOOK.GEOGRAPHY:	cat = 1; sub = 102; break;
-			case DispatchSubcategory.FACTBOOK.CULTURE:		cat = 1; sub = 103; break;
-			case DispatchSubcategory.FACTBOOK.POLITICS:		cat = 1; sub = 104; break;
-			case DispatchSubcategory.FACTBOOK.LEGISLATION:	cat = 1; sub = 105; break;
-			case DispatchSubcategory.FACTBOOK.RELIGION:		cat = 1; sub = 106; break;
-			case DispatchSubcategory.FACTBOOK.MILITARY:		cat = 1; sub = 107; break;
-			case DispatchSubcategory.FACTBOOK.ECONOMY:		cat = 1; sub = 108; break;
-			case DispatchSubcategory.FACTBOOK.INTERNATIONAL:cat = 1; sub = 109; break;
-			case DispatchSubcategory.FACTBOOK.TRIVIA:		cat = 1; sub = 110; break;
-			case DispatchSubcategory.FACTBOOK.MISCELLANEOUS:cat = 1; sub = 111; break;
-
-			case DispatchSubcategory.BULLETIN.POLICY:	cat = 3; sub = 305; break;
-			case DispatchSubcategory.BULLETIN.NEWS:		cat = 3; sub = 315; break;
-			case DispatchSubcategory.BULLETIN.OPINION:	cat = 3; sub = 325; break;
-			case DispatchSubcategory.BULLETIN.CAMPAIGN:	cat = 3; sub = 385; break;
-
-			case DispatchSubcategory.ACCOUNT.MILITARY:	cat = 5; sub = 505; break;
-			case DispatchSubcategory.ACCOUNT.TRADE:		cat = 5; sub = 515; break;
-			case DispatchSubcategory.ACCOUNT.SPORT:		cat = 5; sub = 525; break;
-			case DispatchSubcategory.ACCOUNT.DRAMA:		cat = 5; sub = 535; break;
-			case DispatchSubcategory.ACCOUNT.DIPLOMACY:	cat = 5; sub = 545; break;
-			case DispatchSubcategory.ACCOUNT.SCIENCE:	cat = 5; sub = 555; break;
-			case DispatchSubcategory.ACCOUNT.CULTURE:	cat = 5; sub = 565; break;
-			case DispatchSubcategory.ACCOUNT.OTHER:		cat = 5; sub = 595; break;
-
-			case DispatchSubcategory.META.GAMEPLAY:		cat = 8; sub = 835; break;
-			case DispatchSubcategory.META.REFERENCE:	cat = 8; sub = 845; break;
-
-			default: cat = 8; sub = 845; break;
-		}
-		return this.setArgument('category', cat).setArgument('subcategory', sub);
-	}
-
-	/**
-	 * Executes this command, sending two HTTP requests with all data specified in this instance to
-	 * the API (once in preparation, once in execution mode) and parses its response.
-	 * @returns {number | null} The ID of the newly posted dispatch, or `null` if posting failed.
-	 */
-	async send() {
-		let res = await super.send();
-		if(res['SUCCESS']) return parseInt(res['SUCCESS'][0].replace(/\D*/, ''));
-		else return null;
+	setCategory(category, subcategory) {
+		let sub = translateSubcategory(category, subcategory);
+		return this
+			.setArgument('category', sub / 100)
+			.setArgument('subcategory', sub);
 	}
 }
 
 /**
- * Request subclass for building and customizing requests to the commands endpoint of the API,
- * specifically for executing the `c=dispatch` nation private command with `dispatch=edit`.
+ * Request subclass for building requests to the commands endpoint of the API,
+ * specifically for executing the `c=dispatch` nation private command with the
+ * `dispatch=edit` sub-command.
  */
 class DispatchEditCommand extends DispatchAddCommand {
-	constructor(credentials) {
-		super(credentials, 'dispatchid');
-		this.setArgument('dispatch', 'edit');
+	/**
+	 * Additionally {@link DataRequest#mandate mandate}s the `dispatchid`
+	 * argument and sets the `dispatch` argument.
+	 */
+	constructor() {
+		super();
+		this.mandate('dispatchid')
+			.setArgument('dispatch', 'edit');
 	}
 
 	/**
-	 * Defines the dispatch that is to be edited.
-	 * @param {number} id ID of the dispatch on NationStates.
-	 * @returns {this} The command, for chaining.
+	 * Define the dispatch that is to be edited.
+	 * @arg {number} id Target dispatch ID
+	 * @returns {this} The command, for chaining
 	 */
 	targetDispatch(id) {
 		return this.setArgument('dispatchid', id);
 	}
-
-	/**
-	 * Executes this command, sending two HTTP requests with all data specified in this instance to
-	 * the API (once in preparation, once in execution mode) and interprets its response.
-	 * @returns {boolean} `true` if the edit was successful, otherwise `false`.
-	 */
-	async send() {
-		let res = await super.send();
-		return typeof res === 'number';
-	}
 }
 
 /**
- * Request subclass for building and customizing requests to the commands endpoint of the API,
- * specifically for executing the `c=dispatch` nation private command with `dispatch=remove`.
+ * Request subclass for building requests to the commands endpoint of the API,
+ * specifically for executing the `c=dispatch` nation private command with the
+ * `dispatch=remove` sub-command.
  */
 class DispatchDeleteCommand extends DispatchCommand {
-	constructor(credentials) {
-		super(credentials, 'dispatchid');
-		this.setArgument('dispatch', 'remove');
+	/**
+	 * Additionally {@link DataRequest#mandate mandate}s the `dispatchid`
+	 * argument and sets the `dispatch` argument.
+	 */
+	constructor() {
+		super();
+		this.mandate('dispatchid')
+			.setArgument('dispatch', 'remove');
 	}
 
 	/**
-	 * Defines the dispatch that should be deleted.
-	 * @param {number} id ID of the dispatch on NationStates.
-	 * @returns {this} The command, for chaining.
+	 * Define the dispatch that should be deleted
+	 * @arg {number} id Target dispatch ID
+	 * @returns {this} The command, for chaining
 	 */
 	targetDispatch(id) {
 		return this.setArgument('dispatchid', id);
 	}
-
-	/**
-	 * Executes this command, sending two HTTP requests with all data specified in this instance to
-	 * the API (once in preparation, once in execution mode) and parses its response.
-	 * @returns {boolean} `true` if deletion was successful, otherwise `false`.
-	 */
-	async send() {
-		let res = await super.send();
-		if(res['SUCCESS']) return true;
-		else return false;
-	}
 }
 
 /**
- * Request subclass for building and customizing requests to the commands endpoint of the API,
+ * Request subclass for building requests to the commands endpoint of the API,
  * specifically for executing the `c=rmbpost` nation private command.
  * 
  * **Currently undocumented in the official API docs.**
  */
 class RMBPostCommand extends TwoStepCommand {
-	constructor(region, message, credential) {
-		super(credential, 'region', 'text');
-		this.setArgument('c', 'rmbpost')
-			.setArgument('region', nsify(region))
-			.setArgument('text', win1252Workaround(message));
+	/**
+	 * Additionally {@link DataRequest#mandate mandate}s the `region` and
+	 * `text` arguments and sets the `c` argument.
+	 */
+	constructor() {
+		super();
+		this.mandate('region', 'text')
+			.setArgument('c', 'rmbpost');
 	}
 
 	/**
-	 * Executes this command, sending two HTTP requests with all data specified in this instance to
-	 * the API (once in preparation, once in execution mode) and parses its response.
-	 * @returns {number | null} The ID of the newly created RMB post, or `null` if posting failed.
+	 * Define the region on whose RMB the post should be lodged.
+	 * @arg {string} region Name of the target region
+	 * @returns {this} The command, for chaining
 	 */
-	async send() {
-		let res = await super.send('NATION');
-		if(res['SUCCESS']) return parseInt(res['SUCCESS'][0].replace(/.*?(\d+).*/, '$1'));
-		else return null;
+	setRegion(region) {
+		return this.setArgument('region', toIDForm(region));
+	}
+
+	/**
+	 * Set the body text of the post to lodge.
+	 * @arg {string} text Text to post
+	 * @returns {this} The command, for chaining
+	 */
+	setText(text) {
+		return this.setArgument('text', win1252Workaround(text));
 	}
 }
 
 /**
- * Because the NS API uses Windows-1252 encoding for RMB Posts and dispatches even when specifying
- * `charset=utf-8`, which spells trouble for e.g. emojis included in them, but
- * [seems to accept](https://forum.nationstates.net/viewtopic.php?p=40128315#p40128315) XML
- * entities, this method provides a workaround for that issue until the API accepts regular UTF-8.
+ * Translates a given {@link DispatchCategory} and {@link DispatchSubcategory}
+ * from their textual forms to the corresponding numerical subcategory ID.
+ * The category ID can be extracted from this via (floored) division by `100`.
+ * @arg {string} category Top-level category to translate
+ * @arg {string} subcategory Subcategory to translate
+ * @returns {number} Translated subcategory code
+ */
+function translateSubcategory(category, subcategory) {
+	switch(category) {
+		case DispatchCategory.FACTBOOK: switch(subcategory) {
+			case DispatchSubcategory.FACTBOOK.OVERVIEW:		return 100;
+			case DispatchSubcategory.FACTBOOK.HISTORY:		return 101;
+			case DispatchSubcategory.FACTBOOK.GEOGRAPHY:	return 102;
+			case DispatchSubcategory.FACTBOOK.CULTURE:		return 103;
+			case DispatchSubcategory.FACTBOOK.POLITICS:		return 104;
+			case DispatchSubcategory.FACTBOOK.LEGISLATION:	return 105;
+			case DispatchSubcategory.FACTBOOK.RELIGION:		return 106;
+			case DispatchSubcategory.FACTBOOK.MILITARY:		return 107;
+			case DispatchSubcategory.FACTBOOK.ECONOMY:		return 108;
+			case DispatchSubcategory.FACTBOOK.INTERNATIONAL:return 109;
+			case DispatchSubcategory.FACTBOOK.TRIVIA:		return 110;
+			case DispatchSubcategory.FACTBOOK.MISCELLANEOUS:return 111;
+			default: return NaN;
+		}
+		case DispatchCategory.BULLETIN: switch(subcategory) {
+			case DispatchSubcategory.BULLETIN.POLICY:		return 305;
+			case DispatchSubcategory.BULLETIN.NEWS:			return 315;
+			case DispatchSubcategory.BULLETIN.OPINION:		return 325;
+			case DispatchSubcategory.BULLETIN.CAMPAIGN:		return 385;
+			default: return NaN;
+		}
+		case DispatchCategory.ACCOUNT: switch(subcategory) {
+			case DispatchSubcategory.ACCOUNT.MILITARY:		return 505;
+			case DispatchSubcategory.ACCOUNT.TRADE:			return 515;
+			case DispatchSubcategory.ACCOUNT.SPORT:			return 525;
+			case DispatchSubcategory.ACCOUNT.DRAMA:			return 535;
+			case DispatchSubcategory.ACCOUNT.DIPLOMACY:		return 545;
+			case DispatchSubcategory.ACCOUNT.SCIENCE:		return 555;
+			case DispatchSubcategory.ACCOUNT.CULTURE:		return 565;
+			case DispatchSubcategory.ACCOUNT.OTHER:			return 595;
+			default: return NaN;
+		}
+		case DispatchCategory.META: switch(subcategory) {
+			case DispatchSubcategory.META.GAMEPLAY:			return 835;
+			case DispatchSubcategory.META.REFERENCE:		return 845;
+			default: return NaN;
+		}
+		default: return NaN;
+	}
+}
+
+/**
+ * Because the NS API uses Windows-1252 encoding for RMB Posts and dispatches
+ * even when specifying `charset=utf-8` in the `POST` request - which spells
+ * big trouble for e.g. emojis or other exotic Unicode included in them, but
+ * [accepts](https://forum.nationstates.net/viewtopic.php?p=40128315#p40128315)
+ * encoding via XML entities, this method provides a workaround for that issue
+ * until the API accepts regular UTF-8.
  * 
  * Yes I know it's not exactly orthodox :P
- * @param {string} str String to encode.
+ * @arg {string} str String to encode.
  * @returns {string} The given string, encoded to be passed to the NS API.
  * @ignore
  */
 function win1252Workaround(str) {
 	let ret = '';
 	for(let c of str) {
-		let code = c.codePointAt(0);
-		if(code > 126)	// Don't escape standard (latin) characters, as this would mess up BBCode
-			ret += `&#${c.codePointAt(0)};`;
+		let code = c.codePointAt(0) ?? 0;
+		if(code > 126)	// Escaping standard latin chars would mess up BBCode
+			ret += `&#${code};`;
 		else ret += c;
 	}
-	return encodeURIComponent(ret);	// Finally, ensure proper general URI encoding
+	return encodeURIComponent(ret);	// Finally, ensure general URI encoding
 }
 
 exports.IssueCommand = IssueCommand;

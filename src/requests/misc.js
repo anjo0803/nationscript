@@ -4,15 +4,20 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+const { IncomingMessage } = require('node:http');
+
+const { NSError } = require('../errors');
 const {
-	ParameterRequest,
-	nsify
+	NSRequest,
+	DataRequest,
+	toIDForm
 } = require('./base');
+const RateLimit = require('./ratelimit');
 
 /**
  * Request subclass for building requests to the telegrams API.
  */
-class TGRequest extends ParameterRequest {
+class TGRequest extends DataRequest {
 
 	/**
 	 * The TG client key to use when executing telegram requests.
@@ -27,38 +32,11 @@ class TGRequest extends ParameterRequest {
 	recruitment = false;
 
 	constructor(recipient) {
-		super('a', 'client', 'tgid', 'key', 'to');
-		this.setArgument('a', 'sendTG')
-			.setArgument('client', client)
-			.setArgument('to', nsify(recipient));
-	}
-
-	/**
-	 * Describes the current special rate-limiting policy of the NationStates API for requests
-	 * to the telegrams endpoint.
-	 */
-	static #policy = {
-		recruitment: 180000,
-		standard: 30000,
-		last: 0
-	}
-
-	/**
-	 * Depending on when the last request was sent to the telegram endpoint, pauses further
-	 * execution for an appropriate amount of time if `await`ed, so as to not exceed the TG API's
-	 * special rate-limit.
-	 * @override
-	 * @private
-	 */
-	async ratelimit() {
-		let now = Date.now();
-		let policy = TGRequest.#policy;
-
-		// The TG API works slightly differently, in that it is not a flush bucket system like the
-		// general API, but simply checks whether sufficient time has passed since the last request
-		let wait = policy.last + (this.recruitment ? policy.recruitment : policy.standard) - now;
-		policy.last = now + 200;
-		if (wait > 0) await this.timeout(wait);
+		super();
+		this.mandate('a', 'client', 'tgid', 'key', 'to')
+			.setArgument('a', 'sendTG')
+			.setArgument('client', TGRequest.client)
+			.setArgument('to', toIDForm(recipient));
 	}
 
 	/**
@@ -80,12 +58,20 @@ class TGRequest extends ParameterRequest {
 	 */
 	setIsRecruitment(is) {
 		if(typeof is === 'boolean') this.recruitment = is;
+		return this;
+	}
+
+	/** @inheritdoc */
+	async raw() {
+		if(NSRequest.useRateLimit) await RateLimit.enforceTG(this.recruitment);
+		return await super.raw();
 	}
 
 	/**
 	 * Sends an HTTP request with all data specified in this request
 	 * instance to the API and interprets its response.
 	 * @returns {Promise<boolean>} `true` if sent successfully, otherwise `false`.
+	 * @override
 	 */
 	async send() {
 		let res = (await streamToString(await this.raw())).toString().trim();
@@ -95,47 +81,72 @@ class TGRequest extends ParameterRequest {
 }
 
 /**
- * Request subclass for making a request to the user agent endpoint of the NS API.
+ * Request subclass for making requests to the user agent endpoint of the API.
  */
-class UserAgentRequest extends ParameterRequest {
+class UserAgentRequest extends DataRequest {
+	/**
+	 * {@link DataRequest#mandate mandate}s the `a` argument and sets it.
+	 */
 	constructor() {
-		super('a');
-		this.setArgument('a', 'useragent');
+		super();
+		this.mandate('a')
+			.setArgument('a', 'useragent');
 	}
 
 	/**
-	 * Sends the data in this request instance to the API and returns its response.
-	 * @returns {Promise<string>} The content of the `User-Agent` header as visible to the API.
+	 * Calls the {@link NSRequest#raw raw} function and passes its return value
+	 * through the {@link streamToString} function, cutting the introductory
+	 * part of the API's text response before returning it.
+	 * @returns {Promise<string>} The `User-Agent` header as visible to the API
+	 * @override
 	 */
 	async send() {
-		return (await streamToString(await this.raw()))?.substring(19)?.replace(/\n$/g, '');
+		let res = await streamToString(await this.raw());
+		if(typeof res !== 'string') throw new NSError('Invalid API response');
+
+		// The API response leads with some uninteresting text and trails an
+		// excess newline, so that is cut before returning the response
+		return res.substring('Your UserAgent is: '.length).replace(/\n$/g, '');
 	}
 }
 
 /**
- * Request subclass for making a request to the version endpoint of the NS API.
+ * Request subclass for making requests to the version endpoint of the API.
  */
-class VersionRequest extends ParameterRequest {
+class VersionRequest extends DataRequest {
+	/**
+	 * {@link DataRequest#mandate mandate}s the `a` argument and sets it.
+	 */
 	constructor() {
-		super('a');
-		this.setArgument('a', 'version');
+		super();
+		this.mandate('a')
+			.setArgument('a', 'version');
 	}
 
 	/**
-	 * Sends the data in this request instance to the API and returns its response.
-	 * @returns {Promise<number>} The current version of the API.
+	 * Calls the {@link NSRequest#raw raw} function and passes its return value
+	 * through the {@link streamToString} function, converting the text
+	 * response to a simple number before returning that.
+	 * @returns {Promise<number>} The current version of the API
+	 * @override
 	 */
 	async send() {
 		return parseInt(await streamToString(await this.raw()));
 	}
 }
 
-// https://stackoverflow.com/questions/10623798
+/**
+ * Reads the given streamed response, recording its contents as text and
+ * returning it once the stream ends.
+ * @arg {IncomingMessage} stream API response to parse
+ * @returns {Promise<string>} Text data received from the stream
+ * @see https://stackoverflow.com/questions/10623798
+ */
 function streamToString(stream) {
 	let ret = [];
 	return new Promise((resolve, reject) => {
-		stream.on('data', data => ret.push(Buffer.from(data)));
-		stream.on('error', e => reject(e));
+		stream.on('data', (data) => ret.push(Buffer.from(data)));
+		stream.on('error', (e) => reject(e));
 		stream.on('end', () => resolve(Buffer.concat(ret).toString('utf-8')));
 	});
 }

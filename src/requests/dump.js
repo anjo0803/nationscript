@@ -10,12 +10,10 @@ const fs = require('node:fs');
 const { IncomingMessage } = require('node:http');
 const zlib = require('node:zlib');
 
-const flow = require('xml-flow');
-
 const {
-	NSRequest,
-	call
+	NSRequest
 } = require('./base');
+const RateLimit = require('./ratelimit');
 
 const { Region }	= require('./region');
 const { Nation }	= require('./nation');
@@ -40,26 +38,19 @@ class DumpRequest extends NSRequest {
 	static directory = './nsdumps';
 
 	/**
-	 * URL to which the HTTP request will be sent.
-	 * @type string
-	 * @private
-	 */
-	#url;
-
-	/**
 	 * Mode in which to execute this request.
 	 * @type number
 	 * @see {@linkcode DumpMode}
 	 * @private
 	 */
-	#mode;
+	mode;
 
 	/**
 	 * Path to the file to save a local copy of the requested Dump in.
 	 * @type string
 	 * @private
 	 */
-	#file;
+	file;
 
 	/**
 	 * Instantiates a new {@linkcode DumpRequest}. **Intended for internal use only.**
@@ -69,22 +60,22 @@ class DumpRequest extends NSRequest {
 	 */
 	constructor(mode, url, file) {
 		super();
-		this.#url = url;
-		this.#mode = mode;
+		this.setTargetURL(url);
+		this.mode = mode;
 		try { fs.mkdirSync(DumpRequest.directory); } 
 		catch (e) { }
-		this.#file = `${DumpRequest.directory}/${file}`;
-		console.log(this.#file);
+		this.file = `${DumpRequest.directory}/${file}`;
+		console.log(this.file);
 	}
 
 	/**
 	 * Attempts to read the local file specified in the {@linkcode DumpRequest.#file} property.
-	 * @returns {fs.ReadStream} Stream of the locally-saved data.
+	 * @returns {?fs.ReadStream} Stream of the locally-saved data.
 	 * @private
 	 */
-	#local() {
+	local() {
 		try {
-			return fs.createReadStream(this.#file);
+			return fs.createReadStream(this.file);
 		} catch (e) {
 			return null;
 		}
@@ -94,10 +85,10 @@ class DumpRequest extends NSRequest {
 	 * Attempts to read the file saved at the location specified in the {@linkcode DumpRequest.#url}
 	 * property. If {@linkcode DumpMode.DOWNLOAD_IF_CHANGED} is used, the remote-reading process
 	 * may terminate if no new Dump is recognized, and instead try to read the local Dump data.
-	 * @returns {Promise<fs.ReadStream | IncomingMessage>} Stream of the fetched data.
+	 * @returns {Promise<fs.ReadStream|IncomingMessage>} Stream of the fetched data.
 	 * @private
 	 */
-	async #remote() {
+	async remote() {
 		// Verify that a user agent has been set
 		if(NSRequest.useragent == null) throw new Error('No user agent set');
 
@@ -105,15 +96,14 @@ class DumpRequest extends NSRequest {
 		let headers = {
 			'User-Agent': NSRequest.useragent
 		}
-		if(this.#mode === exports.DumpMode.DOWNLOAD_IF_CHANGED) try {
-			let fileStats = fs.statSync(this.#file);
+		if(this.mode === exports.DumpMode.DOWNLOAD_IF_CHANGED) try {
+			let fileStats = fs.statSync(this.file);
 			headers['If-Modified-Since'] = formatDateHeader(fileStats.mtime);
-			console.log(headers);
 		} catch (e) { }	// File not found = Dump gets requested in any case
 
 		// Meet rate-limit, then send the actual HTTP request
 		if(NSRequest.useRateLimit) await this.ratelimit();
-		let response = await call(this.#url, {
+		let response = await call(this.url, {
 			method: 'GET',
 			headers: headers
 		});
@@ -122,7 +112,7 @@ class DumpRequest extends NSRequest {
 		if(response.statusCode >= 200 && response.statusCode < 300) return response;
 
 		// If the Dump was not modified since last downloading it, return the local copy
-		if(response.statusCode === 304) return this.#local();
+		if(response.statusCode === 304) return this.local();
 
 		throw new Error(`API Error: ${response.statusCode} ${response.statusMessage}`);
 	}
@@ -136,26 +126,26 @@ class DumpRequest extends NSRequest {
 	 */
 	async raw() {
 		let res;
-		switch(this.#mode) {
+		switch(this.mode) {
 		case exports.DumpMode.DOWNLOAD:
 		case exports.DumpMode.DOWNLOAD_IF_CHANGED:
-			res = await this.#remote();
+			res = await this.remote();
 			if(res instanceof IncomingMessage) res?.pipe(fs.createWriteStream(this.#file));
 			break;
 
 		case exports.DumpMode.READ_REMOTE:
-			res = await this.#remote();
+			res = await this.remote();
 			break;
 
 		case exports.DumpMode.LOCAL:
-			res = this.#local();
+			res = this.local();
 			break;
 
 		case exports.DumpMode.LOCAL_OR_DOWNLOAD:
-			res = this.#local();
+			res = this.local();
 			if(!res) {
-				res = await this.#remote();
-				res?.pipe(fs.createWriteStream(this.#file));
+				res = await this.remote();
+				res?.pipe(fs.createWriteStream(this.file));
 			}
 			break;
 		}

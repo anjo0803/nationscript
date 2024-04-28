@@ -7,6 +7,7 @@
 const {
 	ArrayFactory,
 	NSFactory,
+	convertNumber,
 	convertBoolean
 } = require('../factory');
 const Policy = require('./policy');
@@ -14,8 +15,10 @@ const RankChange = require('./rank-change');
 const Reclassification = require('./reclassification');
 
 /**
- * Represents an ongoing auction on a card.
+ * Represents the outcome of the chosen answer on an issue.
  * @typedef {object} IssueEffect
+ * @prop {number} issue ID of the issue that was answered.
+ * @prop {number} option (Issue-internal) ID of the option that was chosen.
  * @prop {boolean} ok Whether everything went alright, I guess?
  * @prop {string} legislation The effect line of the chosen issue option.
  * @prop {string[]} headlines List of all generated newspaper headlines.
@@ -34,38 +37,36 @@ const Reclassification = require('./reclassification');
  * @returns {NSFactory<IssueEffect>} A new `IssueEffect` factory
  */
 exports.create = (root) => new NSFactory()
+	.set('issue', root['id'], convertNumber)
+	.set('option', root['choice'], convertNumber)
 	.onTag('OK', (me) => me
 		.build('ok', convertBoolean))
 	.onTag('DESC', (me) => me
 		.build('legislation'))
 	.onTag('HEADLINES', (me) => me
 		.build('headlines')
-		.assignSubFactory(ArrayFactory.default('', (me) => me
-			.build(''))))	// TODO
+		.assignSubFactory(ArrayFactory
+			.primitive('HEADLINE')))	// TODO
 	.onTag('UNLOCKS', (me) => me
 		.build('banners')
 		.assignSubFactory(ArrayFactory.default('', (me) => me
 			.build(''))))	// TODO
 	.onTag('NEW_POLICIES', (me) => me
 		.build('policiesEnacted')
-		.assignSubFactory(ArrayFactory.default('POLICY', (me, attrs) => me
-			.build('')
-			.assignSubFactory(Policy.create(attrs)))))
+		.assignSubFactory(ArrayFactory
+			.complex('POLICY', Policy.create)))
 	.onTag('REMOVED_POLICIES', (me) => me
 		.build('policiesCancelled')
-		.assignSubFactory(ArrayFactory.default('POLICY', (me, attrs) => me
-			.build('')
-			.assignSubFactory(Policy.create(attrs)))))
+		.assignSubFactory(ArrayFactory
+			.complex('POLICY', Policy.create)))
 	.onTag('RANKINGS', (me) => me
 		.build('census')
-		.assignSubFactory(ArrayFactory.default('RANK', (me, attrs) => me
-			.build('')
-			.assignSubFactory(RankChange.create(attrs)))))
+		.assignSubFactory(ArrayFactory
+			.complex('RANK', RankChange.create)))
 	.onTag('RECLASSIFICATIONS', (me) => me
 		.build('reclassifications')
-		.assignSubFactory(ArrayFactory.default('RECLASSIFY', (me, attrs) => me
-			.build('')
-			.assignSubFactory(Reclassification.create(attrs)))))
+		.assignSubFactory(ArrayFactory
+			.complex('RECLASSIFY', Reclassification.create)))
 
 	// If there are no changes to these, the API will not return an empty tag,
 	// but no tag at all; thus, these need an empty value set from the start
