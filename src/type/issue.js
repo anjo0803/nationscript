@@ -35,8 +35,8 @@ exports.create = (root) => new NSFactory()
 	.onTag('OPTION', (me) => me
 		.build('options', val => {
 			let alreadyThere = me.get('options');
-			if(alreadyThere === undefined) return [val];
-			return [...me.get('options'), val];
+			if(Array.isArray(alreadyThere)) return [...alreadyThere, val];
+			return [val];
 	}))
 	.onTag('AUTHOR', (me) => me
 		.build('author', val => val.split(', ')))

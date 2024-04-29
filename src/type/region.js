@@ -140,7 +140,7 @@ exports.create = (root) => new NSFactory()
 	.onTag('FLAG', (me) => me
 		.build('flag'))
 	.onTag('FOUNDED', (me) => me
-		.build('founded'))
+		.build('founded', val => val === '0' ? 'Antiquity' : val))
 	.onTag('FOUNDER', (me) => me
 		.build('founder', toNullIfZero))
 	.onTag('FOUNDEDTIME', (me) => me

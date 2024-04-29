@@ -143,9 +143,7 @@ class NSFactory {
 	 */
 	tags = {
 		// Some errors are only returned within <ERROR> tags by the API
-		'ERROR': [(me, attrs) => me.build('', (val) => {
-			throw new APIError(val);
-		})]
+		'ERROR': [createError]
 	};
 
 	/**
@@ -232,7 +230,12 @@ class NSFactory {
 			this.product = add;
 			return;
 		}
-		if(this.product === undefined) this.product = {};
+
+		// Guarantee that there is an object to assign values to
+		if(typeof this.product !== 'object') this.product = {};
+
+		// Determine the target property by successively descending into the
+		// product's properties, then their properties, etc.
 		let target = this.product;
 		let subs = this.property.split('.');
 		for(let i = 0; i < subs.length - 1; i++) {
@@ -240,6 +243,7 @@ class NSFactory {
 			if(target[prop] === undefined) target[prop] = {};
 			target = target[prop];
 		}
+
 		target[subs[subs.length - 1]] = add;
 		this.property = '';
 	}
