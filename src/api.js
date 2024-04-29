@@ -317,7 +317,8 @@ class NS {
 	 * @returns {NationDumpRequest} Request instance ready for execution.
 	 */
 	static nationsFromDump(mode, date = new Date()) {
-		return new NationDumpRequest(mode, date);
+		return new NationDumpRequest(date)
+			.setMode(mode);
 	}
 
 	/**
@@ -327,7 +328,8 @@ class NS {
 	 * @returns {RegionDumpRequest} Request instance ready for execution.
 	 */
 	static regionsFromDump(mode, date = new Date()) {
-		return new RegionDumpRequest(mode, date);
+		return new RegionDumpRequest(date)
+			.setMode(mode);
 	}
 
 	/**
@@ -337,7 +339,8 @@ class NS {
 	 * @returns {CardDumpRequest} Request instance ready for execution.
 	 */
 	static cardsFromDump(mode, season = 3) {
-		return new CardDumpRequest(mode, season);
+		return new CardDumpRequest(season)
+			.setMode(mode);
 	}
 }
 

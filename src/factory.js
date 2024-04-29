@@ -486,6 +486,45 @@ class ArrayFactory extends NSFactory {
 }
 
 /**
+ * @callback FactoryDecider
+ * A function to be called by a {@link DumpFactory} to decide on whether to
+ * keep a given newly-produced {@link NSFactory#product product}.
+ * @arg {ProductType} check The `product` to check
+ * @returns {boolean} `true` to keep the `product`, `false` to discard it
+ * @template ProductType
+ */
+/**
+ * An `ArrayFactory` that subjects each new {@link NSFactory#product product}
+ * to a {@link DumpFactory#decider decider} function in order to determine
+ * whether to accept them into its {@link ArrayFactory#collection collection}.
+ * @template ProductType
+ */
+class DumpFactory extends ArrayFactory {
+	/**
+	 * Function to pass each produced {@link NSFactory#product product}
+	 * through for a determination on whether to add the `product` to the
+	 * {@link ArrayFactory#collection collection}.
+	 * @type {FactoryDecider<ProductType>}
+	 */
+	decider = (check) => false;
+
+	/**
+	 * @arg {FactoryDecider<ProductType>} decider Decider function to use
+	 */
+	constructor(decider) {
+		super();
+		if(typeof decider !== 'function')
+			throw new TypeError('Invalid factory predicate: ' + decider);
+		this.decider = decider;
+	}
+
+	/** @inheritdoc */
+	addToProduct(val) {
+		if(this.decider(val)) super.addToProduct(val);
+	}
+}
+
+/**
  * A standard {@link DataConverter} function that examines the supplied value
  * and attempts to convert it to the `number` it is equivalent to.
  * @arg {string} val Text value to convert
@@ -526,6 +565,7 @@ function createError(me, attrs) {
 
 exports.NSFactory = NSFactory;
 exports.ArrayFactory = ArrayFactory;
+exports.DumpFactory = DumpFactory;
 exports.convertNumber = convertNumber;
 exports.convertBoolean = convertBoolean;
 exports.convertArray = convertArray;

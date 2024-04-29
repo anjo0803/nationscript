@@ -6,8 +6,9 @@
 
 const { Rarity } = require('../enums');
 const {
-	ArrayFactory,
 	NSFactory,
+	DumpFactory,
+	ArrayFactory,
 	convertNumber
 } = require('../factory');
 const CardBadge = require('./badge-card');
@@ -25,10 +26,17 @@ const Trophy = require('./trophy');
  * @prop {CardBadge.CardBadge[]} badges Displayed miscellaneous badges.
  */
 /**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {ArrayFactory<DumpCard>} A new `DumpCard` factory
+ * @arg {import('../factory').FactoryDecider<DumpCard>} decider Decider function to use
+ * @returns {(decider) => NSFactory<DumpCard[]>} A new `DumpCard` factory
  */
-exports.createArray = (root) => ArrayFactory.complex('CARD', createDumpCard);
+exports.createArray = (decider) => (root) => new NSFactory()
+	// The actual data is wrapped in a <SET> tag
+	.onTag('SET', (me, attrs) => me
+		.build('')
+		.assignSubFactory(new DumpFactory(decider)
+			.onTag('CARD', (me, attrs) => me
+				.build('')
+				.assignSubFactory(createDumpCard(attrs)))));
 
 /**
  * Since the Cards dump names its fields differently, a special factory just to

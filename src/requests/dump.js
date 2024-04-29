@@ -7,23 +7,28 @@
 /* === Imports === */
 
 const fs = require('node:fs');
-const { IncomingMessage } = require('node:http');
 const zlib = require('node:zlib');
 
 const {
 	NSRequest
 } = require('./base');
-const RateLimit = require('./ratelimit');
+const {
+	NSError,
+	VirtualError,
+	DumpNotModifiedError
+} = require('../errors');
 
-const { Region }	= require('./region');
-const { Nation }	= require('./nation');
-const { Card }		= require('./card');
+const Factory = require('../factory');
+const DumpNation = require('../type/dump-nation');
+const DumpRegion = require('../type/dump-region');
+const DumpCard = require('../type/dump-card');
 
 
 /* === Classes === */
 
 /**
- * Superclass for all specialised request classes interacting with the Daily Data Dumps (archive).
+ * Superclass for all specialised request classes interacting with Daily Data
+ * Dumps, including archived ones.
  * 
  * Defines overrides of the {@linkcode NSRequest.raw()} and {@linkcode NSRequest.send()} functions
  * to adapt to the required unzipping and the different possible {@linkcode DumpMode}s.
@@ -31,258 +36,269 @@ const { Card }		= require('./card');
 class DumpRequest extends NSRequest {
 	/**
 	 * Path to where local copies of the daily data dumps should be saved.
-	 * @type string
-	 * @default './nsdumps'
+	 * @type {string}
+	 * @default
 	 * @static
 	 */
 	static directory = './nsdumps';
 
 	/**
-	 * Mode in which to execute this request.
-	 * @type number
-	 * @see {@linkcode DumpMode}
+	 * @arg {string} url External URL to fetch the Dump from, if needed
+	 */
+	constructor(url) {
+		super();
+		this.setTargetURL(url);
+
+		// If it doesn't exist yet, the base directory for the storage of local
+		// dump copies is created
+		try {
+			fs.mkdirSync(DumpRequest.directory);
+		} catch (e) {
+			throw new NSError('Unable to create data dump directory');
+		}
+	}
+
+	/**
+	 * @returns {string} Path to the file to save the local Dump copy as
+	 * @virtual
+	 * @protected
+	 */
+	getFilePath() {
+		throw new VirtualError(this.getFilePath,
+			this.constructor);
+	}
+
+	/**
+	 * {@link DumpMode} in which to execute this request.
+	 * @type {number}
 	 * @private
 	 */
 	mode;
 
 	/**
-	 * Path to the file to save a local copy of the requested Dump in.
-	 * @type string
-	 * @private
+	 * Configure this request to use the specified {@link DumpMode}.
+	 * @arg {number} mode Mode to use
+	 * @returns {this} The request, for chaining
 	 */
-	file;
-
-	/**
-	 * Instantiates a new {@linkcode DumpRequest}. **Intended for internal use only.**
-	 * @param {number} mode {@linkcode DumpMode} to use.
-	 * @param {string} url URL to fetch the Dump from, if {@linkcode DumpMode.LOCAL} isn't used.
-	 * @param {string} file Name of the file to write the Dump data to locally.
-	 */
-	constructor(mode, url, file) {
-		super();
-		this.setTargetURL(url);
+	setMode(mode) {
 		this.mode = mode;
-		try { fs.mkdirSync(DumpRequest.directory); } 
-		catch (e) { }
-		this.file = `${DumpRequest.directory}/${file}`;
-		console.log(this.file);
+		return this;
 	}
 
 	/**
-	 * Attempts to read the local file specified in the {@linkcode DumpRequest.#file} property.
-	 * @returns {?fs.ReadStream} Stream of the locally-saved data.
+	 * Filter function to use for this request.
+	 * @type {Factory.FactoryDecider<any>}
+	 * @protected
+	 */
+	filter = (obj) => false;
+
+	/**
+	 * Configure the filter function to apply to newly parsed objects. While
+	 * parsing objects from the Dump XML, the filter function is called for
+	 * each new object; if it returns `true`, the object is kept, otherwise it
+	 * is discarded.
+	 * @arg {Factory.FactoryDecider<any>} filter Filter to use
+	 * @returns {this} The request, for chaining
+	 */
+	setFilter(filter) {
+		if(typeof filter === 'function') this.filter = filter;
+		return this;
+	}
+
+	/**
+	 * Attempts to read the local file specified in the
+	 * {@link DumpRequest#file file} property.
+	 * @returns {?fs.ReadStream} Stream of the locally-saved data, if found
 	 * @private
 	 */
-	local() {
+	rawLocal() {
 		try {
-			return fs.createReadStream(this.file);
+			return fs.createReadStream(this.getFilePath());
 		} catch (e) {
 			return null;
 		}
 	}
 
 	/**
-	 * Attempts to read the file saved at the location specified in the {@linkcode DumpRequest.#url}
-	 * property. If {@linkcode DumpMode.DOWNLOAD_IF_CHANGED} is used, the remote-reading process
-	 * may terminate if no new Dump is recognized, and instead try to read the local Dump data.
-	 * @returns {Promise<fs.ReadStream|IncomingMessage>} Stream of the fetched data.
-	 * @private
-	 */
-	async remote() {
-		// Verify that a user agent has been set
-		if(NSRequest.useragent == null) throw new Error('No user agent set');
-
-		// Configure the request headers
-		let headers = {
-			'User-Agent': NSRequest.useragent
-		}
-		if(this.mode === exports.DumpMode.DOWNLOAD_IF_CHANGED) try {
-			let fileStats = fs.statSync(this.file);
-			headers['If-Modified-Since'] = formatDateHeader(fileStats.mtime);
-		} catch (e) { }	// File not found = Dump gets requested in any case
-
-		// Meet rate-limit, then send the actual HTTP request
-		if(NSRequest.useRateLimit) await this.ratelimit();
-		let response = await call(this.url, {
-			method: 'GET',
-			headers: headers
-		});
-
-		// If everything went smoothly, return the response stream
-		if(response.statusCode >= 200 && response.statusCode < 300) return response;
-
-		// If the Dump was not modified since last downloading it, return the local copy
-		if(response.statusCode === 304) return this.local();
-
-		throw new Error(`API Error: ${response.statusCode} ${response.statusMessage}`);
-	}
-
-	/**
-	 * Gets the raw readable stream of the queried Dump data. The original stream - depending on
-	 * the {@linkcode DumpMode} used, either from the local Dump copy or the remote copy on the
-	 * NationStates servers - is `pipe()`d through a `zlib.Gunzip` stream automatically, which will
-	 * be the final return value.
-	 * @returns {Promise<zlib.Gunzip>} Stream of the fetched data; `null` if none could be found.
+	 * Get the raw readable stream of the queried Dump data. The original
+	 * stream - depending on the {@link DumpMode} used, either from the local
+	 * Dump copy or the remote copy on the NationStates servers - is `pipe()`d
+	 * first through a write stream to the local {@link DumpRequest#file file},
+	 * if necessary, and in any case will finally be `pipe()`d through a
+	 * `zlib.Gunzip` stream, which is the ultimate return value.
+	 * @returns {Promise<zlib.Gunzip>} Stream of the fetched data, if found
+	 * @override
 	 */
 	async raw() {
-		let res;
+		let read = null;
+		let write = null;
+		let file = this.getFilePath();
+		
 		switch(this.mode) {
-		case exports.DumpMode.DOWNLOAD:
-		case exports.DumpMode.DOWNLOAD_IF_CHANGED:
-			res = await this.remote();
-			if(res instanceof IncomingMessage) res?.pipe(fs.createWriteStream(this.#file));
-			break;
+			case DumpMode.DOWNLOAD:
+				read = await super.raw();
+				write = fs.createWriteStream(file);
+				break;
 
-		case exports.DumpMode.READ_REMOTE:
-			res = await this.remote();
-			break;
+			case DumpMode.DOWNLOAD_IF_CHANGED:
+				this.setHeader('If-Modified-Since', 
+					formatDateHeader(fs.statSync(file).mtime));
+				try {
+					read = await super.raw();
+					write = fs.createWriteStream(file);
+				} catch(e) {
+					if(e instanceof DumpNotModifiedError)
+						read = this.rawLocal();
+					else throw e;
+				}
+				break;
 
-		case exports.DumpMode.LOCAL:
-			res = this.local();
-			break;
+			case DumpMode.LOCAL:
+				read = this.rawLocal();
+				break;
 
-		case exports.DumpMode.LOCAL_OR_DOWNLOAD:
-			res = this.local();
-			if(!res) {
-				res = await this.remote();
-				res?.pipe(fs.createWriteStream(this.file));
-			}
-			break;
+			case DumpMode.LOCAL_OR_DOWNLOAD:
+				read = this.rawLocal();
+				if(read) break;
+				read = await super.raw();
+				write = fs.createWriteStream(file);
+				break;
+
+			case DumpMode.REMOTE:
+				read = await super.raw();
+				break;
 		}
-		return res?.pipe(zlib.createGunzip());
+		if(!read) throw new NSError('Could not obtain dump data');
+		if(write) read.pipe(write);
+		return read.pipe(zlib.createGunzip());
 	}
 
 	/**
-	 * Executes this request according to the {@linkcode DumpMode} set on instantiation.
-	 * Objects instantiated with the data read from the Dump are passed to the filter function,
-	 * which is expected to return `true` or `false` for them to indicate whether to save them in
-	 * the results list. Once the Dump has been fully read, the Promise resolves to that list.
-	 * @param {string} tag Name of the XML tag to use as root tag of target objects.
-	 * @param {Function} Target Constructor function for the classes to instantiate from the XML.
-	 * @param {NationCallback|RegionCallback|CardCallback} filter Callback function.
+	 * Executes this request according to the set {@link DumpMode}.
 	 * @returns {Promise<object[]>} List of all instantiated objects satisfying the filter.
+	 * @override
 	 */
-	async send(tag, Target, filter = () => false) {
-		let res = await this.raw();
-		if(!res) throw new Error('Dump not found');
-
-		// Configure the xml-flow parser
-		let listener = flow(res, {
-			simplifyNodes: false,	// These two are necessary to allow a semi-standardised
-			useArrays: flow.ALWAYS,	// creation of response objects without too much hassle.
-			lowercase: false		// Also, staying faithful to NS API response formatting :P
-		});
-
-		return new Promise((resolve, reject) => {
-			let ret = [];
-			listener.on(`tag:${tag?.toUpperCase()}`, (e) => {
-				let r = new Target(e);
-				if(filter(r)) ret.push(r);
-			});
-			listener.once('error', (e) => reject(e));
-			listener.once('end', () => resolve(ret));
-		});
+	async send() {
+		return await super.send();
 	}
 }
 
-/**
- * Function to be called whenever a nation from the Dump is parsed.
- * @callback NationCallback
- * @arg {Nation} nation The Nation object with the data of the nation that was parsed.
- */
+class DateDumpRequest extends DumpRequest {
+	/**
+	 * Date for which to get the Data Dump with this request
+	 * @type {Date}
+	 */
+	date;
+
+	/**
+	 * Set the {@link DateDumpRequest#date date} of which to get the Dump of.
+	 * @arg {Date} date Date of the desired Dump
+	 * @returns {this} The request, for chaining
+	 */
+	setDate(date) {
+		if(date instanceof Date) this.date = date;
+		return this;
+	}
+}
+
 /**
  * Request subclass for reading the nations Daily Data Dump (archive).
  */
-class NationDumpRequest extends DumpRequest {
-	constructor(mode, date) {
-		let formatted = formatDateDump(date);
-		super(mode, 'https://www.nationstates.net/' + (same(date, new Date())
+class NationDumpRequest extends DateDumpRequest {
+	constructor(date) {
+		let path = same(date, new Date())
 			? 'pages/nations.xml.gz'
-			: `archive/nations/${formatted}-nations-xml.gz`),
-			`nations_${formatted}.xml.gz`
-		);
+			: `archive/nations/${formatDateDump(date)}-nations-xml.gz`;
+		super('https://www.nationstates.net/' + path);
+	}
+
+	/** @inheritdoc */
+	getFilePath() {
+		return DumpRequest.directory
+			+ '/nations_' 
+			+ formatDateDump(this.date)
+			+ '.xml.gz';
 	}
 
 	/**
-	 * Executes this request according to the {@linkcode DumpMode} set on instantiation.
-	 * Nation objects read from the Dump are passed to the given filter function, which is expected
-	 * to return `true` or `false` for them to indicate whether to save the respective Nation in
-	 * the result list. Once the Dump has been fully read, the Promise resolves to that list.
-	 * @param {NationCallback} filter Function deciding which nations to return.
-	 * @returns {Promise<Nation[]>} List of all nations satisfying the `filter` function.
+	 * Only nations fulfilling the `filter` are returned.
+	 * @returns {Promise<DumpNation.DumpNation[]>}
+	 * @inheritdoc
 	 */
-	async send(filter) {
-		return await super.send('NATION', Nation, filter);
+	async send() {
+		this.useFactory(DumpNation.createArray(this.filter))
+		return await super.send();
 	}
 }
 
-/**
- * Function to be called whenever a region from the Dump is parsed.
- * @callback RegionCallback
- * @arg {Region} region The Region object with the data of the region that was parsed.
- */
 /**
  * Request subclass for reading the regions Daily Data Dump (archive).
  */
-class RegionDumpRequest extends DumpRequest {
-	constructor(mode, date) {
-		let formatted = formatDateDump(date);
-		super(mode, 'https://www.nationstates.net/' + (same(date, new Date())
+class RegionDumpRequest extends DateDumpRequest {
+	constructor(date) {
+		let path = same(date, new Date())
 			? 'pages/regions.xml.gz'
-			: `archive/regions/${formatted}-regions-xml.gz`),
-			`regions_${formatted}.xml.gz`
-		);
+			: `archive/regions/${formatDateDump(date)}-regions-xml.gz`;
+		super('https://www.nationstates.net/' + path);
+	}
+
+	/** @inheritdoc */
+	getFilePath() {
+		return DumpRequest.directory
+			+ '/nations_' 
+			+ formatDateDump(this.date)
+			+ '.xml.gz';
 	}
 
 	/**
-	 * Executes this request according to the {@linkcode DumpMode} set on instantiation.
-	 * Region objects read from the Dump are passed to the given filter function, which is expected
-	 * to return `true` or `false` for them to indicate whether to save the respective Region in
-	 * the result list. Once the Dump has been fully read, the Promise resolves to that list.
-	 * @param {RegionCallback} filter Function deciding which regions to return.
-	 * @returns {Promise<Region[]>} List of all regions satisfying the `filter` function.
+	 * Only regions fulfilling the `filter` are returned.
+	 * @returns {Promise<DumpRegion.DumpRegion[]>}
+	 * @inheritdoc
 	 */
-	async send(filter) {
-		return await super.send('REGION', Region, filter);
+	async send() {
+		this.useFactory(DumpRegion.createArray(this.filter))
+		return await super.send();
 	}
 }
 
-/**
- * Function to be called whenever a card from the Dump is parsed.
- * @callback CardCallback
- * @arg {Card} card The Card object with the data of the card that was parsed.
- */
 /**
  * Request subclass for reading the cards Seasonal Data Dump (archive).
  */
 class CardDumpRequest extends DumpRequest {
-	constructor(mode, season) {
-		super(mode, `https://www.nationstates.net/pages/cardlist_S${season}.xml.gz`,
-			`cards_s${season}.xml.gz`);
+	season = 3;
+	constructor(season) {
+		super(`https://www.nationstates.net/pages/cardlist_S${season}.xml.gz`);
+		this.season = season;
+	}
+
+	/** @inheritdoc */
+	getFilePath() {
+		return DumpRequest.directory
+			+ '/cards_s' 
+			+ this.season
+			+ '.xml.gz';
 	}
 
 	/**
-	 * Executes this request according to the {@linkcode DumpMode} set on instantiation.
-	 * Card objects read from the Dump are passed to the given filter function, which is expected
-	 * to return `true` or `false` for them to indicate whether to save the respective Card in
-	 * the result list. Once the Dump has been fully read, the Promise resolves to that list.
-	 * @param {CardCallback} filter Function deciding which cards to return.
-	 * @returns {Promise<Card[]>} List of all cards satisfying the `filter` function.
+	 * Only cards fulfilling the `filter` are returned.
+	 * @returns {Promise<DumpCard.DumpCard[]>}
+	 * @inheritdoc
 	 */
-	async send(filter) {
-		return await super.send('CARD', Card, filter);
+	async send() {
+		this.useFactory(DumpCard.createArray(this.filter))
+		return await super.send();
 	}
 }
 
 
 /* === Date Handling === */
-// Or, "Why can't you just have a generic pattern-based date formatter like Java, JS???!?!!?!?"
+// Or, Why is there no a generic pattern-based date formatter like in Java? :(
 
 /**
- * Ensures that the given number occupies two digits -
+ * Ensures that the given number spans two digits -
  * numbers less than `10` will receive a `'0'` prefix.
- * @param {number} num Number to modify.
- * @returns {string} The number as string, if necessary prefixed with a 0.
+ * @arg {number} num Number to modify.
+ * @returns {string} The number as string, if necessary prefixed with a `0`.
  * @ignore
  */
 function twoDigit(num) {
@@ -291,7 +307,7 @@ function twoDigit(num) {
 
 /**
  * Formats the given date into a string usable to create Dump addresses on the NS servers.
- * @param {Date} date Date to format.
+ * @arg {Date} date Date to format.
  * @returns {string} A string of the format `YYYY-MM-DD`.
  * @ignore
  */
@@ -303,21 +319,22 @@ function formatDateDump(date) {
 }
 
 /**
- * Indexed list of day-of-week abbreviations for the {@linkcode formatDateHeader} function.
+ * Weekday abbreviations for the {@link formatDateHeader} function.
  * @ignore
  */
 const DAY = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 /**
- * Indexed list of month abbreviations for the {@linkcode formatDateHeader} function.
+ * Month abbreviations for the {@link formatDateHeader} function.
  * @ignore
  */
-const MONTH = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const MONTH = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+	'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 /**
  * Formats the given date into a string usable for the `If-Modified-Since` HTTP request header.
- * @param {Date} date Date to format.
- * @returns {string} A string of the format `Weekday, DD Month YYYY HH:MM:SS GMT`.
+ * @arg {Date} date Date to format.
+ * @returns {string} A string of the format `Weekday, DD MMMM YYYY HH:MM:SS GMT`
  * @ignore
  */
 function formatDateHeader(date) {
@@ -354,9 +371,9 @@ exports.RegionDumpRequest = RegionDumpRequest;
 
 /**
  * Supported ways of getting Daily Data Dump contents.
- * @enum number
+ * @enum {number}
  */
-exports.DumpMode = {
+const DumpMode = {
 	/**
 	 * Download the Dump, then read the local copy. Makes one API request.
 	 */
@@ -379,5 +396,7 @@ exports.DumpMode = {
 	/**
 	 * Read the Dump directly from the API without creating a local copy. Makes one API request.
 	 */
-	READ_REMOTE: 4
+	REMOTE: 4
 };
+
+exports.DumpMode = DumpMode;

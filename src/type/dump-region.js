@@ -4,7 +4,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-const { ArrayFactory } = require('../factory');
+const Factory = require('../factory');
 const Region = require('./region');
 const Embassy = require('./embassy');
 
@@ -43,7 +43,10 @@ const Embassy = require('./embassy');
  * @prop {import('./officer').Officer[]} officers Regional officers.
  */
 /**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {ArrayFactory<DumpRegion>} A new `DumpRegion` factory
+ * @arg {Factory.FactoryDecider<DumpRegion>} decider Decider function to use
+ * @returns {() => Factory.DumpFactory<DumpRegion>} A new `DumpRegion` factory
  */
-exports.createArray = (root) => ArrayFactory.complex('REGION', Region.create);
+exports.createArray = (decider) => (root) => new Factory.DumpFactory(decider)
+	.onTag('REGION', (me, attrs) => me
+		.build('')
+		.assignSubFactory(Region.create(attrs)));

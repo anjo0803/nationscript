@@ -65,9 +65,13 @@ class RatelimitError extends APIError {
 	 * @type {number}
 	 */
 	retry;
-	constructor(retry) {
+	/**
+	 * 
+	 * @arg {string|number} retry 
+	 */
+	constructor(retry = '30') {
 		super(`Ratelimit exceeded; retry in ${retry} s`);
-		this.retry = retry;
+		this.retry = typeof retry === 'number' ? retry : parseInt(retry);
 	}
 }
 
@@ -98,6 +102,12 @@ class PropertyInvalidError extends NSError {
 	constructor(propertyName, propertyValue, parent = null) {
 		super(`Invalid property: ${(parent === null ? parent + '.' : '')
 			+ propertyName} (${propertyValue})`);
+	}
+}
+
+class DumpNotModifiedError extends APIError {
+	constructor() {
+		super('Dump not modified');
 	}
 }
 
@@ -134,6 +144,7 @@ exports.RatelimitError = RatelimitError;
 exports.PropertyError = PropertyError;
 exports.PropertyMissingError = PropertyMissingError;
 exports.PropertyInvalidError = PropertyInvalidError;
+exports.DumpNotModifiedError = DumpNotModifiedError;
 exports.VirtualError = VirtualError;
 exports.ProductWithheldError = ProductWithheldError;
 exports.FactoryFinalisedError = FactoryFinalisedError;

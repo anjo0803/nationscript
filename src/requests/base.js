@@ -13,7 +13,9 @@ const {
 	NSError,
 	APIError,
 	EntityNotFoundError,
-	LoginError
+	LoginError,
+	RatelimitError,
+	DumpNotModifiedError
 } = require('../errors');
 const RateLimit = require('./ratelimit');
 const {
@@ -165,20 +167,18 @@ class NSRequest {
 	 * @arg {IncomingMessage} response 
 	 */
 	evaluateErrors(response) {
-		if(!response.statusCode)
-			throw new APIError('Missing API response code');
 		switch (response.statusCode) {
-			case 403: throw new LoginError('Wrong login credentials for ' + this);
-			case 409: throw new LoginError('Last non-pin login too recent');
-			case 404: throw new EntityNotFoundError('Requested entity not found');
+			case 304:
+				throw new DumpNotModifiedError();
+			case 403:
+				throw new APIError('403 ' + response.statusMessage);
+			case 409:
+				throw new LoginError('Last non-pin login too recent');
+			case 404:
+				throw new EntityNotFoundError('Requested entity not found');
 			case 429:
-				let policy = NSRequest.#policy;
-				policy.retry = Date.now() + 
-					(response.headers.get('retry-after') || policy.period / 1000)
-					* 1000;
-				policy.sent = policy.amount;
-				throw new Error('Ratelimit exceeded');
-			default: return response;
+				throw new RatelimitError(response.headers['retry-after']);
+			default: return;
 		}
 	}
 
@@ -226,7 +226,8 @@ class NSRequest {
 	 */
 	async send() {
 		let res = await this.raw();
-		if(!res) throw new NSError('Unknown error while communicating with the NS API');
+		if(!res)
+			throw new NSError('Could not obtain API response');
 		return new Promise((resolve, reject) => {
 			/** @type {?NSFactory} */
 			let factory = null;
@@ -496,8 +497,11 @@ class NSCredential {
 	 *     headers returned by the NS API.
 	 */
 	updateFromResponse(responseHeaders) {
-		this.autologin = responseHeaders['x-autologin'] ?? this.autologin;
-		this.pin = responseHeaders['x-pin'] ?? this.pin;
+		let autologin = responseHeaders['x-autologin'];
+		let pin = responseHeaders['x-pin'];
+
+		if(typeof autologin === 'string') this.autologin = autologin;
+		if(typeof pin === 'string') this.pin = pin;
 	}
 }
 
@@ -507,8 +511,6 @@ const Card = require('../type/card');
 const CardWorld = require('../type/card-world');
 const World = require('../type/world');
 const WorldAssembly = require('../type/world-assembly');
-const DumpNations = require('../type/dump-nation');
-const DumpRegions = require('../type/dump-region');
 
 /**
  * Tries to match one of the configured top-level factories to the given root
@@ -525,8 +527,6 @@ function matchFactory(root, attrs) {
 		case 'CARDS':	return CardWorld.create(attrs);
 		case 'WORLD':	return World.create(attrs);
 		case 'WA':		return WorldAssembly.create(attrs);
-		case 'NATIONS':	return DumpNations.createArray(attrs);
-		case 'REGIONS':	return DumpRegions.createArray(attrs);
 		default: return null;
 	}
 }

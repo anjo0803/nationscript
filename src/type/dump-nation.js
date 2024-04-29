@@ -4,7 +4,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-const { ArrayFactory } = require('../factory');
+const Factory = require('../factory');
 const Nation = require('./nation');
 
 const DeathData = require('./death-data');
@@ -62,7 +62,10 @@ const SpendingData = require('./spending-data');
  * @prop {number} dbID Database ID of the nation.
  */
 /**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {ArrayFactory<DumpNation>} A new `DumpNation` factory
+ * @arg {Factory.FactoryDecider<DumpNation>} decider Decider function to use
+ * @returns {() => Factory.DumpFactory<DumpNation>} A new `DumpNation` factory
  */
-exports.createArray = (root) => ArrayFactory.complex('NATION', Nation.create);
+exports.createArray = (decider) => (root) => new Factory.DumpFactory(decider)
+	.onTag('NATION', (me, attrs) => me
+		.build('')
+		.assignSubFactory(Nation.create(attrs)));
