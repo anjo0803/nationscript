@@ -62,6 +62,7 @@ function translateCensusName(name) {
 		case 'DEVOUT': return CensusScale.RELIGIOUSNESS;
 		case 'DISPINCOME': return CensusScale.AVERAGE_DISPOSABLE_INCOME;
 		case 'DRUGS': return CensusScale.RECREATIONAL_DRUG_USE;
+		case 'INCOME': return CensusScale.AVERAGE_INCOME;
 		case 'ECO-GOVT': return CensusScale.ECO_FRIENDLINESS;	// TODO confirm
 		case 'ECONOMY': return CensusScale.ECONOMY;
 		case 'EDUCATED': return CensusScale.PUBLIC_EDUCATION;

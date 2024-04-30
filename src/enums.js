@@ -39,6 +39,7 @@ exports.CardBadgeType = {
 	FOUNDER: 'Founder',
 	MODERATOR: 'Moderator',
 	MODERATOR_GAME: 'Game Mod',
+	MODERATOR_FORUM: 'Forum Mod',
 	MODERATOR_RETIRED: 'Retired Moderator',
 	SUPPORTER: 'Site Supporter',
 	PMG: 'Postmaster-General',
