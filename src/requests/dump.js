@@ -7,6 +7,7 @@
 /* === Imports === */
 
 const fs = require('node:fs');
+const path = require('node:path');
 const zlib = require('node:zlib');
 
 const {
@@ -35,12 +36,27 @@ const DumpCard = require('../type/dump-card');
  */
 class DumpRequest extends NSRequest {
 	/**
-	 * Path to where local copies of the daily data dumps should be saved.
+	 * Path to the directory where fetched Data Dumps are saved to locally.
 	 * @type {string}
-	 * @default
+	 * @default './nsdumps/'
 	 * @static
+	 * @protected
 	 */
-	static directory = './nsdumps';
+	static directory = path.join('.', 'nsdumps');
+
+	/**
+	 * Sets the {@link DumpRequest.directory directory} to keep local copies of
+	 * fetched Data Dumps in.
+	 * @arg {string} dir Path to the desired directory
+	 * @returns {void}
+	 * @throws {TypeError} if `dir` isn't a valid string
+	 */
+	static setDirectory(dir) {
+		if(typeof dir !== 'string')
+			throw new TypeError('Invalid path: ' + dir);
+		if(!dir.endsWith('/')) dir += '/';
+		DumpRequest.directory = path.normalize(dir);
+	}
 
 	/**
 	 * @arg {string} url External URL to fetch the Dump from, if needed
@@ -51,21 +67,8 @@ class DumpRequest extends NSRequest {
 
 		// If it doesn't exist yet, the base directory for the storage of local
 		// dump copies is created
-		try {
+		if(!fs.existsSync(DumpRequest.directory))
 			fs.mkdirSync(DumpRequest.directory);
-		} catch (e) {
-			throw new NSError('Unable to create data dump directory');
-		}
-	}
-
-	/**
-	 * @returns {string} Path to the file to save the local Dump copy as
-	 * @virtual
-	 * @protected
-	 */
-	getFilePath() {
-		throw new VirtualError(this.getFilePath,
-			this.constructor);
 	}
 
 	/**
@@ -106,17 +109,42 @@ class DumpRequest extends NSRequest {
 	}
 
 	/**
-	 * Attempts to read the local file specified in the
-	 * {@link DumpRequest#file file} property.
-	 * @returns {?fs.ReadStream} Stream of the locally-saved data, if found
+	 * Creates a readable stream of the file that the path returned by the
+	 * {@link DumpRequest#getFilePath} function points at. If a file does not
+	 * exist on that path, `null` is returned.
+	 * @returns {?fs.ReadStream} Readable stream of the file content, if found
 	 * @private
 	 */
-	rawLocal() {
-		try {
-			return fs.createReadStream(this.getFilePath());
-		} catch (e) {
-			return null;
-		}
+	readLocal() {
+		let file = this.getFilePath();
+		if(fs.existsSync(file))
+			return fs.createReadStream(file);
+		return null;
+	}
+
+	/**
+	 * Creates a writable stream targeting the file which the path returned by
+	 * the {@link DumpRequest#getFilePath} function points at. If a file does
+	 * not exist on that path yet, it is newly created for this purpose.
+	 * @returns {fs.WriteStream} Writable stream targeting the file content
+	 * @private
+	 */
+	writeLocal() {
+		let file = this.getFilePath();
+		if(fs.existsSync(file))
+			return fs.createWriteStream(file);
+		fs.writeFileSync(file, '');
+		return fs.createWriteStream(file);
+	}
+
+	/**
+	 * @returns {string} Path to the file to save the local Dump copy as
+	 * @virtual
+	 * @protected
+	 */
+	getFilePath() {
+		throw new VirtualError(this.getFilePath,
+			this.constructor);
 	}
 
 	/**
@@ -133,35 +161,34 @@ class DumpRequest extends NSRequest {
 		let read = null;
 		let write = null;
 		let file = this.getFilePath();
-		
+
 		switch(this.mode) {
 			case DumpMode.DOWNLOAD:
 				read = await super.raw();
-				write = fs.createWriteStream(file);
+				write = this.writeLocal();
 				break;
 
 			case DumpMode.DOWNLOAD_IF_CHANGED:
-				this.setHeader('If-Modified-Since', 
+				read = this.readLocal();
+				if(read) this.setHeader('If-Modified-Since', 
 					formatDateHeader(fs.statSync(file).mtime));
 				try {
 					read = await super.raw();
-					write = fs.createWriteStream(file);
+					write = this.writeLocal();
 				} catch(e) {
-					if(e instanceof DumpNotModifiedError)
-						read = this.rawLocal();
-					else throw e;
+					if(!(e instanceof DumpNotModifiedError)) throw e;
 				}
 				break;
 
 			case DumpMode.LOCAL:
-				read = this.rawLocal();
+				read = this.readLocal();
 				break;
 
 			case DumpMode.LOCAL_OR_DOWNLOAD:
-				read = this.rawLocal();
+				read = this.readLocal();
 				if(read) break;
 				read = await super.raw();
-				write = fs.createWriteStream(file);
+				write = this.writeLocal();
 				break;
 
 			case DumpMode.REMOTE:
@@ -185,6 +212,14 @@ class DumpRequest extends NSRequest {
 
 class DateDumpRequest extends DumpRequest {
 	/**
+	 * @arg {string} url External URL to fetch the Dump from, if needed
+	 * @arg {Date} date Date to fetch the Dump for
+	 */
+	constructor(url, date) {
+		super(url);
+		this.setDate(date);
+	}
+	/**
 	 * Date for which to get the Data Dump with this request
 	 * @type {Date}
 	 */
@@ -205,19 +240,28 @@ class DateDumpRequest extends DumpRequest {
  * Request subclass for reading the nations Daily Data Dump (archive).
  */
 class NationDumpRequest extends DateDumpRequest {
+	/**
+	 * @arg {Date} date Date to fetch the Dump for
+	 */
 	constructor(date) {
 		let path = same(date, new Date())
 			? 'pages/nations.xml.gz'
 			: `archive/nations/${formatDateDump(date)}-nations-xml.gz`;
-		super('https://www.nationstates.net/' + path);
+		super('https://www.nationstates.net/' + path, date);
 	}
 
 	/** @inheritdoc */
 	getFilePath() {
-		return DumpRequest.directory
-			+ '/nations_' 
-			+ formatDateDump(this.date)
-			+ '.xml.gz';
+		return path.join(DumpRequest.directory,
+			`nations_${formatDateDump(this.date)}.xml.gz`);
+	}
+
+	/**
+	 * @inheritdoc
+	 * @arg {Factory.FactoryDecider<DumpNation.DumpNation>} filter Filter to use
+	 */
+	setFilter(filter) {
+		return super.setFilter(filter);
 	}
 
 	/**
@@ -235,19 +279,28 @@ class NationDumpRequest extends DateDumpRequest {
  * Request subclass for reading the regions Daily Data Dump (archive).
  */
 class RegionDumpRequest extends DateDumpRequest {
+	/**
+	 * @arg {Date} date Date to fetch the Dump for
+	 */
 	constructor(date) {
 		let path = same(date, new Date())
 			? 'pages/regions.xml.gz'
 			: `archive/regions/${formatDateDump(date)}-regions-xml.gz`;
-		super('https://www.nationstates.net/' + path);
+		super('https://www.nationstates.net/' + path, date);
 	}
 
 	/** @inheritdoc */
 	getFilePath() {
-		return DumpRequest.directory
-			+ '/nations_' 
-			+ formatDateDump(this.date)
-			+ '.xml.gz';
+		return path.join(DumpRequest.directory,
+			`regions_${formatDateDump(this.date)}.xml.gz`);
+	}
+
+	/**
+	 * @inheritdoc
+	 * @arg {Factory.FactoryDecider<DumpRegion.DumpRegion>} filter Filter to use
+	 */
+	setFilter(filter) {
+		return super.setFilter(filter);
 	}
 
 	/**
@@ -265,7 +318,15 @@ class RegionDumpRequest extends DateDumpRequest {
  * Request subclass for reading the cards Seasonal Data Dump (archive).
  */
 class CardDumpRequest extends DumpRequest {
+	/**
+	 * @type {number}
+	 * @private
+	 */
 	season = 3;
+
+	/**
+	 * @arg {number} season 
+	 */
 	constructor(season) {
 		super(`https://www.nationstates.net/pages/cardlist_S${season}.xml.gz`);
 		this.season = season;
@@ -273,10 +334,16 @@ class CardDumpRequest extends DumpRequest {
 
 	/** @inheritdoc */
 	getFilePath() {
-		return DumpRequest.directory
-			+ '/cards_s' 
-			+ this.season
-			+ '.xml.gz';
+		return path.join(DumpRequest.directory,
+			`cards_s${this.season}.xml.gz`);
+	}
+
+	/**
+	 * @inheritdoc
+	 * @arg {Factory.FactoryDecider<DumpCard.DumpCard>} filter Filter to use
+	 */
+	setFilter(filter) {
+		return super.setFilter(filter);
 	}
 
 	/**

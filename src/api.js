@@ -136,9 +136,7 @@ class NS {
 	 * @param {string} path Path to the desired save directory.
 	 */
 	static setDumpDirectory(path) {
-		if(typeof path === 'string') DumpRequest.directory = path.endsWith('/') 
-			? path.substring(0, path.length - 2)
-			: path;
+		DumpRequest.setDirectory(path);
 		return this;
 	}
 
