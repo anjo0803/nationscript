@@ -177,7 +177,7 @@ const ZombieDataNation = require('./zombie-data-nation');
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<Nation>} A new `Nation` factory
  */
-exports.create = root => new NSFactory()
+exports.create = (shards = []) => (root) => new NSFactory()
 	.set('idForm', root['id'])
 	.onTag('ADMIRABLE', (me) => me
 		.build('admirable'))
@@ -303,18 +303,24 @@ exports.create = root => new NSFactory()
 		.build('waStatus'))
 	.onTag('VERIFY', (me) => me
 		.build('verified', convertBoolean))
-	/* .onTag('CAPITAL',
-		(me) => {
-
-		})
-	.onTag('LEADER',
-		(me) => {
-
-		})
-	.onTag('RELIGION',
-		(me) => {
-
-		}) */
+	.onTag('CAPITAL', (me) => {
+		if(!shards.includes(NationShard.CUSTOM_CAPITAL)
+			|| me.get('capital') === undefined)
+				return me.build('capital');
+		return me.build('capitalCustom');
+	})
+	.onTag('LEADER', (me) => {
+		if(!shards.includes(NationShard.CUSTOM_LEADER)
+			|| me.get('leader') === undefined)
+				return me.build('leader');
+		return me.build('leaderCustom');
+	})
+	.onTag('RELIGION', (me) => {
+		if(!shards.includes(NationShard.CUSTOM_RELIGION)
+			|| me.get('religion') === undefined)
+				return me.build('religion');
+		return me.build('religionCustom');
+	})
 	.onTag('CENSUS', (me) => me
 		.build('census')
 		.assignSubFactory(ArrayFactory
@@ -330,7 +336,7 @@ exports.create = root => new NSFactory()
 	.onTag('FACTBOOKLIST', (me) => me
 		.build('factbookList')
 		.assignSubFactory(ArrayFactory
-			.complex('', ListDispatch.create)))	// TODO tag name
+			.complex('FACTBOOK', ListDispatch.create)))
 	.onTag('FREEDOM', (me, attrs) => me
 		.build('freedomDescriptions')
 		.assignSubFactory(FreedomsTextData.create(attrs)))
@@ -372,7 +378,7 @@ exports.create = root => new NSFactory()
 	.onTag('WABADGES', (me) => me
 		.build('badges')
 		.assignSubFactory(ArrayFactory
-			.complex('', WABadge.create)))	// TODO tag name
+			.complex('WABADGE', WABadge.create)))
 	.onTag('WCENSUS', (me, attrs) => me
 		.build('censusRank')
 		.assignSubFactory(CensusRankUnscored.create(attrs)))

@@ -72,7 +72,7 @@ const TGQueue = require('./tg-queue');
  * @arg {import('../factory').Attributes} root Attributes on the factory's root
  * @returns {NSFactory<World>} A new `World` factory
  */
-exports.create = (root) => new NSFactory()
+exports.create = (shards = []) => (root) => new NSFactory()
 	.onTag('CENSUSID', (me) => me
 		.build('censusID', convertNumber))
 	.onTag('FEATUREDREGION', (me) => me
@@ -87,10 +87,12 @@ exports.create = (root) => new NSFactory()
 		.build('nationsNum', convertNumber))
 	.onTag('NUMREGIONS', (me) => me
 		.build('regionsNum', convertNumber))
-	/* .onTag('REGIONS', (me) => me
-		.build('', val => {
-			// TODO: duplicate tags
-		})) */
+	.onTag('REGIONS', (me) => {
+		if(!shards.includes(WorldShard.REGIONS_BY_TAG)
+			|| me.get('regions') === undefined)
+				return me.build('regions');
+		return me.build('regionsByTag');
+	})
 	.onTag('BANNERS', (me) => me
 		.build('banners')
 		.assignSubFactory(ArrayFactory

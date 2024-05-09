@@ -182,7 +182,7 @@ class NationRequest extends ShardableRequest {
 	 * @returns {Promise<Nation.Nation>}
 	 */
 	async send() {
-		this.useFactory(Nation.create);
+		this.useFactory(Nation.create(this.getShards()));
 
 		/**
 		 * If this request contains a verification request and does not query

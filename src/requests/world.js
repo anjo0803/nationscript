@@ -224,7 +224,7 @@ class WorldRequest extends ShardableRequest {
 	 * @returns {Promise<World.World>}
 	 */
 	async send() {
-		this.useFactory(World.create);
+		this.useFactory(World.create(this.getShards()));
 		return await super.send();
 	}
 }
