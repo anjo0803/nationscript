@@ -45,17 +45,23 @@ async function timeout(period) {
 }
 
 /**
- * 
- * @arg {import('node:http').IncomingHttpHeaders} data 
+ * Updates the rate-limiters records with data supplied by the API.
+ * @arg {http.IncomingHttpHeaders} data Headers returned
  */
-exports.update = function(data) {
-	let policy = data['ratelimit-policy']//?.split(';w=');
-	console.log(policy);
-	// TODO
-	/* if(policy) {
-		if(policy[0]) NSRequest.#policy.amount = policy[0];
-		if(policy[1]) NSRequest.#policy.period = policy[1] * 1000;
-	} */
+function update(data) {
+	let apiLimit = data['ratelimit-limit']
+	if(typeof apiLimit !== 'string') return;
+	amount = parseInt(apiLimit) - 1;
+
+	let apiRemaining = data['ratelimit-remaining'];
+	if(typeof apiRemaining !== 'string') return;
+	let apiSent = amount - parseInt(apiRemaining) + 1;
+	if(sent < apiSent) sent = apiSent;
+
+	let apiExpire = data['ratelimit-reset'];
+	if(typeof apiExpire !== 'string') return;
+	let apiReset = parseInt(apiExpire) * 1000;	// is returned in seconds
+	if(expires < apiReset) expires = apiReset;
 }
 
 /**
