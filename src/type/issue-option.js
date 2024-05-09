@@ -8,16 +8,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents an option that may be chosen to answer an issue.
- * @typedef {object} IssueOption
- * @prop {number} id Issue-internal ID of the option.
- * @prop {string} text Body text describing the option.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<IssueOption>} A new `IssueOption` factory
+ * @type {import('../factory').FactoryConstructor<types.IssueOption>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.set('id', root['id'], convertNumber)

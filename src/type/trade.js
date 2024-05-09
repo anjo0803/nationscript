@@ -8,21 +8,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
-const ListCard = require('./card-list-item');
+const types = require('../types');
 
 /**
- * Represents the transfer of a card from one nation to another (whether by
- * gift or auction) from the view of the open market.
- * @typedef {object} Trade
- * @prop {ListCard.ListCard} card The card transferred.
- * @prop {string} buyer Nation that received the card (`id_form`).
- * @prop {string} seller Nation that gave the card (`id_form`).
- * @prop {number} price Amount of bank the receiver paid; `0.0` for gifts.
- * @prop {number} timestamp Timestamp of when the transfer occurred.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<Trade>} A new `Trade` factory
+ * @type {import('../factory').FactoryConstructor<types.Trade>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('BUYER', (me) => me

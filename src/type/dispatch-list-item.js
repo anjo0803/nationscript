@@ -5,32 +5,14 @@
  */
 
 const {
-	DispatchCategory,
-	DispatchSubcategory
-} = require('../enums');
-const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents a dispatch, without its body text.
- * @typedef {object} ListDispatch
- * @prop {number} id ID of the dispatch.
- * @prop {string} title The dispatch's title.
- * @prop {string} author Nation that published the dispatch (`id_form`).
- * @prop {string} categoryTop The {@linkcode DispatchCategory} of the dispatch.
- * @prop {string} categorySub The {@linkcode DispatchSubcategory} of the
- *     dispatch.
- * @prop {number} posted Timestamp of the dispatch's original publication.
- * @prop {number} edited Timestamp of the last edit to the dispatch. If there
- *     haven't been any edits, `0`.
- * @prop {number} views Number of views on the dispatch.
- * @prop {number} score The dispatch's score - upvotes minus downvotes.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<ListDispatch>} A new `ListDispatch` factory
+ * @type {import('../factory').FactoryConstructor<types.ListDispatch>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.set('id', root['id'], convertNumber)

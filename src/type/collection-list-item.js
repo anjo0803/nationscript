@@ -8,18 +8,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents a collection of cards with only the most basic data present, as
- * when displayed as part of a listing of multiple collections.
- * @typedef {object} ListCollection
- * @prop {number} id ID of the collection.
- * @prop {string} name Name of the collection.
- * @prop {number} edited Timestamp of the last change to the collection.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<ListCollection>} A new `ListCollection` factory
+ * @type {import('../factory').FactoryConstructor<types.ListCollection>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('COLLECTIONID', (me) => me

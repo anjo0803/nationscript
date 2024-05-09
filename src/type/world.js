@@ -5,17 +5,13 @@
  */
 
 const {
-	CensusScale,
-	Tag
-} = require('../enums');
-
-const {
 	NSFactory,
 	ArrayFactory,
 	convertNumber,
-	convertBoolean,
 	convertArray
 } = require('../factory');
+const { WorldShard } = require('../shards');
+const types = require('../types');
 
 const Banner = require('./banner');
 const CensusRankScored = require('./census-rank-scored');
@@ -31,46 +27,13 @@ const Poll = require('./poll');
 const TGQueue = require('./tg-queue');
 
 /**
- * Represents the world of the NationStates multiverse, containing all the data
- * requested from the World API.
- * @typedef {object} World
- * @prop {number} [censusID] ID of the day's featured {@link CensusScale}.
- * @prop {string} [featured] The day's featured region (`id_form`).
- * @prop {number} [lastEventID] ID of the most recent happening event visible
- *     to the API.
- * @prop {string[]} [nations] Names of currently existing nations (`id_form`).
- * @prop {string[]} [nationsNew] Names of the 50 most recently founded nations
- *     (`id_form`).
- * @prop {number} [nationsNum] Number of currently existing nations.
- * @prop {number} [regionsNum] Number of currently existing regions.
- * @prop {string[]} [regions] Names of currently existing regions (`id_form`).
- * @prop {string[]} [regionsByTag] Names of all regions matching the queried
- *     {@link Tag} requirements.
- * @prop {Banner.Banner[]} [banners] Details of the queried banners.
- * @prop {CensusDataWorld.WCensusAverage[]} [censusAverages] Average national
- *     scores on the queried {@link CensusScale}.
- * @prop {string} [censusScale] Name of the units the queried
- *     {@link CensusScale} is measured in.
- * @prop {string} [censusTitle] Title of the queried {@link CensusScale}.
- * @prop {CensusDescription.CensusDescription} [censusDescription] Info texts
- *     displayed for the queried {@link CensusScale}.
- * @prop {CensusRankScored.CensusRankScored[]} [censusRanks] Ranking of nations
- *     on the queried {@link CensusScale}.
- * @prop {Dispatch.Dispatch} [dispatch] Details of the queried dispatch.
- * @prop {ListDispatch.ListDispatch[]} [dispatchList] Dispatches that matched
- *     the selected dispatch filters.
- * @prop {Faction.Faction} [faction] Details of the queried N-Day faction.
- * @prop {ListFaction.ListFaction[]} [factionList] Extant N-Day factions.
- * @prop {IDHappening.IDHappening[]} [happenings] Happening events that matched
- *     the selected happenings filters.
- * @prop {NewNation.NewNation[]} [nationsNewDetails] Founding details of the 50
- *     most recently founded nations.
- * @prop {Poll.Poll} [poll] Details of the queried poll.
- * @prop {TGQueue.TGQueue} [tgQueue] Details of the telegram queue.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<World>} A new `World` factory
+ * Since the World API returns regions data and the results of the region tag
+ * search both in <REGIONS> tags, parsing their contents into the proper
+ * properties requires tracking of the originally requested shards, since in
+ * any case the "simple" regions shard is always returned before the tags one.
+ * @arg {string[]} shards Shards requested in the original request
+ * @returns {import('../factory').FactoryConstructor<types.World>}
+ * @ignore
  */
 exports.create = (shards = []) => (root) => new NSFactory()
 	.onTag('CENSUSID', (me) => me

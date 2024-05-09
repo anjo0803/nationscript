@@ -4,40 +4,63 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-
-
-
 /**
- * Describes the current rate-limiting policy of the NationStates API. This gets updated
- * automatically based on the information in the headers returned from API requests, but is
- * initially set to allow 50 requests per 30 seconds, which, as of coding, is the actual limit.
+ * Provides built-in rate-limiting functionality.
+ * @module nationscript/request/ratelimit
  */
 
-/* Number of milliseconds treated as one time window by the NS API. */
+const http = require('node:http');
+
+/* === Normal Requests === */
+
+/**
+ * Number of milliseconds treated as one time window by the NS API.
+ * @type {number}
+ * @default 30000
+ */
 let period = 30000
 
-/* Total number of requests that may be made within one time window. */
-let amount = 49	// Leave space for one TG request that might come from the TG queue
+/**
+ * Total number of requests that may be made within one time window.
+ * @type {number}
+ * @default 49
+ */
+let amount = 49	// Leave space for one TG request
 
-/* Number of requests sent to the API in the current time window. */
+/**
+ * Number of requests sent to the API in the current time window.
+ * @type {number}
+ */
 let sent = 0
 
-/* Number of requests currently waiting for the active time window to expire. */
+/**
+ * Number of requests currently waiting for the active time window to expire.
+ * @type {number}
+ */
 let queued = 0
 
-/* Unix ms timestamp for when the active time window expires. */
+/**
+ * Timestamp of when the active time window expires.
+ * @type {number}
+ */
 let expires = 0
 
-/* Number of milliseconds to add to time window calculations as a safety buffer. */
-let buffer = 200
+/**
+ * Number of milliseconds to add to time window calculations as safety buffer.
+ * @type {number}
+ * @default 200
+ */
+const buffer = 200
 
-/* Unix ms timestamp of when a new time window starts, as stated by the API. */
+/**
+ * Timestamp of when a new time window starts, as stated by the API.
+ * @type {number}
+ */
 let retry = 0
 
 /**
  * Pauses execution for the specified amount of time if `await`ed.
- * @arg {number} period Number of milliseconds to pause.
- * @private
+ * @arg {number} period Number of milliseconds to pause
  * @ignore
  */
 async function timeout(period) {
@@ -65,14 +88,16 @@ function update(data) {
 }
 
 /**
- * Depending on how many requests have been sent to the NS API in the current API window
- * already, pauses further execution for an appropriate amount of time if `await`ed, so as to
- * not exceed the API's rate-limit.
+ * Enforces compliance with the API's general rate-limit.
+ * 
+ * Depending on how many requests have been sent to the NS API in the current
+ * time window already, further execution is paused for an appropriate amount
+ * of time, until a new request can be made again safely.
  */
-exports.enforce = async function() {
+async function enforce() {
 	let now = Date.now();
 
-	// If activating a new time window, only save the expiration time and reset the data
+	// Activation of a new time window by the current request
 	if(now > expires) {
 		expires = now + period + buffer;
 		sent = 1;
@@ -80,20 +105,22 @@ exports.enforce = async function() {
 		return;
 	}
 
-	// If there's still room for requests in the current time window, just register the request
+	// Current request would not exceed the number of allowed requests
 	if(sent < amount) {
 		sent += 1;
 		return;
 	}
 
 	/*
-	 * If however the maximum number of requests has been reached for the current time window
-	 * already, a queue of requests is calculated:
-	 * - Firstly, check whether the current length of the queue would take up one more whole
-	 *   time window, and if so, register a new expiration date to account for this new window
-	 * - Then, wait the time necessary to reach the start of the next non-filled time window
-	 * - If there was a rate-limit excess in the meantime and a retry time has been set, repeat
-	 *   the above steps (effectively, request is re-queued at the end of the current queue)
+	 * If the maximum number of requests has been reached for the current time
+	 * window, a queue of requests is calculated:
+	 * - Firstly, check whether the current queue would take up one more whole
+	 *   time window, and if so, register a new expiration date to account for
+	 *   this new window.
+	 * - Then, wait until the next free time window begins.
+	 * - If there was a rate-limit excess in the meantime and a retry time has
+	 *   been set, repeat the above steps (effectively, request is re-queued at
+	 *   the end of the current queue).
 	 */
 	let windowQueue;
 	do {
@@ -111,18 +138,43 @@ exports.enforce = async function() {
 }
 
 
+/* === TG Requests === */
+
+/**
+ * Number of milliseconds that must have elapsed since a telegram was sent if a
+ * recruitment telegram is to be sent next.
+ * @type {number}
+ * @default 180000
+ */
 let recruitment = 180000
+
+/**
+ * Number of milliseconds that must have elapsed since a telegram was sent if a
+ * non-recruitment telegram is to be sent next.
+ * @type {number}
+ * @default 30000
+ */
 let standard = 30000
+
+/**
+ * Timestamp of when the last telegram was sent.
+ * @type {number}
+ */
 let last = 0
 
 /**
+ * Enforces compliance with the API's telegram rate-limit.
+ * 
+ * Depending on when the last telegram request was sent, further execution is
+ * paused for an appropriate amount of time, until a new telegram request can
+ * be made again safely.
  * @arg {boolean} isRecruit `true` to enforce the rate-limit as required for
  *     recruitment telegrams, otherwise `false`
  */
-exports.enforceTG = async function(isRecruit) {
+async function enforceTG(isRecruit) {
 	let now = Date.now();
 
-	/**
+	/* 
 	 * The TG API works slightly differently, in that it is not a flush bucket
 	 * system like the general API, but simply checks whether sufficient time
 	 * has passed since the last telegrams-related request.
@@ -131,3 +183,7 @@ exports.enforceTG = async function(isRecruit) {
 	last = now + wait + 200;
 	if (wait > 0) await this.timeout(wait);
 }
+
+exports.update = update;
+exports.enforce = enforce;
+exports.enforceTG = enforceTG;

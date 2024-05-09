@@ -8,16 +8,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Container object holding data on a nation's aggregate RMB activity.
- * @typedef {object} RMBActivity
- * @prop {string} nation Nation the data is for (`id_form`).
- * @prop {number} score Aggregate score of the nation.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<RMBActivity>} A new `RMBActivity` factory
+ * @type {import('../factory').FactoryConstructor<types.RMBActivity>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('NAME', (me) => me

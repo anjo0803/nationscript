@@ -9,18 +9,11 @@ const {
 	convertNumber,
 	convertArray
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents a voting option on a regional poll.
- * @typedef {object} PollOption
- * @prop {number} id Poll-internal ID of this option.
- * @prop {string} text Text of this option.
- * @prop {number} votes Number of votes for this option.
- * @prop {string[]} voters Nations voting for this option (`id_form`).
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<PollOption>} A new `Auction` factory
+ * @type {import('../factory').FactoryConstructor<types.PollOption>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.set('id', root['id'], convertNumber)

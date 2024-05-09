@@ -4,23 +4,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-const { Rarity } = require('../enums');
 const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents a card with only the most basic data present, as when displayed
- * as part of a listing of multiple cards.
- * @typedef {object} ListCard
- * @prop {number} id ID of the card (and the depicted nation).
- * @prop {string} rarity {@link Rarity} of the card.
- * @prop {number} season ID of the season that the card was inscribed for.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<ListCard>} A new `ListCard` factory
+ * @type {import('../factory').FactoryConstructor<types.ListCard>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('CARDID', (me) => me

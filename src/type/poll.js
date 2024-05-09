@@ -9,23 +9,13 @@ const {
 	ArrayFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
+
 const PollOption = require('./poll-option');
 
 /**
- * Represents a regional poll.
- * @typedef {object} Poll
- * @prop {number} id Poll ID.
- * @prop {string} title Poll title.
- * @prop {string} [description] Poll description.
- * @prop {string} author Nation that created the poll (`id_form`).
- * @prop {string} region Region that the poll is running in (`id_form`).
- * @prop {number} opens Timestamp for when the poll opens.
- * @prop {number} closes Timestamp for when the poll closes.
- * @prop {PollOption[]} options The available answer options.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<Poll>} A new `Poll` factory
+ * @type {import('../factory').FactoryConstructor<types.Poll>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.set('id', root['id'], convertNumber)

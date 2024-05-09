@@ -4,21 +4,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-const { CensusScale } = require('../enums');
 const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Container object for national score averages on a given World Census scale.
- * @typedef {object} WCensusAverage
- * @prop {number} id ID of the {@linkcode CensusScale} the average is for.
- * @prop {number} average World-wide average score of nations on the scale.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<WCensusAverage>} A new `WCensusAverage` factory
+ * @type {import('../factory').FactoryConstructor<types.WCensusAverage>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.set('id', convertNumber(root['id']))

@@ -8,16 +8,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents a happening event in the NationStates world.
- * @typedef {object} Happening
- * @prop {number} timestamp Timestamp of when the happening occurred.
- * @prop {string} text Description of what transpired in the happening.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<Happening>} A new `Happening` factory
+ * @type {import('../factory').FactoryConstructor<types.Happening>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('TIMESTAMP', (me) => me

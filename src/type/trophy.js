@@ -11,18 +11,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents a commendation, condemnation, liberation, or injunction badge
- * displayed on a nation or region.
- * @typedef {object} Trophy
- * @prop {number} census {@link CensusScale} the trophy is for.
- * @prop {10|5|1} percent Percentile the trophy is for.
- * @prop {number} rank World-wide rank for the census.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<Trophy>} A new `Trophy` factory
+ * @type {import('../factory').FactoryConstructor<types.Trophy>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.set('census', root['type']?.replace?.(/-\dT?$/, ''), translateCensusName)
@@ -34,6 +27,7 @@ exports.create = (root) => new NSFactory()
  * seasonal card dump, with its {@link CensusScale} ID.
  * @arg {string} name Name of the census
  * @returns {number} Matching census scale ID
+ * @ignore
  */
 function translateCensusName(name) {
 	switch(name) {
@@ -41,7 +35,7 @@ function translateCensusName(name) {
 		case 'AGRICULTURE': return CensusScale.SECTOR_AGRICULTURE;
 		case 'AID': return CensusScale.FOREIGN_AID;
 		case 'APATHETIC': return CensusScale.POLITICAL_APATHY;
-		case 'ARMED': return CensusScale.WEAPONIZATION;	// TODO confirm : 516
+		case 'ARMED': return CensusScale.WEAPONIZATION;
 		case 'ARMS': return CensusScale.INDUSTRY_ARMS;
 		case 'AUTHORITARIAN': return CensusScale.AUTHORITARIANISM;
 		case 'AUTO': return CensusScale.INDUSTRY_AUTOMOBILE;
@@ -49,7 +43,7 @@ function translateCensusName(name) {
 		case 'AVOIDED': return CensusScale.CHARMLESSNESS;
 		case 'BASKET': return CensusScale.INDUSTRY_BASKET;
 		case 'BLACKMARKET': return CensusScale.BLACK_MARKET;
-		case 'BUSINESS': return CensusScale.BUSINESS_SUBSIDIZATION;	// TODO confirm : 1117
+		case 'BUSINESS': return CensusScale.BUSINESS_SUBSIDIZATION;
 		case 'CHEESE': return CensusScale.INDUSTRY_CHEESE;
 		case 'COMPASSIONATE': return CensusScale.COMPASSION;
 		case 'CONSERVATIVE': return CensusScale.SOCIAL_CONSERVATISM;
@@ -63,7 +57,7 @@ function translateCensusName(name) {
 		case 'DISPINCOME': return CensusScale.AVERAGE_DISPOSABLE_INCOME;
 		case 'DRUGS': return CensusScale.RECREATIONAL_DRUG_USE;
 		case 'INCOME': return CensusScale.AVERAGE_INCOME;
-		case 'ECO-GOVT': return CensusScale.ECO_FRIENDLINESS;	// TODO confirm
+		case 'ECO-GOVT': return CensusScale.ECO_FRIENDLINESS;
 		case 'ECONOMY': return CensusScale.ECONOMY;
 		case 'EDUCATED': return CensusScale.PUBLIC_EDUCATION;
 		case 'EMPLOYED': return CensusScale.EMPLOYMENT;
@@ -76,10 +70,10 @@ function translateCensusName(name) {
 		case 'FOODQUALITY': return CensusScale.FOOD_QUALITY;
 		case 'FURNITURE': return CensusScale.INDUSTRY_FURNITURE;
 		case 'GAMBLING': return CensusScale.INDUSTRY_GAMBLING;
-		case 'GDP': return CensusScale.ECONOMIC_OUTPUT;	// TODO confirm : 392
+		case 'GDP': return CensusScale.ECONOMIC_OUTPUT;
 		case 'GODFORSAKEN': return CensusScale.SECULARISM;
 		case 'GOVT': return CensusScale.GOVERNMENT_SIZE;
-		case 'HAPPY': return CensusScale.CHEERFULNESS;	// TODO confirm
+		case 'HAPPY': return CensusScale.CHEERFULNESS;
 		case 'HDI': return CensusScale.HUMAN_DEVELOPMENT_INDEX;
 		case 'HEALTHCARE': return CensusScale.PUBLIC_HEALTHCARE;
 		case 'HEALTHY': return CensusScale.HEALTH;
@@ -88,9 +82,9 @@ function translateCensusName(name) {
 		case 'INFLUENCE': return CensusScale.INFLUENCE;
 		case 'INSURANCE': return CensusScale.INDUSTRY_INSURANCE;
 		case 'LEASTCORRUPT': return CensusScale.INTEGRITY;
-		case 'LIBERAL': return CensusScale.CIVIL_RIGHTS;	// TODO confirm
+		case 'LIBERAL': return CensusScale.CIVIL_RIGHTS;
 		case 'LIFE': return CensusScale.LIFESPAN;
-		case 'LOWCRIME': return CensusScale.COMPLIANCE;	// TODO confirm : 499
+		case 'LOWCRIME': return CensusScale.COMPLIANCE;
 		case 'LOWTAX': return CensusScale.FREEDOM_FROM_TAXATION;
 		case 'MANUFACTURING': return CensusScale.SECTOR_MANUFACTURING;
 		case 'MINING': return CensusScale.INDUSTRY_MINING;
@@ -112,11 +106,11 @@ function translateCensusName(name) {
 		case 'RICHINCOME': return CensusScale.AVERAGE_INCOME_RICH;
 		case 'RUDE': return CensusScale.RUDENESS;
 		case 'SAFE': return CensusScale.SAFETY;
-		case 'SMART': return CensusScale.INTELLIGENCE;	// TODO confirm : 398
-		case 'SODA': return CensusScale.INDUSTRY_BEVERAGE;	// TODO confirm
+		case 'SMART': return CensusScale.INTELLIGENCE;
+		case 'SODA': return CensusScale.INDUSTRY_BEVERAGE;
 		case 'STATIONARY': return CensusScale.RESIDENCY;
-		case 'STUPID': return CensusScale.IGNORANCE;	// TODO confirm : 391
-		case 'TECH': return CensusScale.INDUSTRY_IT;	// TODO confirm : 536
+		case 'STUPID': return CensusScale.IGNORANCE;
+		case 'TECH': return CensusScale.INDUSTRY_IT;
 		case 'TIMBER': return CensusScale.INDUSTRY_TIMBER;
 		case 'TOURISM': return CensusScale.TOURISM;
 		case 'WEALTHGAPS': return CensusScale.WEALTH_GAPS;

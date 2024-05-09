@@ -4,11 +4,22 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-const { ShardableRequest, toIDForm } = require('./base');
+/**
+ * Internal module providing request builder classes specialised for fetching
+ * data from the Cards API.
+ * @module nationscript/requests/card
+ */
+
+const {
+	DataRequest,
+	ShardableRequest,
+	toIDForm
+} = require('./base');
 const {
 	CardShard,
 	CardDetailShard
 } = require('../shards');
+const types = require('../types');
 
 const Card = require('../type/card');
 const CardWorld = require('../type/card-world');
@@ -18,10 +29,24 @@ const CardWorld = require('../type/card-world');
  * the API (`q=card`).
  */
 class CardIndividualRequest extends ShardableRequest {
-	constructor(id, season) {
+	/**
+	 * Additionally {@link DataRequest#mandate mandate}s the `q`, `cardid`, and
+	 * `season` arguments and sets the `q` argument.
+	 */
+	constructor() {
 		super();
 		this.mandate('q', 'cardid', 'season')
-			.shard('card')
+			.setArgument('q', 'card');
+	}
+
+	/**
+	 * Define the card to query with this request.
+	 * @param {number} id ID of the card to request
+	 * @param {number} season Season the desired card was inscribed for
+	 * @returns {this} The request, for chaining
+	 */
+	setCard(id, season) {
+		return this
 			.setArgument('cardid', id)
 			.setArgument('season', season);
 	}
@@ -32,8 +57,8 @@ class CardIndividualRequest extends ShardableRequest {
 	 * requests containing the {@link CardDetailShard.TRADES} shard.
 	 * @arg {number} limit Maximum number of trades to return. If not set, 50
 	 *     trades are returned.
-	 * @arg {number} from Timestamp from which on to return trades.
-	 * @arg {number} to Timestamp up to which to return trades.
+	 * @arg {number} from Timestamp from which on to return trades
+	 * @arg {number} to Timestamp up to which to return trades
 	 * @returns {this} The request, for chaining
 	 */
 	setTradesOptions(limit, from, to) {
@@ -45,7 +70,7 @@ class CardIndividualRequest extends ShardableRequest {
 
 	/**
 	 * @inheritdoc
-	 * @returns {Promise<Card.Card>}
+	 * @returns {Promise<types.Card>}
 	 */
 	async send() {
 		this.useFactory(Card.create);
@@ -73,25 +98,31 @@ class CardIndividualRequest extends ShardableRequest {
 
 	/** @inheritdoc */
 	removeShards(...shards) {
-		let remain = ['card'];
-		for(let shard of this.getShards()) if(!shards.includes(shard)) remain.push(shard);
-		return this.shard(...remain);
+		let i = shards.indexOf('card');
+		if(i >= 0) shards.splice(i, 1);
+		return super.removeShards(...shards);
 	}
 }
 
 /**
- * Request subclass for building requests to the (world) cards endpoint of the API (`q=cards`).
+ * Request subclass for building requests to the (world) cards endpoint of the
+ * API (`q=cards`).
  */
 class CardWorldRequest extends ShardableRequest {
+	/**
+	 * Additionally {@link DataRequest#mandate mandate}s the `q` argument and
+	 * sets it.
+	 */
 	constructor() {
 		super();
-		this.mandate('q');
+		this.mandate('q')
+			.setArgument('q', 'card');
 	}
 
 	/**
 	 * Set the ID of the card collection to query the details of. Only affects
 	 * requests containing the {@link CardShard.COLLECTION_DETAILS} shard.
-	 * @param {number} id ID of the collection to view
+	 * @arg {number} id ID of the collection to view
 	 * @returns {this} The request, for chaining
 	 */
 	setCollectionID(id) {
@@ -102,7 +133,7 @@ class CardWorldRequest extends ShardableRequest {
 	 * Set the nation to query card data for by its ID. Only affects requests
 	 * containing the {@link CardShard.CARDS}, {@link CardShard.SUMMARY},
 	 * {@link CardShard.ASKS_BIDS}, or {@link CardShard.COLLECTIONS} shards.
-	 * @param {number} id Database ID of the desired nation
+	 * @arg {number} id Database ID of the desired nation
 	 * @returns {this} The request, for chaining
 	 */
 	setNationID(id) {
@@ -113,7 +144,7 @@ class CardWorldRequest extends ShardableRequest {
 	 * Set the nation to query card data for by its name. Only affects requests
 	 * containing the {@link CardShard.CARDS}, {@link CardShard.SUMMARY},
 	 * {@link CardShard.ASKS_BIDS}, or {@link CardShard.COLLECTIONS} shards.
-	 * @param {string} name Name of the desired nation
+	 * @arg {string} name Name of the desired nation
 	 * @returns {this} The request, for chaining
 	 */
 	setNationName(name) {
@@ -139,7 +170,7 @@ class CardWorldRequest extends ShardableRequest {
 
 	/**
 	 * @inheritdoc
-	 * @returns {Promise<CardWorld.CardWorld>}
+	 * @returns {Promise<types.CardWorld>}
 	 */
 	async send() {
 		this.useFactory(CardWorld.create);
@@ -161,9 +192,9 @@ class CardWorldRequest extends ShardableRequest {
 
 	/** @inheritdoc */
 	removeShards(...shards) {
-		let remain = ['cards'];
-		for(let shard of this.getShards()) if(!shards.includes(shard)) remain.push(shard);
-		return this.shard(...remain);
+		let i = shards.indexOf('cards');
+		if(i >= 0) shards.splice(i, 1);
+		return super.removeShards(...shards);
 	}
 }
 

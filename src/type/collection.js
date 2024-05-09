@@ -9,19 +9,13 @@ const {
 	ArrayFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
+
 const ListCard = require('./card-list-item');
 
 /**
- * Represents a collection of cards, in detailed form.
- * @typedef {object} Collection
- * @prop {string} name Name of the collection.
- * @prop {string} owner Nation that created the collection (`id_form`).
- * @prop {number} edited Timestamp of the last change to the collection.
- * @prop {ListCard.ListCard[]} cards List of cards in the collection.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<Collection>} A new `Collection` factory
+ * @type {import('../factory').FactoryConstructor<types.Collection>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('NAME', (me) => me

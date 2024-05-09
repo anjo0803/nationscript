@@ -8,17 +8,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents an *extant* vote cast by a WA delegate on an at-vote resolution.
- * @typedef {object} DelegateActiveVote
- * @prop {string} delegate Name of the delegate (`id_form`).
- * @prop {number} weight Number of votes the delegate currently has.
- * @prop {number} timestamp Timestamp of when the vote was cast.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<DelegateActiveVote>} A new `DelegateActiveVote` factory
+ * @type {import('../factory').FactoryConstructor<types.DelegateActiveVote>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('NATION', (me) => me

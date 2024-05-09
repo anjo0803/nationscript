@@ -4,26 +4,16 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-const { OfficerAuthority } = require('../enums');
 const {
 	NSFactory,
 	convertNumber,
 	convertArray
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents a regional officer of a region.
- * @typedef {object} Officer
- * @prop {string} nation Nation holding the office (`id_form`).
- * @prop {string} office Name of the office.
- * @prop {string} appointer Nation that appointed the officer (`id_form`).
- * @prop {string[]} authorities {@link OfficerAuthority} codes for the officer.
- * @prop {number} appointment Timestamp of the officer's appointment.
- * @prop {number} order Position on which the officer is displayed (1-indexed).
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<Officer>} A new `Officer` factory
+ * @type {import('../factory').FactoryConstructor<types.Officer>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('NATION', (me) => me

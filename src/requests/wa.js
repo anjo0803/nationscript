@@ -4,8 +4,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+/**
+ * Internal module providing a specialised request builder class for fetching
+ * data from the World Assembly API.
+ * @module nationscript/requests/wa
+ */
+
 const { ShardableRequest } = require('./base');
 const { WAShard } = require('../shards');
+const types = require('../types');
 
 const WorldAssembly = require('../type/world-assembly');
 
@@ -27,7 +34,7 @@ class WARequest extends ShardableRequest {
 	 * *Note that the {@link WAShard.VOTERS}, {@link WAShard.VOTE_TRACK},
 	 * {@link WAShard.DELEGATE_VOTES}, and {@link WAShard.DELEGATE_VOTE_LOG}
 	 * shards will not return any info on passed resolutions.*
-	 * @param {number} id ID of the desired resolution
+	 * @arg {number} id ID of the desired resolution
 	 * @returns {this} The request, for chaining
 	 */
 	setResolution(id) {
@@ -36,7 +43,7 @@ class WARequest extends ShardableRequest {
 
 	/**
 	 * @inheritdoc
-	 * @returns {Promise<WorldAssembly.WorldAssembly>}
+	 * @returns {Promise<types.WorldAssembly>}
 	 */
 	async send() {
 		this.useFactory(WorldAssembly.create);

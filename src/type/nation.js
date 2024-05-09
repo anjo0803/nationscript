@@ -5,22 +5,14 @@
  */
 
 const {
-	Admirable,
-	CensusScale,
-	Influence,
-	Notable,
-	Sensibility,
-	WAStatus,
-	WAVote
-} = require('../enums');
-
-const {
 	NSFactory,
 	ArrayFactory,
 	convertNumber,
 	convertBoolean,
 	convertArray
 } = require('../factory');
+const { NationShard } = require('../shards');
+const types = require('../types');
 
 const CensusDataNation = require('./census-data-nation');
 const DeathData = require('./death-data');
@@ -40,142 +32,13 @@ const WABadge = require('./badge-wa');
 const ZombieDataNation = require('./zombie-data-nation');
 
 /**
- * Container object holding data on the different component scores that
- * ultimately combine into a nation's final World Census HDI score.
- * @typedef {object} HDIData
- * @prop {number} score The final HDI score.
- * @prop {number} economy The economic score component.
- * @prop {number} education The educational score component.
- * @prop {number} lifespan The life expectancy score component.
- */
-/**
- * Represents a nation in the NationStates multiverse, containing all the data
- * requested from the Nation API.
- * @typedef Nation
- * @prop {string} idForm Name of this nation in `id_form`.
- * @prop {string} [admirable] Random {@link Admirable} of the nation.
- * @prop {string[]} [admirables] All {@link Admirable}s of the nation.
- * @prop {string} [animal] National animal of the nation.
- * @prop {string} [animalTrait] Behaviour of the national animal.
- * @prop {string} [banner] Banner code of the banner to display for the nation.
- *     If the nation has set a primary banner, this is always the code of that
- *     primary banner; otherwise, it is randomly selected from all banners the
- *     nation has unlocked and not turned off.
- * @prop {string[]} [banners] Banner codes of all banners the nation has
- *     unlocked and not turned off. If the nation has set a primary banner, the
- *     banner code of it is listed first.
- * @prop {string} [category] World Census category of the nation, e.g. *New
- *     York Times Democracy*.
- * @prop {string} [crime] Textual description of crime levels in the nation.
- * @prop {string} [currency] Name of the nation's currency.
- * @prop {number} [dbID] Database ID of the nation.
- * @prop {string} [demonymAdjective] The adjective demonym for the nation.
- * @prop {string} [demonymNoun] The singluar noun demonym for the nation.
- * @prop {string} [demonymPlural] The plural noun demonym for the nation.
- * @prop {number} [dispatchNum] Number of extant dispatches the nation wrote.
- * @prop {string[]} [dossierNations] Nations in the dossier of the nation
- *     (`id_form`).
- * @prop {string[]} [endorsements] Nations endorsing this nation (`id_form`).
- * @prop {number} [factbookNum] Number of extant factbooks the nation authored.
- * @prop {number} [firstLogin] Timestamp of the nation's first login.
- * @prop {string} [flag] Absolute URL of the national flag image file.
- * @prop {string} [founded] Textual description of when the nation was founded,
- *     relative to now.
- * @prop {number} [foundedTimestamp] Timestamp of the nation's founding.
- * @prop {string} [nameFull] Full name of the nation.
- * @prop {string} [voteGA] {@link WAVote} of the nation in the GA.
- * @prop {number} [gdp] GDP of the nation.
- * @prop {string} [government] Textual description of what the national
- *     government is doing.
- * @prop {string} [spendingPriority] Single largest field within the nation's
- *     {@link Nation#expenditure expenditure}.
- * @prop {number} [incomeAverage] Average income of national citizens.
- * @prop {string} [descriptionIndustry] Textual description of the economic
- *     situation in the nation.
- * @prop {string} [influence] {@link Influence} the nation has in its region.
- * @prop {number} [issuesAnswered] Number of issues the nation has answered.
- * @prop {string} [lastLogin] Textual description of the time of the nation's
- *     last login, relative to now.
- * @prop {number} [lastLoginTimestamp] Timestamp of the nation's last login.
- * @prop {string[]} [legislation] Effect lines of the nation's four most
- *     recently answered issues.
- * @prop {string} [majorIndustry] Largest industry in the nation.
- * @prop {string} [motto] National motto.
- * @prop {string} [name] Name of the nation (`Proper Form`).
- * @prop {string} [nextIssue] Textual description of when the nation will face
- *     its next issue, relative to now.
- * @prop {number} [nextIssueTime] Timestamp for when the nation will face its
- *     next issue.
- * @prop {string} [notable] Random {@link Notable} the nation is eligible for.
- * @prop {string[]} [notables] All {@link Notable}s the nation is eligible for.
- * @prop {number} [packs] Number of unopened card packs the nation has.
- * @prop {boolean} [ping] `true` if the ping to the nation was successful,
- *     otherwise `false`.
- * @prop {number} [incomePoorest] Average income of the poorest 10% of national
- *     citizens.
- * @prop {number} [population] Number of citizens the nation has, in millions.
- * @prop {number} [gdpGovernment] Percentage of the nation's GDP that is
- *     generated directly by government action.
- * @prop {string[]} [dossierRegions] Regions in the dossier of the nation
- *     (`id_form`).
- * @prop {string} [region] Region the nation resides in (`Proper Form`).
- * @prop {number} [incomeRichest] Average income of the richest 10% of national
- *     citizens.
- * @prop {string} [voteSC] {@link WAVote} of the nation in the SC.
- * @prop {string[]} [sensibilities] All {@link Sensibility} traits of national
- *     citizens.
- * @prop {number} [tax] Average income tax rate in the nation.
- * @prop {boolean} [receivesCampaign] `true` if the nation would accept the
- *     defined campaign telegram, otherwise `false`.
- * @prop {boolean} [receivesRecruit] `true` if the nation would accept the
- *     defined recruitment telegram, otherwise `false`.
- * @prop {string} [pretitle] National pretitle.
- * @prop {string} [waStatus] {@link WAStatus} of the nation.
- * @prop {string} [capital] Name of the national capital.
- * @prop {string} [capitalCustom] Custom name for the national capital, if set.
- * @prop {string} [leader] Name of the national leader.
- * @prop {string} [leaderCustom] Custom name for the national capital, if set.
- * @prop {string} [religion] Name of the national religion.
- * @prop {string} [religionCustom] Custom name for the national religion, if
- *     set.
- * @prop {boolean} [verified] `true` if a login of the nation was successfully
- *     verified, otherwise `false`.
- * @prop {CensusDataNation.CensusDataNation[]} [census] Performance of the
- *     nation on the queried {@linkcode CensusScale}s.
- * @prop {DeathData.DeathData} [deaths] Details on the causes of death in the
- *     nation.
- * @prop {ListDispatch.ListDispatch} [dispatchList] Extant dispatches the
- *     nation authored.
- * @prop {ListDispatch.ListDispatch} [factbookList] Extant factbooks the nation
- *     authored.
- * @prop {FreedomsTextData.FreedomsTextData} [freedomDescriptions] Textual
- *     descriptions of the freedom levels in the nation.
- * @prop {FreedomsScoreData.FreedomsScoreData} [freedomScores] Scores for the
- *     freedom levels in the nation.
- * @prop {SpendingData.SpendingData} [expenditure] Details of national
- *     government expenditure.
- * @prop {Happening.Happening[]} [happenings] Recent national happening events.
- * @prop {HDIData} [hdi] Composition of the nation's HDI score.
- * @prop {Issue.Issue[]} [issues] Issues currently confronting the nation.
- * @prop {ListIssue.ListIssue[]} [issueSummaries] Titles and IDs of issues
- *     currently confronting the nation.
- * @prop {Notice.Notice[]} [notices] Notices of the nation.
- * @prop {Policy.Policy[]} [policies] National policies.
- * @prop {CensusRankUnscored.CensusRankUnscored} [censusRankRegion] Rank of the
- *     nation on the day's featured {@link CensusScale} among region-mates.
- * @prop {SectorsData.SectorsData} [sectors] Composition of the nation's GDP,
- *     by sector.
- * @prop {UnreadsData.UnreadsData} [unreads] Stuff not yet acknowledged by the
- *     nation.
- * @prop {WABadge.WABadge[]} [badges] Badges awarded to the nation by the SC.
- * @prop {CensusRankUnscored.CensusRankUnscored} [censusRank] Rank of the
- *     nation on the day's featured {@link CensusScale} world-wide.
- * @prop {ZombieDataNation.ZombieDataNation} [zombie] Details on the national
- *     Z-Day performance.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<Nation>} A new `Nation` factory
+ * Since the Nation API returns capital, leader, and religion data and their
+ * explicitly custom couterparts in identical tag names, parsing their contents
+ * into the proper properties requires tracking of the originally requested
+ * shards, since in any case one is always returned before the other.
+ * @arg {string[]} shards Shards requested in the original request
+ * @returns {import('../factory').FactoryConstructor<types.Nation>}
+ * @ignore
  */
 exports.create = (shards = []) => (root) => new NSFactory()
 	.set('idForm', root['id'])

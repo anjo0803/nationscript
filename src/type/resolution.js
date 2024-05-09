@@ -9,55 +9,21 @@ const {
 	ArrayFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
+
 const DelegateActiveVote = require('./vote-delegate-extant');
 const DelegateLogVote = require('./vote-delegate-log');
 
+
 /**
- * Container for ordering vote data by votes For and Against.
- * @typedef {{for: Type, against: Type}} ForAgainst
- * @template {any} Type
- */
-/**
- * Container object holding data on the state of voting a resolution.
- * @typedef {object} VoteSummary
- * @prop {ForAgainst<number>} total Vote totals.
- * @prop {ForAgainst<number[]>} [track] Progression of vote totals, array
- *     entries representing the respective vote total in hourly intervals.
- * @prop {ForAgainst<string[]>} [nations] Names of individual voters.
- * @prop {ForAgainst<number>} [nationsNum] Numbers of individual voters.
- * @prop {ForAgainst<DelegateActiveVote.DelegateActiveVote>} [delegates] The
- *     details of regional delegates' standing votes.
- * @prop {DelegateLogVote.DelegateLogVote[]} [delegatesLog] Historical log of
- *     regional delegates casting their votes.
- */
-/**
- * Represents an at-vote or passed resolution in the World Assembly.
- * @typedef {object} Resolution
- * @prop {string} id Council-internal resolution ID. If the resolution has not
- *     been passed yet, this is its proposal ID.
- * @prop {string} title Resolution title.
- * @prop {string} author Nation that submitted the resolution (`id_form`).
- * @prop {string[]} coauthors List of co-authoring nations (`id_form`).
- * @prop {string} text Body text of the resolution.
- * @prop {number} submitted Timestamp of the resolution's submission.
- * @prop {number} promoted Timestamp of when voting started on the resolution.
- * @prop {number} [implemented] Timestamp of the resolution's passage, if
- *     applicable.
- * @prop {number} [repealed] ID of the resolution this resolution was repealed
- *     by, if applicable.
- * @prop {string} category {@link WACategory} of the resolution.
- * @prop {string} option For GA resolutions and SC declarations, the
- *     subcategory of the resolution; otherwise its target nation or region
- *     (`id_form`).
- * @prop {VoteSummary} [vote] Data on the current votes on the resolution.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<Resolution>} A new `Trade` factory
+ * @type {import('../factory').FactoryConstructor<types.Resolution>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('ID', (me) => me
 		.build('id'))
+	.onTag('RESID', (me) => me
+		.build('idOverall', convertNumber))
 	.onTag('COUNCILID', (me) => me
 		.build('id'))
 	.onTag('NAME', (me) => me
@@ -65,7 +31,9 @@ exports.create = (root) => new NSFactory()
 	.onTag('PROPOSED_BY', (me) => me
 		.build('author'))
 	.onTag('COAUTHOR', (me) => me
-		.build('coauthors'))	// TODO structure
+		.build('coauthors')
+		.assignSubFactory(ArrayFactory
+			.primitive('N')))
 	.onTag('DESC', (me) => me
 		.build('text'))
 	.onTag('CREATED', (me) => me
@@ -125,4 +93,7 @@ exports.create = (root) => new NSFactory()
 	.onTag('DELLOG', (me, attrs) => me
 		.build('vote.delegatesLog')
 		.assignSubFactory(ArrayFactory
-			.complex('ENTRY', DelegateLogVote.create)));
+			.complex('ENTRY', DelegateLogVote.create)))
+
+	// If there are no co-authors, the <COAUTHOR> tag isn't returned at all
+	.set('coauthors', []);

@@ -4,6 +4,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+/**
+ * @module nationscript/factory
+ */
+
 const {
 	NSError,
 	ProductWithheldError,
@@ -12,6 +16,14 @@ const {
 } = require('./errors');
 
 /**
+ * @template ProductType
+ * @callback FactoryConstructor
+ * A function returning a new `NSFactory` initialized from the data contained
+ * within the passed attributes on the XML root tag for the factory to handle.
+ * @arg {Attributes} root Attributes present on the XML root to handle
+ * @returns {NSFactory<ProductType>} The initialized factory
+ */
+/**
  * @callback DataConverter
  * Contains an operation to be performed on the passed value. This might be a
  * conversion of a string to a number, the creation of a new class instance
@@ -19,17 +31,16 @@ const {
  * @arg {any} val Value to operate on
  * @return {boolean|string|number|object} The result of the conversion
  */
-
 /**
  * @callback TagHandler
- * 
+ * A function describing the operations to be performed by a {@link NSFactory}
+ * when it receives an {@link NSFactory#onOpen} call for a given XML tag.
  * @arg {NSFactory} me `this` of the factory from which the handler is called
  * @arg {Attributes} attrs Key-value pairs of the tag's attributes
  * @return {void}
- * @todo
  */
-
 /**
+ * Represents the attributes present on an XML tag.
  * @typedef {Object.<string, string>} Attributes
  */
 
@@ -46,10 +57,10 @@ const {
  * `product`, later to be used by the parent factory as a property.
  * 
  * Data is received from the parser over the following events:
- * - {@link NSFactory#onOpen}
- * - {@link NSFactory#onClose}
- * - {@link NSFactory#onText}
- * - {@link NSFactory#onCData}
+ * - {@link NSFactory#handleOpen handleOpen}
+ * - {@link NSFactory#handleClose handleClose}
+ * - {@link NSFactory#handleText handleText}
+ * - {@link NSFactory#handleCData handleCData}
  * 
  * Upon receiving an `onOpen()` call, the factory checks whether its registered
  * {@link NSFactory#tags tags} cover the associated XML node's name. If not,
@@ -71,7 +82,7 @@ const {
  * received, and no `subFactory` exists. At that point, the factory will add
  * any collected text `data` to its `product`, after which it is declared to be
  * {@link NSFactory#finalised finalised}. From that point on, the factory can
- * {@link NSFactory#deliver} the `product`.
+ * {@link NSFactory#deliver deliver} the `product`.
  * @summary Class for handling data from events emitted during XML parsing.
  * @template ProductType Type of this factory's `product`
  */
@@ -83,7 +94,7 @@ class NSFactory {
 	 * @type {*}
 	 * @protected
 	 */
-	product = undefined;
+	product = {};
 
 	/**
 	 * Name of the property of the {@link NSFactory#product product} that is
@@ -208,7 +219,7 @@ class NSFactory {
 	/**
 	 * Gets the value of the given property on the 
 	 * {@link NSFactory#product product}.
-	 * @param {string} property Name of target property
+	 * @arg {string} property Name of target property
 	 * @returns {any} The property on the `product`; if not set, `undefined`
 	 * @package
 	 */
@@ -258,7 +269,7 @@ class NSFactory {
 	 */
 	assignSubFactory(subFactory) {
 		if(!(subFactory instanceof NSFactory))
-			throw new TypeError('Invalid SubFactory assignment: ' + subFactory);
+			throw new TypeError('Invalid SubFactory: ' + subFactory);
 		this.subFactory = subFactory;
 		return this;
 	}
@@ -357,7 +368,7 @@ class NSFactory {
 			return true;
 		} else if(this.ignore.length > 0) return false;
 
-		/**
+		/*
 		 * At this point, the closing tag must be the root tag, since all tags
 		 * that are handled receive a sub-factory assignment, and all that are
 		 * not are ignored.
@@ -451,8 +462,8 @@ class ArrayFactory extends NSFactory {
 	/**
 	 * Creates a new `ArrayFactory` with the given handler assigned to the
 	 * given single tag name.
-	 * @param {string} tag Name of the tag to handle
-	 * @param {TagHandler} handler Handler function for the tag
+	 * @arg {string} tag Name of the tag to handle
+	 * @arg {TagHandler} handler Handler function for the tag
 	 * @public
 	 */
 	static single(tag, handler) {
@@ -462,8 +473,8 @@ class ArrayFactory extends NSFactory {
 	/**
 	 * Creates a new `ArrayFactory` that produces the text content of tags with
 	 * the given name, converted by the given function, as its products.
-	 * @param {string} tag Name of the tag to handle
-	 * @param {DataConverter} convert Converter function for tag content
+	 * @arg {string} tag Name of the tag to handle
+	 * @arg {DataConverter} convert Converter function for tag content
 	 */
 	static primitive(tag, convert = (val) => val) {
 		return ArrayFactory.single(tag, (me) => me
@@ -473,8 +484,8 @@ class ArrayFactory extends NSFactory {
 	/**
 	 * Creates a new `ArrayFactory` that assigns the given sub-factory to
 	 * itself upon encountering the given tag name.
-	 * @param {string} tag Name of the tag to handle
-	 * @param {Function} create Creator function for the sub-factory
+	 * @arg {string} tag Name of the tag to handle
+	 * @arg {Function} create Creator function for the sub-factory
 	 */
 	static complex(tag, create) {
 		if(typeof create !== 'function')
@@ -549,7 +560,7 @@ function convertBoolean(val) {
  * Creates a converter function for splitting a string value as defined. If the
  * value ultimately passed to the returned function can't be split, it returns
  * an empty array.
- * @param {string|RegExp} split String or regular expression to split values at
+ * @arg {string|RegExp} split String or regular expression to split values at
  * @returns {DataConverter} A converter function splitting the value as defined
  */
 function convertArray(split) {

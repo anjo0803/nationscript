@@ -8,31 +8,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents an N-Day faction.
- * @typedef {object} Faction
- * @prop {number} id Faction ID.
- * @prop {string} name Faction name.
- * @prop {string} description Faction description.
- * @prop {number} created Timestamp of the faction's founding.
- * @prop {string} region Name of the founding region (`Proper Form`).
- * @prop {number} entry 
- * @prop {number} score Faction score - `strikes` minus `radiation`.
- * @prop {number} strikes Number of nukes launched by faction members that
- *     successfully hit their target.
- * @prop {number} radiation Number of nukes that have hit faction members.
- * @prop {number} production Amount of production stored by faction members.
- * @prop {number} nukes Number of nukes stockpiled by faction members.
- * @prop {number} shields Number of shields stockpiled by faction members.
- * @prop {number} targets Number of nukes faction members are aiming.
- * @prop {number} launches Number of nukes faction members are launching.
- * @prop {number} targeted Number of nukes aimed at faction members.
- * @prop {number} incoming Number of nukes launched at faction members.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<Faction>} A new `Faction` factory
+ * @type {import('../factory').FactoryConstructor<types.Faction>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('ID', (me) => me

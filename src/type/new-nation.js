@@ -8,17 +8,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents the founding details of a newly founded nation.
- * @typedef {object} NewNation
- * @prop {string} nation Name of the nation (`id_style`).
- * @prop {string} region Name of the nation's founding region (`id_style`).
- * @prop {number} founded Timestamp of the founding.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<NewNation>} A new `NewNation` factory
+ * @type {import('../factory').FactoryConstructor<types.NewNation>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.set('nation', root['name'])

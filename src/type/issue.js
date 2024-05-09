@@ -8,23 +8,13 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
+
 const IssueOption = require('./issue-option');
 
 /**
- * Represents an issue confronting a nation.
- * @typedef {object} Issue
- * @prop {number} id Issue ID.
- * @prop {string} title Issue title.
- * @prop {string} description Issue description - the problem to be solved.
- * @prop {IssueOption.IssueOption[]} options Available answer options.
- * @prop {string[]} author Names of the nations that authored the issue.
- * @prop {string[]} editor Names of the nations that edited the issue.
- * @prop {string} imageLarge Banner code of the large image shown on the issue.
- * @prop {string} imageSmall Banner code of the small image shown on the issue.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<Issue>} A new `Issue` factory
+ * @type {import('../factory').FactoryConstructor<types.Issue>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.set('id', root['id'], convertNumber)
@@ -32,12 +22,13 @@ exports.create = (root) => new NSFactory()
 		.build('title'))
 	.onTag('TEXT', (me) => me
 		.build('description'))
-	.onTag('OPTION', (me) => me
+	.onTag('OPTION', (me, attrs) => me
 		.build('options', val => {
 			let alreadyThere = me.get('options');
 			if(Array.isArray(alreadyThere)) return [...alreadyThere, val];
 			return [val];
-	}))
+		})
+		.assignSubFactory(IssueOption.create(attrs)))
 	.onTag('AUTHOR', (me) => me
 		.build('author', val => val.split(', ')))
 	.onTag('EDITOR', (me) => me

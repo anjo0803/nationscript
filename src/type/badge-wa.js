@@ -4,22 +4,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-const { WABadgeType } = require('../enums');
 const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents a commendation, condemnation, liberation, or injunction badge
- * displayed on a nation or region.
- * @typedef {object} WABadge
- * @prop {number} resolution ID of the SC resolution imposing the badge.
- * @prop {string} type {@link WABadgeType} of the badge.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<WABadge>} A new `WABadge` factory
+ * @type {import('../factory').FactoryConstructor<types.WABadge>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.set('type', root['type'])

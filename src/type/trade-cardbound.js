@@ -8,19 +8,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents the transfer of a card from one nation to another (whether by
- * gift or auction) from the view of a specific card's details page.
- * @typedef {object} TradeCardbound
- * @prop {string} buyer Nation that received the card (`id_form`).
- * @prop {string} seller Nation that gave the card (`id_form`).
- * @prop {number} price Amount of bank the receiver paid; `0.0` for gifts.
- * @prop {number} timestamp Timestamp of when the transfer occurred.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<TradeCardbound>} A new `TradeCardbound` factory
+ * @type {import('../factory').FactoryConstructor<types.TradeCardbound>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('BUYER', (me) => me

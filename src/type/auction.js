@@ -4,23 +4,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-const { Rarity } = require('../enums');
 const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents an ongoing auction on a card.
- * @typedef {object} Auction
- * @prop {number} id ID of the card being auctioned.
- * @prop {string} rarity {@link Rarity} of the card.
- * @prop {string} nation Nation depicted on the card (`Proper Form`).
- * @prop {number} season ID of the season the card was inscribed for.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<Auction>} A new `Auction` factory
+ * @type {import('../factory').FactoryConstructor<types.Auction>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('CARDID', (me) => me

@@ -4,22 +4,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-const { CensusScale } = require('../enums');
 const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * 
- * @typedef {object} CensusDescription
- * @prop {number} id ID of the {@link CensusScale} the descriptions are for.
- * @prop {string} national Description of the scale's national rankings.
- * @prop {string} regional Description of the scale's regional rankings.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<CensusDescription>} A new `CensusDescription` factory
+ * @type {import('../factory').FactoryConstructor<types.CensusDescription>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.set('id', root['id'], convertNumber)

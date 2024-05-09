@@ -8,17 +8,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents a regional tally of votes For and Against a resolution in the
- * World Assembly.
- * @typedef {object} VoteTally
- * @prop {number} for Number of votes in favor of the resolution.
- * @prop {number} against Number of votes against the resolution.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<VoteTally>} A new `VoteTally` factory
+ * @type {import('../factory').FactoryConstructor<types.VoteTally>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('FOR', (me) => me

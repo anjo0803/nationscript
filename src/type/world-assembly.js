@@ -5,38 +5,20 @@
  */
 
 const {
-	WACouncil
-} = require('../enums');
-
-const {
 	NSFactory,
 	ArrayFactory,
 	convertNumber,
 	convertArray
 } = require('../factory');
+const types = require('../types');
 
 const Happening = require('./happening');
 const Proposal = require('./proposal');
 const Resolution = require('./resolution');
 
 /**
- * Represents a council of the World Assembly in the NationStates multiverse,
- * containing all the data requested from the World Assembly API.
- * @typedef {object} WorldAssembly
- * @prop {number} council {@link WACouncil} that this object concerns.
- * @prop {string} [lastResolution] Description of the result of the last vote.
- * @prop {string[]} [delegates] Currently serving WA delegates (`id_form`).
- * @prop {number} [delegatesNum] Number of currently serving WA delegates.
- * @prop {string[]} [members] Current WA member nations (`id_form`).
- * @prop {number} [membersNum] Number of current WA member nations.
- * @prop {Happening.Happening[]} [happenings] Recent WA happening events.
- * @prop {Proposal.Proposal[]} [proposals] Current proposals.
- * @prop {Resolution.Resolution} [resolution] Details of the at-vote (or the
- *     queried) resolution.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<WorldAssembly>} A new `WorldAssembly` factory
+ * @type {import('../factory').FactoryConstructor<types.WorldAssembly>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.set('council', root['council'], convertNumber)

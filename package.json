@@ -22,6 +22,9 @@
 	"dependencies": {
 		"node-xml-stream-parser": "^1.0.12"
 	},
+	"devDependencies": {
+		"jsdoc-tsimport-plugin": "^1.0.5"
+	},
 	"engines": {
 		"node": ">=14.0.0"
 	},

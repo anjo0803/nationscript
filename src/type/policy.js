@@ -7,18 +7,11 @@
 const {
 	NSFactory
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents a national policy.
- * @typedef {object} Policy
- * @prop {string} category General field the policy concerns.
- * @prop {string} name Name of the policy.
- * @prop {string} description Short description of the policy content.
- * @prop {string} image ID of the policy banner image.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<Policy>} A new `Policy` factory
+ * @type {import('../factory').FactoryConstructor<types.Policy>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('CAT', (me) => me

@@ -5,12 +5,17 @@
  */
 
 /**
+ * NationScript-specific errors.
+ * @module nationscript/errors
+ */
+
+/**
  * A generic NationScript-related `Error`.
  */
 class NSError extends Error {
 	/**
 	 * Instantiates a new {@linkcode NSError}.
-	 * @param {string} message Error message to display
+	 * @arg {string} message Error message to display
 	 */
 	constructor(message = 'Internal error') {
 		super(message);
@@ -19,13 +24,13 @@ class NSError extends Error {
 }
 
 /**
- * An {@linkcode NSError} related to a failure in communications with the
+ * An {@link NSError} related to a failure in communications with the
  * NationStates API.
  */
 class APIError extends NSError {
 	/**
 	 * Instantiates a new {@linkcode APIError}.
-	 * @param {string} message Error message to display.
+	 * @arg {string} message Error message to display.
 	 */
 	constructor(message) {
 		super('API error: ' + message);
@@ -33,89 +38,60 @@ class APIError extends NSError {
 }
 
 /**
- * An {@linkcode APIError} indicating that a queried entity, e.g. a nation or
+ * An {@link APIError} indicating that a queried entity, e.g. a nation or
  * region, has not been found by the NationStates API.
  */
 class EntityNotFoundError extends APIError {
-	/**
-	 * Instantiates a new {@linkcode EntityNotFoundError}.
-	 * @param {string} entity Name of the unsuccessfully queried entity
-	 */
-	constructor(entity) {
-		super('Entity not found: ' + entity);
+	constructor() {
+		super('Requested entity not found');
 	}
 }
 
 /**
- * An {@linkcode APIError} indicating that an attempted nation login failed.
- * @todo
+ * An {@link APIError} indicating that an attempted nation login failed.
  */
-class LoginError extends APIError {
-	constructor(message) {
-		super(message);
+class RecentLoginError extends APIError {
+	constructor() {
+		super('Last non-PIN login too recent');
 	}
 }
 
 /**
- * An {@linkcode APIError} indicating that the legal rate limit was exceeded.
+ * An {@link APIError} indicating that the legal rate limit was exceeded.
  */
 class RatelimitError extends APIError {
 	/**
-	 * The number of seconds the API has indicated to wait before resuming requests.
+	 * Number of seconds the API has stated to wait before resuming requests.
 	 * @type {number}
 	 */
 	retry;
 	/**
-	 * 
-	 * @arg {string|number} retry 
+	 * @arg {string|number} retry Number of seconds to wait
 	 */
 	constructor(retry = '30') {
-		super(`Ratelimit exceeded; retry in ${retry} s`);
+		super(`Ratelimit exceeded; retry in ${retry}s`);
 		this.retry = typeof retry === 'number' ? retry : parseInt(retry);
 	}
 }
 
 /**
- * An {@linkcode NSError} indicating that a particular property ...
- * @todo
+ * An {@link APIError} indicating a Daily Data Dump requested on condition of
+ * modification after a given date has not been modified after that date.
  */
-class PropertyError extends NSError {
-	constructor(property, expected, supplied) {
-		super(`Faulty property ${property}: ${supplied} (expected ${expected})`);
-	}
-}
-
-class PropertyMissingError extends NSError {
-	/**
-	 * 
-	 * @arg {string} property 
-	 * @arg {?string} parent 
-	 */
-	constructor(property, parent = null) {
-		super('Missing property: '
-			+ (parent === null ? parent + '.' : '')
-			+ property);
-	}
-}
-
-class PropertyInvalidError extends NSError {
-	constructor(propertyName, propertyValue, parent = null) {
-		super(`Invalid property: ${(parent === null ? parent + '.' : '')
-			+ propertyName} (${propertyValue})`);
-	}
-}
-
 class DumpNotModifiedError extends APIError {
 	constructor() {
 		super('Dump not modified');
 	}
 }
 
+/**
+ * An {@link NSError} indicating a virtual function has not been implemented in
+ * a subclass.
+ */
 class VirtualError extends NSError {
 	/**
-	 * 
-	 * @param {Function} func 
-	 * @param {?Function} parent 
+	 * @arg {Function} func Function that needed to be implemented
+	 * @arg {?Function} parent Constructor of the inheriting class
 	 */
 	constructor(func, parent = null) {
 		super('Virtual function not implemented: '
@@ -124,12 +100,20 @@ class VirtualError extends NSError {
 	}
 }
 
+/**
+ * An {@link NSError} thrown when a factory which has not yet finalised its
+ * `product` was asked to deliver its `product`.
+ */
 class ProductWithheldError extends NSError {
 	constructor() {
 		super('Factory withheld still-work-in-progress product');
 	}
 }
 
+/**
+ * An {@link NSError} thrown when a factory which has already finalised its
+ * `product` was asked to handle further emitted XML parsing events.
+ */
 class FactoryFinalisedError extends NSError {
 	constructor() {
 		super('Finalised factory refused to process data');
@@ -139,11 +123,8 @@ class FactoryFinalisedError extends NSError {
 exports.NSError = NSError;
 exports.APIError = APIError;
 exports.EntityNotFoundError = EntityNotFoundError;
-exports.LoginError = LoginError;
+exports.RecentLoginError = RecentLoginError;
 exports.RatelimitError = RatelimitError;
-exports.PropertyError = PropertyError;
-exports.PropertyMissingError = PropertyMissingError;
-exports.PropertyInvalidError = PropertyInvalidError;
 exports.DumpNotModifiedError = DumpNotModifiedError;
 exports.VirtualError = VirtualError;
 exports.ProductWithheldError = ProductWithheldError;

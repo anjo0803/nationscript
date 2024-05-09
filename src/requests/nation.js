@@ -4,6 +4,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+/**
+ * Internal module providing a specialised request builder class for fetching
+ * data from the Nations API.
+ * @module nationscript/requests/nation
+ */
+
 const {
 	ShardableRequest,
 	NSCredential,
@@ -17,6 +23,7 @@ const {
 	CensusMode,
 	CensusScale
 } = require('../enums');
+const types = require('../types');
 
 const Nation = require('../type/nation');
 
@@ -179,12 +186,12 @@ class NationRequest extends ShardableRequest {
 
 	/**
 	 * @inheritdoc
-	 * @returns {Promise<Nation.Nation>}
+	 * @returns {Promise<types.Nation>}
 	 */
 	async send() {
 		this.useFactory(Nation.create(this.getShards()));
 
-		/**
+		/* 
 		 * If this request contains a verification request and does not query
 		 * shards alongside, the API only returns a simple "1" or "0" to
 		 * represent the result of the verification. In that case, the nation

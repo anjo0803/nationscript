@@ -8,16 +8,11 @@ const { EmbassyPhase } = require('../enums');
 const {
 	NSFactory
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents a regional embassy.
- * @typedef {object} Embassy
- * @prop {string} phase The embassy's current {@link EmbassyPhase}.
- * @prop {string} region Region the embassy is for (`Proper Form`).
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<Embassy>} A new `Embassy` factory.
+ * @type {import('../factory').FactoryConstructor<types.Embassy>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.set('type', root['type'] ?? EmbassyPhase.STANDING)

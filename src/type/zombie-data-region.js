@@ -8,17 +8,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Container object for data on the Z-Day performance of a region's residents.
- * @typedef {object} ZombieDataRegion
- * @prop {number} survivors Millions of national citizens alive and well.
- * @prop {number} zombies Millions of zombified national citizens.
- * @prop {number} dead Millions of deceased national citizens.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<ZombieDataRegion>} A new `ZombieDataRegion` factory
+ * @type {import('../factory').FactoryConstructor<types.ZombieDataRegion>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('SURVIVORS', (me) => me

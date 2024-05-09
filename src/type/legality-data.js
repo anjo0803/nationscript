@@ -8,22 +8,13 @@ const {
 	NSFactory,
 	ArrayFactory
 } = require('../factory');
+const types = require('../types');
+
 const LegalityDecision = require('./legality-decision');
 
 /**
- * Container object holding data on a proposal's current legal status - that
- * is, the decisions of Moderators or members of the GA General Secretariat on
- * the proposal's compliance with the SC/GA ruleset.
- * @typedef {object} LegalityData
- * @prop {string[]} legal Nations ruling the proposal legal (`id_form`).
- * @prop {string[]} illegal Nations ruling the proposal illegal (`id_form`).
- * @prop {string[]} discard Nations voting to discard the proposal (`id_form`).
- * @prop {LegalityDecision.LegalityDecision[]} log Log of rulings made on the
- *     proposal.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<LegalityData>} A new `LegalityData` factory
+ * @type {import('../factory').FactoryConstructor<types.LegalityData>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('DISCARD', (me) => me

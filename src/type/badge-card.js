@@ -4,30 +4,22 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-const { CardBadgeType } = require('../enums');
 const {
+	NSFactory,
 	ArrayFactory,
-	convertNumber,
-	NSFactory
+	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents a commendation, condemnation, liberation, or injunction badge
- * displayed on a nation or region.
- * @typedef {object} CardBadge
- * @prop {string} type {@link CardBadgeType} of the badge.
- * @prop {number} data For Commendation/Condemnation badges, the ID of the
- *     instituting SC resolution. For authorship and easter egg badges, the
- *     count of authorships/easter eggs found. For others, `1`.
- */
-/**
- * @returns {ArrayFactory<CardBadge>} A new `CardBadge` array factory.
+ * @returns {ArrayFactory<types.CardBadge>} A new `CardBadge` array factory.
+ * @ignore
  */
 exports.createArray = () => ArrayFactory.complex('BADGE', exports.create);
 
 /**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<CardBadge>} A new `CardBadge` factory
+ * @type {import('../factory').FactoryConstructor<types.CardBadge>}
+ * @ignore
  */
 exports.create = (root) => {
 	let ret = new NSFactory();

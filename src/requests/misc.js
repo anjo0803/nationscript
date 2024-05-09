@@ -4,6 +4,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+/**
+ * Internal module providing specialised request builder classes for addressing
+ * various API endpoints that don't fit under any other module.
+ * @module nationscript/requests/misc
+ */
+
 const { IncomingMessage } = require('node:http');
 
 const { NSError } = require('../errors');
@@ -21,28 +27,43 @@ class TGRequest extends DataRequest {
 
 	/**
 	 * The TG client key to use when executing telegram requests.
-	 * @type string
+	 * @type {string}
 	 * @package
 	 */
 	static client;
 
 	/**
-	 * Declares whether the TG being sent by this request is a recruitment telegram.
+	 * Declares whether the TG being sent via this request is a recruitment
+	 * telegram.
+	 * @type {boolean}
+	 * @default false
 	 */
 	recruitment = false;
 
-	constructor(recipient) {
+	/**
+	 * Additionally {@link DataRequest#mandate mandate}s the `a`, tgid`, `key`,
+	 * `to`, and `client` arguments and sets the `a` and `client` arguments.
+	 */
+	constructor() {
 		super();
 		this.mandate('a', 'client', 'tgid', 'key', 'to')
 			.setArgument('a', 'sendTG')
-			.setArgument('client', TGRequest.client)
-			.setArgument('to', toIDForm(recipient));
+			.setArgument('client', TGRequest.client);
+	}
+
+	/**
+	 * Register the nation that should receive the telegram.
+	 * @arg {string} recipient Nation to send the telegram to
+	 * @returns {this} The request, for chaining
+	 */
+	setRecipient(recipient) {
+		return this.setArgument('to', toIDForm(recipient));
 	}
 
 	/**
 	 * Sets the details of the telegram that should be sent.
-	 * @param {number} id ID of the telegram.
-	 * @param {string} secret Secret Key of the telegram.
+	 * @arg {number} id Telegram ID
+	 * @arg {string} secret Secret Key of the telegram
 	 */
 	setTelegram(id, secret) {
 		return this
@@ -51,10 +72,11 @@ class TGRequest extends DataRequest {
 	}
 
 	/**
-	 * Declares whether the telegram that is to be sent by executing this request is a recruitment
-	 * TG or a regular TG. By default, it's declared a regular TG.
-	 * @param {boolean} is `true` to declare a recruitment TG, `false` to declare a regular TG.
-	 * @returns {this} The request, for chaining.
+	 * Adjust whether the telegram to be sent by this request is a recruitment
+	 * telegram. By default, a non-recruitment telegram is assumed.
+	 * @arg {boolean} is `true` to declare a recruitment telegram, `false` to
+	 *     declare a regular one
+	 * @returns {this} The request, for chaining
 	 */
 	setIsRecruitment(is) {
 		if(typeof is === 'boolean') this.recruitment = is;
@@ -68,14 +90,14 @@ class TGRequest extends DataRequest {
 	}
 
 	/**
-	 * Sends an HTTP request with all data specified in this request
-	 * instance to the API and interprets its response.
-	 * @returns {Promise<boolean>} `true` if sent successfully, otherwise `false`.
+	 * Calls the {@link TGRequest#raw raw} function and passes the returned
+	 * response stream through the {@link streamToString} function.
+	 * @returns {Promise<boolean>} `true` if the TG was sent, otherwise `false`
 	 * @override
 	 */
 	async send() {
 		let res = (await streamToString(await this.raw())).toString().trim();
-		if(res == 'queued') return true;	// The TG API only returns a plaintext 'queued'
+		if(res == 'queued') return true;
 		else return false;
 	}
 }

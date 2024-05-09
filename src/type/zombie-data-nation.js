@@ -9,19 +9,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Container object for data on a nation's Z-Day performance.
- * @typedef {object} ZombieDataNation
- * @prop {string} intended {@link ZombieAction} the nation selected.
- * @prop {string} action {@link ZombieAction} the nation is actually executing.
- * @prop {number} survivors Millions of citizens alive and well.
- * @prop {number} zombies Millions of zombified citizens.
- * @prop {number} dead Millions of deceased citizens.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<ZombieDataNation>} A new `ZombieDataNation` factory
+ * @type {import('../factory').FactoryConstructor<types.ZombieDataNation>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('ZACTION', (me) => me

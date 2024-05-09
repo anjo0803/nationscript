@@ -8,8 +8,7 @@ const {
 	NSFactory,
 	ArrayFactory
 } = require('../factory');
-
-const DumpCards = require('../type/dump-card');
+const types = require('../types');
 
 const Auction = require('./auction');
 const Collection = require('./collection');
@@ -19,20 +18,8 @@ const Deck = require('./deck');
 const Trade = require('./trade');
 
 /**
- * Represents the wider card world of the NationStates multiverse, containing
- * all the data requested from the Card API.
- * @typedef {object} CardWorld
- * @prop {Auction.Auction[]} [auctions] Auctions currently going on.
- * @prop {Collection.Collection} [collectionDetail] The queried collection.
- * @prop {ListCollection.ListCollection[]} [collections] Collections owned by
- *     the queried nation.
- * @prop {ListCard.ListCard[]} [cards] Cards in the deck of the queried nation.
- * @prop {Deck.Deck} [deckSummary] Summary of the queried nation's deck.
- * @prop {Trade.Trade[]} [trades] Trades matching the query filter.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<CardWorld>} A new `CardWorld` factory
+ * @type {import('../factory').FactoryConstructor<types.CardWorld>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('AUCTIONS', (me) => me

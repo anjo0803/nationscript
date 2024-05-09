@@ -4,6 +4,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+/**
+ * Internal module providing request builder classes for executing nation
+ * private commands.
+ * @module nationscript/requests/command
+ */
+
 const {
 	DataRequest,
 	NSCredential,
@@ -14,16 +20,15 @@ const {
 	DispatchSubcategory
 } = require('../enums');
 const {
-	PropertyMissingError,
 	NSError
 } = require('../errors');
+const types = require('../types');
 
 const {
 	NSFactory,
 	createError
 } = require('../factory');
 const IssueEffect = require('../type/issue-effect');
-
 
 /**
  * Request subclass for building requests to the commands endpoint of the API.
@@ -58,7 +63,7 @@ class CommandRequest extends DataRequest {
 
 		// Infer the command's target nation from the provided credential
 		if(!credential.nation)
-			throw new PropertyMissingError('nation', 'NSCredential');
+			throw new NSError('Credential does not declare authorised nation');
 		this.setArgument('nation', toIDForm(credential.nation));
 
 		if(credential.password)
@@ -169,7 +174,7 @@ class IssueCommand extends CommandRequest {
 
 	/**
 	 * @inheritdoc
-	 * @returns {Promise<IssueEffect.IssueEffect>}
+	 * @returns {Promise<types.IssueEffect>}
 	 */
 	async send() {
 		this.useFactory(() => new NSFactory()

@@ -7,18 +7,11 @@
 const {
 	NSFactory
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Container object holding descriptions on a nation's civil, economic, and
- * political freedoms.
- * @typedef {object} FreedomsTextData
- * @prop {string} civil The nation's civil rights situation.
- * @prop {string} economic Extent of economic freedom the nation grants.
- * @prop {string} political Level of the nation's political freedom.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<FreedomsTextData>} A new `FreedomsTextData` factory
+ * @type {import('../factory').FactoryConstructor<types.FreedomsTextData>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('CIVILRIGHTS', (me) => me

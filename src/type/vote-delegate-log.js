@@ -8,20 +8,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
-const { WAVote } = require('../enums');
+const types = require('../types');
 
 /**
- * Represents a vote *historically* cast by a WA delegate on an at-vote
- * resolution. It may be the current vote, or have been updated since.
- * @typedef {object} DelegateLogVote
- * @prop {string} delegate Name of the delegate (`id_form`).
- * @prop {string} vote {@link WAVote} cast by the delegate.
- * @prop {number} weight Number of votes the delegate currently has.
- * @prop {number} timestamp Timestamp of when the vote was cast.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<DelegateLogVote>} A new `DelegateLogVote` factory
+ * @type {import('../factory').FactoryConstructor<types.DelegateLogVote>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('NATION', (me) => me

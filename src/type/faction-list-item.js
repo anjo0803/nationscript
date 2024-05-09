@@ -8,20 +8,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents an N-Day faction with only the most basic information present, as
- * when displayed as part of a listing of multiple factions. 
- * @typedef {object} ListFaction
- * @prop {number} id Faction ID.
- * @prop {string} name Faction name.
- * @prop {number} score Faction score.
- * @prop {string} region Name of the founding region (`Proper Form`).
- * @prop {number} numMembers Number of nations that are members of the faction.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<ListFaction>} A new `ListFaction` factory
+ * @type {import('../factory').FactoryConstructor<types.ListFaction>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.set('id', root['id'], convertNumber)

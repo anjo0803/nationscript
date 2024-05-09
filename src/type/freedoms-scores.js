@@ -8,18 +8,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Container object holding numerical data on a nation's civil, economic, and
- * political freedoms, all rounded to the nearest integer value.
- * @typedef {object} FreedomsScoreData
- * @prop {string} civil The nation's civil rights score.
- * @prop {string} economic The nation's economical freedom score.
- * @prop {string} political The nation's political freedom score.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<FreedomsScoreData>} A new `FreedomsScoreData` factory
+ * @type {import('../factory').FactoryConstructor<types.FreedomsScoreData>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('CIVILRIGHTS', (me) => me

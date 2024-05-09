@@ -8,18 +8,11 @@ const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Container object specifying the total number of telegrams that are currently
- * awaiting delivery, divided by the type of queue.
- * @typedef {object} TGQueue
- * @prop {number} manual Number of manually-sent telegrams.
- * @prop {number} mass Number of mass telegrams.
- * @prop {number} api Number of telegrams sent via the API.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<TGQueue>} A new `TGQueue` factory
+ * @type {import('../factory').FactoryConstructor<types.TGQueue>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.onTag('MANUAL', (me) => me

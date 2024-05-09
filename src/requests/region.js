@@ -4,6 +4,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+/**
+ * Internal module providing a specialised request builder class for fetching
+ * data from the Regions API.
+ * @module nationscript/requests/region
+ */
+
 const {
 	ShardableRequest,
 	toIDForm
@@ -13,6 +19,7 @@ const {
 	CensusMode,
 	CensusScale
 } = require('../enums');
+const types = require('../types');
 
 const Region = require('../type/region');
 
@@ -71,9 +78,9 @@ class RegionRequest extends ShardableRequest {
 	 * both here and for queries of the {@link RegionShard.CENSUS} shard, and
 	 * setting it here will thus override any custom scales previously set via
 	 * {@link RegionRequest#setCensusScales} in this request instance.*
-	 * @param {?number} scale ID of the desired World Census scale; `null` to
+	 * @arg {?number} scale ID of the desired World Census scale; `null` to
 	 *     use the day's featured scale
-	 * @param {?number} offset Rank from which to start (inclusive); `null` to
+	 * @arg {?number} offset Rank from which to start (inclusive); `null` to
 	 *     start from rank 1
 	 * @returns {this} The request, for chaining
 	 */
@@ -95,10 +102,10 @@ class RegionRequest extends ShardableRequest {
 	 * thus override a limit previously set via
 	 * {@link RegionRequest#setRMBLeaderboardOptions} in this request
 	 * instance.*
-	 * @param {?number} limit Maximum number of messages to return; values
+	 * @arg {?number} limit Maximum number of messages to return; values
 	 *     below `1` and above `100` are ignored by the API
-	 * @param {number} offset How many posts to shift the result list backwards
-	 * @param {number} start Post ID from which on to consider messages
+	 * @arg {number} offset How many posts to shift the result list backwards
+	 * @arg {number} start Post ID from which on to consider messages
 	 * @returns {this} The request, for chaining
 	 */
 	setRMBHistoryOptions(limit, offset, start) {
@@ -121,11 +128,11 @@ class RegionRequest extends ShardableRequest {
 	 * {@link RegionShard.RMB_MESSAGES} shard, and setting it here will thus
 	 * override a limit previously set via
 	 * {@link RegionRequest#setRMBHistoryOptions} in this request instance.*
-	 * @param {?number} limit Maximum number of nations to return; `null` to
+	 * @arg {?number} limit Maximum number of nations to return; `null` to
 	 *     return all that have a score
-	 * @param {?number} from Timestamp from which on to consider RMB activity;
+	 * @arg {?number} from Timestamp from which on to consider RMB activity;
 	 *     `null` to start from the earliest available
-	 * @param {?number} to Timestamp up to which to consider RMB activity;
+	 * @arg {?number} to Timestamp up to which to consider RMB activity;
 	 *     `null` to use all up to now
 	 * @returns {this} The request, for chaining
 	 */
@@ -138,7 +145,7 @@ class RegionRequest extends ShardableRequest {
 
 	/**
 	 * @inheritdoc
-	 * @returns {Promise<Region.Region>}
+	 * @returns {Promise<types.Region>}
 	 */
 	async send() {
 		this.useFactory(Region.create);

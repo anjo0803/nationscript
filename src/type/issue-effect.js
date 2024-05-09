@@ -10,31 +10,15 @@ const {
 	convertNumber,
 	convertBoolean
 } = require('../factory');
+const types = require('../types');
+
 const Policy = require('./policy');
 const RankChange = require('./rank-change');
 const Reclassification = require('./reclassification');
 
 /**
- * Represents the outcome of the chosen answer on an issue.
- * @typedef {object} IssueEffect
- * @prop {number} issue ID of the issue that was answered.
- * @prop {number} option (Issue-internal) ID of the option that was chosen.
- * @prop {boolean} ok Whether everything went alright, I guess?
- * @prop {string} legislation The effect line of the chosen issue option.
- * @prop {string[]} headlines List of all generated newspaper headlines.
- * @prop {string[]} banners List of the banner codes of banners newly unlocked.
- * @prop {Policy.Policy[]} policiesEnacted List of all national
- *     policies newly enacted.
- * @prop {Policy.Policy[]} policiesCancelled List of all national
- *     policies newly rescinded.
- * @prop {RankChange.RankChange[]} census List of changes to the nation's
- *     census scores.
- * @prop {Reclassification.Reclassification[]} reclassifications List of
- *     reclassifications of the nation's freedom levels.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<IssueEffect>} A new `IssueEffect` factory
+ * @type {import('../factory').FactoryConstructor<types.IssueEffect>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.set('issue', root['id'], convertNumber)
@@ -46,11 +30,11 @@ exports.create = (root) => new NSFactory()
 	.onTag('HEADLINES', (me) => me
 		.build('headlines')
 		.assignSubFactory(ArrayFactory
-			.primitive('HEADLINE')))	// TODO
+			.primitive('HEADLINE')))
 	.onTag('UNLOCKS', (me) => me
 		.build('banners')
-		.assignSubFactory(ArrayFactory.default('', (me) => me
-			.build(''))))	// TODO
+		.assignSubFactory(ArrayFactory
+			.primitive('BANNER')))
 	.onTag('NEW_POLICIES', (me) => me
 		.build('policiesEnacted')
 		.assignSubFactory(ArrayFactory

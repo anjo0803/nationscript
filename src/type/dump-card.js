@@ -4,30 +4,20 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-const { Rarity } = require('../enums');
 const {
 	NSFactory,
 	DumpFactory,
 	ArrayFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
+
 const CardBadge = require('./badge-card');
 const Trophy = require('./trophy');
 
 /**
- * Represents a trading card in the NationStates multiverse, containing all the
- * data saved for the card in the requested season's one-off Dump.
- * @typedef {object} DumpCard
- * @prop {number} id Card ID; corresponds to the depicted nation's `dbID`.
- * @prop {import('./card').CardNation} depicted Details of the nation depicted
- *     on the card.
- * @prop {string} rarity The card's {@link Rarity}.
- * @prop {Trophy.Trophy[]} trophies Displayed World Census ranking trophies.
- * @prop {CardBadge.CardBadge[]} badges Displayed miscellaneous badges.
- */
-/**
- * @arg {import('../factory').FactoryDecider<DumpCard>} decider Decider function to use
- * @returns {(decider) => NSFactory<DumpCard[]>} A new `DumpCard` factory
+ * @type {import('../requests/dump').DumpFactoryConstructor<types.DumpCard>}
+ * @ignore
  */
 exports.createArray = (decider) => (root) => new NSFactory()
 	// The actual data is wrapped in a <SET> tag
@@ -41,8 +31,8 @@ exports.createArray = (decider) => (root) => new NSFactory()
 /**
  * Since the Cards dump names its fields differently, a special factory just to
  * construct objects from the dump is needed. This function makes one.
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<DumpCard>} A new `DumpCard` factory
+ * @type {import('../factory').FactoryConstructor<types.DumpCard>}
+ * @ignore
  */
 const createDumpCard = (root) => new NSFactory()
 	.onTag('ID', (me) => me

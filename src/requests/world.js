@@ -4,6 +4,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+/**
+ * Internal module providing a specialised request builder class for fetching
+ * data from the World API.
+ * @module nationscript/requests/world
+ */
+
 const {
 	ShardableRequest,
 	toIDForm,
@@ -18,6 +24,7 @@ const {
 	HappeningsFilter,
 	Tag
 } = require('../enums');
+const types = require('../types');
 
 const World = require('../type/world');
 
@@ -221,7 +228,7 @@ class WorldRequest extends ShardableRequest {
 
 	/**
 	 * @inheritdoc
-	 * @returns {Promise<World.World>}
+	 * @returns {Promise<types.World>}
 	 */
 	async send() {
 		this.useFactory(World.create(this.getShards()));

@@ -4,23 +4,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-const { ReclassificationCategory } = require('../enums');
 const {
 	NSFactory,
 	convertNumber
 } = require('../factory');
+const types = require('../types');
 
 /**
- * Represents a reclassification of a nation's level of civil, economic, or
- * political freedom through an {@link AnsweredIssue}.
- * @typedef {object} Reclassification
- * @prop {number} category The {@link ReclassificationCategory}.
- * @prop {string} from Level of the freedom prior to answering the issue.
- * @prop {string} to Level of the freedom after answering the issue.
- */
-/**
- * @arg {import('../factory').Attributes} root Attributes on the factory's root
- * @returns {NSFactory<Reclassification>} A new `Reclassification` factory
+ * @type {import('../factory').FactoryConstructor<types.Reclassification>}
+ * @ignore
  */
 exports.create = (root) => new NSFactory()
 	.set('category', root['type'], convertNumber)
