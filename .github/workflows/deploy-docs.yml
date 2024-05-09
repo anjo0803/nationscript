@@ -22,7 +22,7 @@ jobs:
         uses: andstor/jsdoc-action@v1
         with:
           config_file: ./jsdoc.json
-          
+
       - name: Build Artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -31,7 +31,7 @@ jobs:
   deploy:
     name: Deploy Documentation to GitHub Pages
     needs: build
-    
+
     permissions:
       pages: write
       id-token: write
