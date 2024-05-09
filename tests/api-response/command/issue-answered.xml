@@ -294,7 +294,15 @@
 				<PCHANGE>-0.942507</PCHANGE>
 			</RANK>
 		</RANKINGS>
+		<UNLOCKS>
+			<BANNER>t21</BANNER>
+			<BANNER>l17</BANNER>
+		</UNLOCKS>
 		<RECLASSIFICATIONS>
+			<RECLASSIFY type="0">
+				<FROM>Excellent</FROM>
+				<TO>Very Good</TO>
+			</RECLASSIFY>
 			<RECLASSIFY type="2">
 				<FROM>Excessive</FROM>
 				<TO>Superb</TO>
