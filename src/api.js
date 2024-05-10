@@ -37,6 +37,7 @@ const {
 	RegionDumpRequest,
 	CardDumpRequest
 } = require('./requests/dump');
+const dump = require('./requests/dump');
 
 /**
  * The entry point to any NationScript usage.
@@ -153,11 +154,44 @@ function setDumpDirectory(path) {
 	return this;
 }
 
+/**
+ * Register a custom way to determine the file names of local copies of the
+ * Nations Daily Data Dump.
+ * @arg {dump.FileNamerNormal} fileNamer Function determining the file name,
+ *     depending on a given `Date`
+ */
+function setDumpNameNation(fileNamer) {
+	if(typeof fileNamer === 'function') NationDumpRequest.filename = fileNamer;
+}
+
+/**
+ * Register a custom way to determine the file names of local copies of the
+ * Regions Daily Data Dump.
+ * @arg {dump.FileNamerNormal} fileNamer Function determining the file name,
+ *     depending on a given `Date`
+ */
+function setDumpNameRegion(fileNamer) {
+	if(typeof fileNamer === 'function') RegionDumpRequest.filename = fileNamer;
+}
+
+/**
+ * Register a custom way to determine the file names of local copies of the
+ * Cards Seasonal Data Dump.
+ * @arg {dump.FileNamerCard} fileNamer Function determining the file name,
+ *     depending on a given season number
+ */
+function setDumpNameCard(fileNamer) {
+	if(typeof fileNamer === 'function') CardDumpRequest.filename = fileNamer;
+}
+
 exports.setAgent = setAgent;
 exports.setUseRateLimit = setUseRateLimit;
 exports.setUseVersion = setUseVersion;
 exports.setTGClientKey = setTGClientKey;
 exports.setDumpDirectory = setDumpDirectory;
+exports.setDumpNameNation = setDumpNameNation;
+exports.setDumpNameRegion = setDumpNameRegion;
+exports.setDumpNameCard = setDumpNameCard;
 
 
 /* === Basic Requests === */

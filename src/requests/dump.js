@@ -38,6 +38,20 @@ const DumpCard = require('../type/dump-card');
  * @returns {Factory.FactoryConstructor<ProductType[]>} DumpFactory constructor
  *     function bound to the provided `decider` function
  */
+/**
+ * @callback FileNamerNormal
+ * Determines the expected name of the file containing the local copy of
+ * the Nations/Regions Daily Data Dump for the given date.
+ * @arg {Date} date Date of the Dump
+ * @returns {string} Expected file name
+ */
+/**
+ * @callback FileNamerCard
+ * Determines the expected name of the file containing the local copy of
+ * the Cards Seasonal Data Dump for the given season.
+ * @arg {number} season Season of the Dump
+ * @returns {string} Expected file name
+ */
 
 
 /* === Classes === */
@@ -252,6 +266,12 @@ class DateDumpRequest extends DumpRequest {
  */
 class NationDumpRequest extends DateDumpRequest {
 	/**
+	 * @type {FileNamerNormal}
+	 * @package
+	 */
+	static filename = (date) => `nations_${formatDateDump(date)}.xml.gz`;
+
+	/**
 	 * @arg {Date} date Date to fetch the Dump for
 	 */
 	constructor(date) {
@@ -265,7 +285,7 @@ class NationDumpRequest extends DateDumpRequest {
 	/** @inheritdoc */
 	getFilePath() {
 		return path.join(DumpRequest.directory,
-			`nations_${formatDateDump(this.date)}.xml.gz`);
+			NationDumpRequest.filename(this.date));
 	}
 
 	/**
@@ -292,6 +312,12 @@ class NationDumpRequest extends DateDumpRequest {
  */
 class RegionDumpRequest extends DateDumpRequest {
 	/**
+	 * @type {FileNamerNormal}
+	 * @package
+	 */
+	static filename = (date) => `regions_${formatDateDump(date)}.xml.gz`;
+
+	/**
 	 * @arg {Date} date Date to fetch the Dump for
 	 */
 	constructor(date) {
@@ -305,7 +331,7 @@ class RegionDumpRequest extends DateDumpRequest {
 	/** @inheritdoc */
 	getFilePath() {
 		return path.join(DumpRequest.directory,
-			`regions_${formatDateDump(this.date)}.xml.gz`);
+			RegionDumpRequest.filename(this.date));
 	}
 
 	/**
@@ -332,6 +358,12 @@ class RegionDumpRequest extends DateDumpRequest {
  */
 class CardDumpRequest extends DumpRequest {
 	/**
+	 * @type {FileNamerCard}
+	 * @package
+	 */
+	static filename = (season) => `cards_s${season}.xml.gz`;
+
+	/**
 	 * Season to get the Data Dump of with this request
 	 * @type {number}
 	 * @private
@@ -351,7 +383,7 @@ class CardDumpRequest extends DumpRequest {
 	/** @inheritdoc */
 	getFilePath() {
 		return path.join(DumpRequest.directory,
-			`cards_s${this.season}.xml.gz`);
+			CardDumpRequest.filename(this.season));
 	}
 
 	/**
