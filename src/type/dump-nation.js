@@ -15,4 +15,4 @@ const types = require('../types');
 exports.createArray = (decider) => (root) => new Factory.DumpFactory(decider)
 	.onTag('NATION', (me, attrs) => me
 		.build('')
-		.assignSubFactory(Nation.create(attrs)));
+		.assignSubFactory(Nation.create([])(attrs)));

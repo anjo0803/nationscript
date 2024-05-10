@@ -24,7 +24,10 @@ exports.create = (root) => new NSFactory()
 	.onTag('CATEGORY', (me) => me
 		.build('rarity'))
 	.onTag('FLAG', (me) => me
-		.build('depicted.flag'))
+		// Old default flags don't have their .jpg extension appended
+		.build('depicted.flag', val => (val.match(/\..+$/g)
+			? val
+			: val + '.jpg')))
 	.onTag('GOVT', (me) => me
 		.build('depicted.category'))
 	.onTag('MARKET_VALUE', (me) => me

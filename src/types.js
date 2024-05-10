@@ -84,7 +84,9 @@ const shards = require('./shards');
  * @prop {string} region Region the nation resides in (`Proper Form`).
  * @prop {string} category World Census classification of the nation, e.g. *New
  *     York Times Democracy*.
- * @prop {string} flag Relative URL of the nation's flag image file.
+ * @prop {string} flag URL of the nation's flag image file, relative to
+ *     `https://www.nationstates.net/images/cards/sX/`, where `X` is the season
+ *     of the card the depiction is on.
  * @memberof types
  */
 /**

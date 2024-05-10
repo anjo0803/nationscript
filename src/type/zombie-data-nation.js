@@ -17,9 +17,12 @@ const types = require('../types');
  */
 exports.create = (root) => new NSFactory()
 	.onTag('ZACTION', (me) => me
-		.build('action', val => val || ZombieAction.INACTION))
+		.build('action', val => val
+			|| ZombieAction.INACTION))	// Tag empty if no activity during ZDay
 	.onTag('ZACTIONINTENDED', (me) => me
-		.build('intended', val => val || ZombieAction.INACTION))
+		.build('intended', val => val
+			|| me.get('action')	// Tag is empty if not different than <ZACTION>
+			|| ZombieAction.INACTION))
 	.onTag('SURVIVORS', (me) => me
 		.build('survivors', convertNumber))
 	.onTag('ZOMBIES', (me) => me
