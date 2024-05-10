@@ -263,71 +263,68 @@ exports.cardDetails = cardDetails;
 
 /**
  * Have a nation address the specified issue!
- * @arg {number} id ID of the issue to address
- * @arg {number} option (Issue-internal) ID of the option to choose for the
- *     issue; `-1` to dismiss
+ * @arg {NSCredential=} credentials Login credentials for the nation to use
  * @returns {IssueCommand}
  */
-function issue(id, option = -1) {
-	return new IssueCommand()
-		.setIssue(id)
-		.setOption(option);
+function issue(credentials) {
+	let ret = new IssueCommand();
+	if(credentials instanceof NSCredential) ret.authenticate(credentials);
+	return ret;
 }
 
 /**
  * Have a nation publish a new dispatch!
- * @arg {NSCredential} credentials Login credentials for the nation
+ * @arg {NSCredential=} credentials Login credentials for the nation to use
  * @returns {DispatchAddCommand}
  */
 function dispatchAdd(credentials) {
-	return new DispatchAddCommand()
-		.authenticate(credentials);
+	let ret = new DispatchAddCommand();
+	if(credentials instanceof NSCredential) ret.authenticate(credentials);
+	return ret;
 }
 
 /**
  * Have a nation delete one of its existing dispatches!
- * @arg {NSCredential} credentials Login credentials for the nation
+ * @arg {NSCredential=} credentials Login credentials for the nation to use
  * @returns {DispatchDeleteCommand}
  */
 function dispatchRemove(credentials) {
-	return new DispatchDeleteCommand()
-		.authenticate(credentials);
+	let ret = new DispatchDeleteCommand();
+	if(credentials instanceof NSCredential) ret.authenticate(credentials);
+	return ret;
 }
 
 /**
  * Have a nation edit one of its existing dispatches!
- * @arg {NSCredential} credentials Login credentials for the nation
+ * @arg {NSCredential=} credentials Login credentials for the nation to use
  * @returns {DispatchEditCommand}
  */
 function dispatchEdit(credentials) {
-	return new DispatchEditCommand()
-		.authenticate(credentials);
+	let ret = new DispatchEditCommand();
+	if(credentials instanceof NSCredential) ret.authenticate(credentials);
+	return ret;
 }
 
 /**
  * Have a nation gift a trading card to another nation!
- * @arg {string} recipient Nation that should receive the card
- * @arg {NSCredential} credentials Login credentials for the gifting nation
+ * @arg {NSCredential=} credentials Login credentials for the nation to use
  * @returns {GiftCardCommand}
  */
-function giftCard(recipient, credentials) {
-	return new GiftCardCommand()
-		.authenticate(credentials)
-		.setRecipient(recipient);
+function giftCard(credentials) {
+	let ret = new GiftCardCommand();
+	if(credentials instanceof NSCredential) ret.authenticate(credentials);
+	return ret;
 }
 
 /**
  * Have a nation lodge a message to the Regional Message Board of a region!
- * @arg {string} region Region to whose RMB the message should be lodged
- * @arg {string} message Body text of the message to lodge
- * @arg {NSCredential} credentials Login credentials for the nation
+ * @arg {NSCredential=} credentials Login credentials for the nation to use
  * @returns {RMBPostCommand}
  */
-function rmb(region, message, credentials) {
-	return new RMBPostCommand()
-		.authenticate(credentials)
-		.setRegion(region)
-		.setText(message);
+function rmb(credentials) {
+	let ret = new RMBPostCommand();
+	if(credentials instanceof NSCredential) ret.authenticate(credentials);
+	return ret;
 }
 
 exports.issue = issue;
