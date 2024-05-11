@@ -17,6 +17,7 @@ const http = require('node:http');
  * Number of milliseconds treated as one time window by the NS API.
  * @type {number}
  * @default 30000
+ * @ignore
  */
 let period = 30000
 
@@ -24,24 +25,28 @@ let period = 30000
  * Total number of requests that may be made within one time window.
  * @type {number}
  * @default 49
+ * @ignore
  */
 let amount = 49	// Leave space for one TG request
 
 /**
  * Number of requests sent to the API in the current time window.
  * @type {number}
+ * @ignore
  */
 let sent = 0
 
 /**
  * Number of requests currently waiting for the active time window to expire.
  * @type {number}
+ * @ignore
  */
 let queued = 0
 
 /**
  * Timestamp of when the active time window expires.
  * @type {number}
+ * @ignore
  */
 let expires = 0
 
@@ -49,12 +54,14 @@ let expires = 0
  * Number of milliseconds to add to time window calculations as safety buffer.
  * @type {number}
  * @default 200
+ * @ignore
  */
 const buffer = 200
 
 /**
  * Timestamp of when a new time window starts, as stated by the API.
  * @type {number}
+ * @ignore
  */
 let retry = 0
 
@@ -145,6 +152,7 @@ async function enforce() {
  * recruitment telegram is to be sent next.
  * @type {number}
  * @default 180000
+ * @ignore
  */
 let recruitment = 180000
 
@@ -153,12 +161,14 @@ let recruitment = 180000
  * non-recruitment telegram is to be sent next.
  * @type {number}
  * @default 30000
+ * @ignore
  */
 let standard = 30000
 
 /**
  * Timestamp of when the last telegram was sent.
  * @type {number}
+ * @ignore
  */
 let last = 0
 

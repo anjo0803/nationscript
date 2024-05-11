@@ -102,7 +102,7 @@ const dump = require('./requests/dump');
  */
 function setAgent(agent) {
 	if (typeof agent === 'string') NSRequest.useragent = agent;
-	return this;
+	return exports;
 }
 
 /**
@@ -115,7 +115,7 @@ function setAgent(agent) {
  */
 function setUseRateLimit(state) {
 	if (typeof state === 'boolean') NSRequest.useRateLimit = state;
-	return this;
+	return exports;
 }
 
 /**
@@ -130,7 +130,7 @@ function setUseRateLimit(state) {
 function setUseVersion(version) {
 	if (typeof version === 'number' || version === null)
 		DataRequest.version = version;
-	return this;
+	return exports;
 }
 
 /**
@@ -141,7 +141,7 @@ function setUseVersion(version) {
  */
 function setTGClientKey(key) {
 	if(typeof key === 'string') TGRequest.client = key;
-	return this;
+	return exports;
 }
 
 /**
@@ -151,7 +151,7 @@ function setTGClientKey(key) {
  */
 function setDumpDirectory(path) {
 	DumpRequest.setDirectory(path);
-	return this;
+	return exports;
 }
 
 /**
@@ -162,6 +162,7 @@ function setDumpDirectory(path) {
  */
 function setDumpNameNation(fileNamer) {
 	if(typeof fileNamer === 'function') NationDumpRequest.filename = fileNamer;
+	return exports;
 }
 
 /**
@@ -172,6 +173,7 @@ function setDumpNameNation(fileNamer) {
  */
 function setDumpNameRegion(fileNamer) {
 	if(typeof fileNamer === 'function') RegionDumpRequest.filename = fileNamer;
+	return exports;
 }
 
 /**
@@ -182,6 +184,7 @@ function setDumpNameRegion(fileNamer) {
  */
 function setDumpNameCard(fileNamer) {
 	if(typeof fileNamer === 'function') CardDumpRequest.filename = fileNamer;
+	return exports;
 }
 
 exports.setAgent = setAgent;
