@@ -5,12 +5,17 @@
  */
 
 /**
- * Admirable traits of a nation.
- * @enum {string}
- * @readonly
- * @todo These are all I found with a quick search, there might be more.
+ * Enums.
+ * @namespace enums
  */
-exports.Admirable = {
+
+/**
+ * Admirable traits of a nation.
+ * @todo These are all I found with a quick search, there might be more.
+ * @memberof enums
+ * @enum {string}
+ */
+const Admirable = {
 	CULTURED: 'cultured',
 	EFFICIENT: 'efficient',
 	ENVIRONMENT: 'environmentally stunning',
@@ -21,29 +26,67 @@ exports.Admirable = {
 };
 
 /**
- * Valid display modes for the results of the various `census` shards.
+ * Types of badges displayed on a trading card.
+ * @todo These are all I found with a quick search, there might be more.
+ * @memberof enums
  * @enum {string}
- * @readonly
  */
-exports.CensusMode = {
-	/** Get the raw score. */
+const CardBadgeType = {
+	ADMIN: 'Admin',
+	AUTHOR_GA: 'General Assembly Resolution Author',
+	AUTHOR_HISTORICAL: 'Historical Resolution Author',
+	AUTHOR_ISSUE: 'Issues Author',
+	AUTHOR_SC: 'Security Council Resolution Author',
+	COMMENDED: 'Commended',
+	CONDEMNED: 'Condemned',
+	EASTER_EGG: 'Easter Egg',
+	EDITOR: 'Issues Editor',
+	FOUNDER: 'Founder',
+	MODERATOR: 'Moderator',
+	MODERATOR_GAME: 'Game Mod',
+	MODERATOR_FORUM: 'Forum Mod',
+	MODERATOR_RETIRED: 'Retired Moderator',
+	SUPPORTER: 'Site Supporter',
+	PMG: 'Postmaster-General',
+	POSTMASTER: 'Postmaster',
+	WA_DELEGATE: 'Delegate',
+	WA_MEMBER: 'WA'
+}
+
+/**
+ * Valid display modes for the results of the various `census` shards.
+ * @memberof enums
+ * @enum {string}
+ */
+const CensusMode = {
+	/**
+	 * Get the raw score.
+	 */
 	SCORE: 'score',
-	/** Get the rank of the nation, only considering other regional nations. */
+	/**
+	 * Get the rank of the nation, only considering other regional nations.
+	 */
 	RANK_REGION: 'rrank',
-	/** Get the percentile of the nation, only considering other regional nations. */
+	/**
+	 * Get the percentile of the nation, only considering other regional nations.
+	 */
 	RANK_REGION_PERCENT: 'prrank',
-	/** Get the rank of the nation or region. */
+	/**
+	 * Get the rank of the nation or region.
+	 */
 	RANK_WORLD: 'rank',
-	/** Get the percentile of the nation or region. */
+	/**
+	 * Get the percentile of the nation or region.
+	 */
 	RANK_WORLD_PERCENT: 'prank'
 };
 
 /**
  * IDs of World Census scales.
+ * @memberof enums
  * @enum {number}
- * @readonly
  */
-exports.CensusScale = {
+const CensusScale = {
 	CIVIL_RIGHTS: 0,
 	ECONOMY: 1,
 	POLITICAL_FREEDOM: 2,
@@ -142,11 +185,14 @@ exports.CensusScale = {
 
 /**
  * Policies on RMB posting privileges for residents of embassy regions.
+ * @memberof enums
  * @enum {string}
- * @readonly
  */
-exports.CrosspostingPolicy = {
-	/** No RMB cross-posting from embassy regions allowed. */
+const CrosspostingPolicy = {
+	/**
+	 * No RMB cross-posting from embassy regions allowed.
+	 * @value '0'
+	 */
 	NONE: '0',
 	/** Only Founders and WA Delegates of embassy regions may cross-post. */
 	DELEGATES_AND_FOUNDERS: 'con',
@@ -160,10 +206,10 @@ exports.CrosspostingPolicy = {
 
 /**
  * Types of causes of death in a nation.
+ * @memberof enums
  * @enum {string}
- * @readonly
  */
-exports.DeathCause = {
+const DeathCause = {
 	ACCIDENT: 'Accident',
 	ANIMAL_ATTACK: 'Animal Attack',
 	AGE: 'Old Age',
@@ -191,9 +237,10 @@ exports.DeathCause = {
 
 /**
  * Top-level categories of dispatches.
+ * @memberof enums
  * @enum {string}
  */
-exports.DispatchCategory = {
+const DispatchCategory = {
 	FACTBOOK: 'Factbook',
 	BULLETIN: 'Bulletin',
 	ACCOUNT: 'Account',
@@ -203,51 +250,51 @@ exports.DispatchCategory = {
 /**
  * Sub-categories of dispatches.
  * @enum
- * @readonly
+ * @memberof enums
  */
-exports.DispatchSubcategory = {
+const DispatchSubcategory = {
 	FACTBOOK: {
-		OVERVIEW: `${this.DispatchCategory.FACTBOOK}:Overview`,
-		HISTORY: `${this.DispatchCategory.FACTBOOK}:History`,
-		GEOGRAPHY: `${this.DispatchCategory.FACTBOOK}:Geography`,
-		CULTURE: `${this.DispatchCategory.FACTBOOK}:Culture`,
-		POLITICS: `${this.DispatchCategory.FACTBOOK}:Politics`,
-		LEGISLATION: `${this.DispatchCategory.FACTBOOK}:Legislation`,
-		RELIGION: `${this.DispatchCategory.FACTBOOK}:Religion`,
-		MILITARY: `${this.DispatchCategory.FACTBOOK}:Military`,
-		ECONOMY: `${this.DispatchCategory.FACTBOOK}:Economy`,
-		INTERNATIONAL: `${this.DispatchCategory.FACTBOOK}:International`,
-		TRIVIA: `${this.DispatchCategory.FACTBOOK}:Trivia`,
-		MISCELLANEOUS: `${this.DispatchCategory.FACTBOOK}:Miscellaneous`
+		OVERVIEW: 'Overview',
+		HISTORY: 'History',
+		GEOGRAPHY: 'Geography',
+		CULTURE: 'Culture',
+		POLITICS: 'Politics',
+		LEGISLATION: 'Legislation',
+		RELIGION: 'Religion',
+		MILITARY: 'Military',
+		ECONOMY: 'Economy',
+		INTERNATIONAL: 'International',
+		TRIVIA: 'Trivia',
+		MISCELLANEOUS: 'Miscellaneous'
 	},
 	BULLETIN: {
-		POLICY: `${this.DispatchCategory.BULLETIN}:Policy`,
-		NEWS: `${this.DispatchCategory.BULLETIN}:News`,
-		OPINION: `${this.DispatchCategory.BULLETIN}:Opinion`,
-		CAMPAIGN: `${this.DispatchCategory.BULLETIN}:Campaign`
+		POLICY: 'Policy',
+		NEWS: 'News',
+		OPINION: 'Opinion',
+		CAMPAIGN: 'Campaign'
 	},
 	ACCOUNT: {
-		MILITARY: `${this.DispatchCategory.ACCOUNT}:Military`,
-		TRADE: `${this.DispatchCategory.ACCOUNT}:Trade`,
-		SPORT: `${this.DispatchCategory.ACCOUNT}:Sport`,
-		DRAMA: `${this.DispatchCategory.ACCOUNT}:Drama`,
-		DIPLOMACY: `${this.DispatchCategory.ACCOUNT}:Diplomacy`,
-		SCIENCE: `${this.DispatchCategory.ACCOUNT}:Science`,
-		CULTURE: `${this.DispatchCategory.ACCOUNT}:Culture`,
-		OTHER: `${this.DispatchCategory.ACCOUNT}:Other`
+		MILITARY: 'Military',
+		TRADE: 'Trade',
+		SPORT: 'Sport',
+		DRAMA: 'Drama',
+		DIPLOMACY: 'Diplomacy',
+		SCIENCE: 'Science',
+		CULTURE: 'Culture',
+		OTHER: 'Other'
 	},
 	META: {
-		GAMEPLAY: `${this.DispatchCategory.META}:Gameplay`,
-		REFERENCE: `${this.DispatchCategory.META}:Reference`
+		GAMEPLAY: 'Gameplay',
+		REFERENCE: 'Reference'
 	}
 };
 
 /**
  * Valid sorting modes when querying dispatches.
+ * @memberof enums
  * @enum {string}
- * @readonly
  */
-exports.DispatchSearchMode = {
+const DispatchSearchMode = {
 	/** Get recently-posted trending dispatches. */
 	NEW: 'new',
 	/** Get the all-time highest-scoring dispatches. */
@@ -255,11 +302,33 @@ exports.DispatchSearchMode = {
 };
 
 /**
- * Valid filters when querying one of the `HAPPENINGS` shards.
+ * Possible phases regional embassies can be in.
+ * @memberof enums
  * @enum {string}
- * @readonly
  */
-exports.HappeningsFilter = {
+const EmbassyPhase = {
+	/** The embassy exists. */
+	STANDING: '',
+	/** The region has received a request for the embassy. */
+	INVITED: 'invited',
+	/** The region has requested the embassy from another region. */
+	REQUESTED: 'requested',
+	/** The region has rejected another's request for the embassy. */
+	REJECTED: 'rejected',
+	/** The region's request for the embassy was denied. */
+	DENIED: 'denied',
+	/** The embassy is currently being constructed. */
+	OPENING: 'opening',
+	/** The embassy is currently being withdrawn. */
+	CLOSING: 'closing'
+}
+
+/**
+ * Valid filters when querying one of the `HAPPENINGS` shards.
+ * @memberof enums
+ * @enum {string}
+ */
+const HappeningsFilter = {
 	/** Get Issues-answering activity. */
 	LEGISLATION: 'law',
 	/** Get changes in national settings, classifications, and new WA census badges. */
@@ -294,10 +363,10 @@ exports.HappeningsFilter = {
 
 /**
  * Influence ranks a nation can achieve in a region, in ascending order.
+ * @memberof enums
  * @enum {string}
- * @readonly
  */
-exports.Influence = [
+const Influence = [
 	'Zero',
 	'Unproven',
 	'Hatchling',
@@ -332,11 +401,22 @@ exports.Influence = [
 ];
 
 /**
- * World Census classifications of nations.
+ * Possible moderator/GenSec rulings on a proposal's legality.
+ * @memberof enums
  * @enum {string}
- * @readonly
  */
-exports.NationCategory = {
+const LegalityRuling = {
+	LEGAL: 'Legal',
+	ILLEGAL: 'Illegal',
+	DISCARD: 'Discard'
+}
+
+/**
+ * World Census classifications of nations.
+ * @memberof enums
+ * @enum {string}
+ */
+const NationCategory = {
 	ANARCHY: 'Anarchy',
 	AUTHORITARIAN_DEMOCRACY: 'Authoritarian Democracy',
 	BENEVOLENT_DICTATORSHIP: 'Benevolent Dictatorship',
@@ -369,10 +449,10 @@ exports.NationCategory = {
 
 /**
  * Special characteristics notable about a nation.
+ * @memberof enums
  * @enum {string}
- * @readonly
  */
-exports.Notable = {
+const Notable = {
 	NONE: 'burgeoning @@ANIMAL@@ population',
 
 	ANTI_SMOKING: 'anti-smoking policies',
@@ -439,11 +519,11 @@ exports.Notable = {
 
 /**
  * Icons of NationStates notices.
- * @enum {string}
- * @readonly
  * @todo These are all I could identify, there might be more.
+ * @memberof enums
+ * @enum {string}
  */
-exports.NoticeIcon = {
+const NoticeIcon = {
 	BADGE: 'award-1',
 	BELL: 'bell',
 	BUILDING: 'building',
@@ -459,11 +539,11 @@ exports.NoticeIcon = {
 
 /**
  * Types of NationStates notices.
- * @enum {string}
- * @readonly
  * @todo These are all I could identify, there might be more.
+ * @memberof enums
+ * @enum {string}
  */
-exports.NoticeType = {
+const NoticeType = {
 	BAD_LOGIN: 'PW',
 	CARDS: 'C',
 	CENSUS_RANK: 'T',
@@ -484,10 +564,10 @@ exports.NoticeType = {
 
 /**
  * Authority codes for the in-game authorities of Regional Officers.
+ * @memberof enums
  * @enum {string}
- * @readonly
  */
-exports.OfficerAuthority = {
+const OfficerAuthority = {
 	/**
 	 * Denotes that the officer may:
 	 * * appoint and dismiss other Regional Officers, and
@@ -538,10 +618,10 @@ exports.OfficerAuthority = {
 
 /**
  * Rarity categories of trading cards.
+ * @memberof enums
  * @enum {string}
- * @readonly
  */
-exports.Rarity = {
+const Rarity = {
 	COMMON: 'common',
 	UNCOMMON: 'uncommon',
 	RARE: 'rare',
@@ -552,10 +632,10 @@ exports.Rarity = {
 
 /**
  * Categories for the reclassification of a nation's levels of freedom by an answer to an issue.
+ * @memberof enums
  * @enum {number}
- * @readonly
  */
-exports.ReclassificationCategory = {
+const ReclassificationCategory = {
 	CIVIL_RIGHTS: 0,
 	ECONOMIC_FREEDOM: 1,
 	POLITICAL_FREEDOM: 2
@@ -563,10 +643,10 @@ exports.ReclassificationCategory = {
 
 /**
  * Suppression status codes of RMB posts.
+ * @memberof enums
  * @enum {number}
- * @readonly
  */
-exports.RMBPostStatus = {
+const RMBPostStatus = {
 	/** The post is displayed as usual. */
 	OK: 0,
 	/** The post has been suppressed by a Regional Officer, but can still be viewed. */
@@ -579,11 +659,11 @@ exports.RMBPostStatus = {
 
 /**
  * Possible sensibility traits of a nation's citizens.
- * @enum {string}
- * @readonly
  * @todo These are all I found with a quick search, there might be more.
+ * @memberof enums
+ * @enum {string}
  */
-exports.Sensibility = {
+const Sensibility = {
 	CHEERFUL: 'cheerful',
 	COMPASSIONATE: 'compassionate',
 	CYNICAL: 'cynical',
@@ -596,10 +676,10 @@ exports.Sensibility = {
 
 /**
  * Regional tags.
+ * @memberof enums
  * @enum {string}
- * @readonly
  */
-exports.Tag = {
+const Tag = {
 	NOT: '-',
 
 	ANARCHIST: 'Anarchist',
@@ -709,10 +789,10 @@ exports.Tag = {
 
 /**
  * Possible WA badges for nations and regions.
+ * @memberof enums
  * @enum {string}
- * @readonly
  */
-exports.WABadgeType = {
+const WABadgeType = {
 	COMMENDATION: 'commend',
 	CONDEMNATION: 'condemn',
 	LIBERATION: 'liberate',
@@ -720,21 +800,11 @@ exports.WABadgeType = {
 };
 
 /**
- * @enum
- * @readonly
- * @todo Populate this thing
- */
-exports.WACategory = {
-	GA: {},
-	SC: {}
-};
-
-/**
  * WA Council codes.
+ * @memberof enums
  * @enum {number}
- * @readonly
  */
-exports.WACouncil = {
+const WACouncil = {
 	/** General Assembly. */
 	GA: 1,
 	/** Security Council. */
@@ -743,10 +813,10 @@ exports.WACouncil = {
 
 /**
  * Possible WA membership status codes.
+ * @memberof enums
  * @enum {string}
- * @readonly
  */
-exports.WAStatus = {
+const WAStatus = {
 	/** The nation isn't a WA member. */
 	NONMEMBER: 'Non-member',
 	/** The nation is a WA member. */
@@ -757,26 +827,31 @@ exports.WAStatus = {
 
 /**
  * Possible votes of nations on WA resolutions.
+ * @memberof enums
  * @enum {string}
- * @readonly
  */
-exports.WAVote = {
+const WAVote = {
 	/** The nation has voted in favor of the resolution. */
 	FOR: 'FOR',
 	/** The nation has voted against the resolution. */
 	AGAINST: 'AGAINST',
 	/** The nation has not voted on the resolution yet. */
 	UNDECIDED: 'UNDECIDED',
+	/** 
+	 * **Only used in the delegate voting log.** The nation has withdrawn
+	 * its previous vote on the resolution.
+	 */
+	WITHDRAWN: 'WITHDREW',
 	/** There currently is no resolution at vote. */
 	NONE_AT_VOTE: ''
 };
 
 /**
  * Possible responses of nations to the annual zombie apocalypse on Z-Day.
+ * @memberof enums
  * @enum {string}
- * @readonly
  */
-exports.ZombieAction = {
+const ZombieAction = {
 	/** The nation hasn't made a decision on their response yet. */
 	INACTION: 'none',
 	/** The nation sends zombies to other nations in order to infect their populations. */
@@ -786,3 +861,32 @@ exports.ZombieAction = {
 	/** The nation researches a cure in order to turn zombies back into normal citizens. */
 	RESEARCH: 'research'
 };
+
+exports.Admirable = Admirable;
+exports.CardBadgeType = CardBadgeType;
+exports.CensusMode = CensusMode;
+exports.CensusScale = CensusScale;
+exports.CrosspostingPolicy = CrosspostingPolicy;
+exports.DeathCause = DeathCause;
+exports.DispatchCategory = DispatchCategory;
+exports.DispatchSubcategory = DispatchSubcategory;
+exports.DispatchSearchMode = DispatchSearchMode;
+exports.EmbassyPhase = EmbassyPhase;
+exports.HappeningsFilter = HappeningsFilter;
+exports.Influence = Influence;
+exports.LegalityRuling = LegalityRuling;
+exports.NationCategory = NationCategory;
+exports.Notable = Notable;
+exports.NoticeIcon = NoticeIcon;
+exports.NoticeType = NoticeType;
+exports.OfficerAuthority = OfficerAuthority;
+exports.Rarity = Rarity;
+exports.ReclassificationCategory = ReclassificationCategory;
+exports.RMBPostStatus = RMBPostStatus;
+exports.Sensibility = Sensibility;
+exports.Tag = Tag;
+exports.WABadgeType = WABadgeType;
+exports.WACouncil = WACouncil;
+exports.WAStatus = WAStatus;
+exports.WAVote = WAVote;
+exports.ZombieAction = ZombieAction;

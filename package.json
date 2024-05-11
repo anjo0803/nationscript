@@ -1,10 +1,9 @@
 {
 	"name": "nationscript",
-	"version": "1.0.8",
+	"version": "2.0.0",
 	"description": "Library for interacting with the NationStates API",
 	"author": "anjo/Tepertopia (https://www.nationstates.net/tepertopia)",
 	"license": "MPL-2.0",
-
 	"repository": "github:anjo0803/nationscript",
 	"bugs": "https://github.com/anjo0803/nationscript/issues",
 	"keywords": [
@@ -13,7 +12,6 @@
 		"wrapper",
 		"library"
 	],
-
 	"main": "./src/index.js",
 	"files": [
 		"src",
@@ -22,9 +20,14 @@
 		"README.md"
 	],
 	"dependencies": {
-		"xml-flow": "^1.0.4"
+		"node-xml-stream-parser": "^1.0.12"
 	},
-
+	"devDependencies": {
+		"jsdoc-tsimport-plugin": "^1.0.5"
+	},
+	"engines": {
+		"node": ">=14.0.0"
+	},
 	"scripts": {
 		"doc": "jsdoc -c jsdoc.json"
 	}

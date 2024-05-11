@@ -8,13 +8,13 @@ on:
 
 jobs:
   npm:
-    name: Publish to NPM
-    
+    name: Publish to npm
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Set Up Node
         uses: actions/setup-node@v4
         with:

@@ -1,0 +1,997 @@
+<WORLD>
+	<NUMNATIONS>289294</NUMNATIONS>
+	<NUMREGIONS>27292</NUMREGIONS>
+	<!-- Nations and Regions list drastically shortened -->
+	<NATIONS>testlandia,iron_fist_grizzlies,server_hamsters,typing_monkeys,paradroid,martians,senegal,space_station,world,melvani,voice_of_mod,a_badly_conceived_designation,nationalist_gold_union,the_blaatschapens_nation,greenerica,altmoras_i,awan,upper_finnmark,el_test,destructive_government_ex-nation_seeker,destructive_government_ex-nation_seeker2,the_knicks,herete,walpole,myfriendistan,praestare,kashyyyyyyyk,tutorealm,snoopers,testcandyia,ationstates,vetzlia,-i_shipit-,null_island,a_concerned_resident,right_hand_man,puppet1,auguloso,boowzin,testingoa,miencraft,liberosia,west_hempstead,harare,veless,narland,fierrol,muh_roads,minovdigon,kumquat_cove,auxorii,a_better_name,suzi_island,jinkyr,rateria,the_states_of_balloon,the_reagan_revolution,the_united_states_of_patriots,evil_genius_land,new_tampa,minovdi_government-in-exile,highway_eighty-eight,nosam_republic,miri_islands,anarchlandia,cardcaptor_4,nueva_genova_grande,miami_jai-alai_3,rultefull,lunkina,sutalia,libba,devoralia,plato_academia,miencraft_and_minovdigon,new_oasken,madness_land,southern_cone,loosee,borgias,nordhessir,mirina,miliarense,the_wisconsinite_league,greybrow,meridiani_planum,kaputer,senexia,rashaulgia,freedombourg,edgemaster,hollabackatcha,zeeky_bomb,fastercat,edison_culver,blue_embassy,acario,sucrati,gunshows,nation_of_quebec,ydewn,turkuse,plisskenstan,uxorem_meam,zinoquia,snorlaxia,amazing_family_jewels,uss_reuben_james,charranese_borderlands,cyborga,avimimus,comte_de_grasse,ladyfasterkittens,trustworthy_fudge_cake,fiarindom,mallorca,caelestius,mexico_city,narconania,scorpions_army,industria,the-cid,metacrisis,covar_corporation,fakeandland,internet_explorer,the_union_of_sovereign_republics,tropics,the_lost_world,opulent_order,kbedians,scientia_major,oil,new_fort_knox,undelegate,poopsancagizal,talakmachen,sucwati,octal,biswasian_states,fsi,globo_gym_incorporated,laissez-faire_economics,endoxas,united_federal_empire,european_africa,freed_peoples_of_aracia,klaymore,kyrtan,bel_cairo,arbonium,vattensund,corparatial,woogus,huntingtonia,averican,luciferio,greybrows_puppets,biswasian_conquerors,hellbardia,hamonistan,the_tyrell-wallace_corporation,dudu_island,pr_rpm,gamblistan,tgn94,thorun,gespain,arizona9,jacobius,isthmus_islet,rhel,federation_of_american_states,viperreich,pentadbir,dilsoza,courathar,martin_t60c,kalatchevia,divided_wastelands_of_america,cabordy,haus_habsburg_osterreich,palais_reality,special_economic_zone,alta_si,mon_goog,porkopolis,qelta_morqe,clue_corporation,american_reformed_states,freedom_capitalists,taxdodgers,american_argentina,usa_united_states_of_america,petrolian,dharmanagara,gulf_oil,the_anarcho-capitalist_lands_of_kool-aid,freddy_fazbear_pizza,chrimatia,fanoze,circulationem_pecunia,am_israel,merx_libera,germany_2022rp,a_woman_identified_as_miss,fordlandia,darrell_sweet,capitalistic_wales,abdominous,the_crusty_crab,corporate_collective_salvation,at-xt,the_ferengi_allience,marsid,bremerhaven-hans,maltamar,oggle_boggle,new_olsztyn,the_american_libertarian_society,bundestag,cerberion,ananke_ii,kanaia,improving_wordiness,boltor,eist,echolilia,surprise,woonsocket,aersoldorf,grub,new_dracora,markanite,coreras,the_soylent_green_party,lower_columbia,caesarton,104_banbury_road,anollasia,zyrcrestia,harperians,testa,new_kourt,solleana,zachais,kefkalia,blogotopia,oceanus,petalumadom,zyrcrestia_iii,kanta_hame</NATIONS>
+	<REGIONS>Testregionia,Libertatem,Capitalist Paradise,10000 Islands,Australia,the Pacific,Wysteria,Zombieland,the South Pacific,The North Pacific,the West Pacific,the Rejected Realms,Osiris,Balder,Space Sector RPRA,Eurasian Socialist Union,Commonwealth of Liberty,Conservative League,Confederacy of Allied States,The Black Hawks,Lazarus,Pax Britannia,Cape of Good Hope,Brotherhood of Shadows,Pony Lands,Ankh Mauta,Democratic Socialist Assembly,The Communist Bloc,International Socialism,Wintermoor,Old World Union,Europeia,International Union,The East Pacific,The Vast,Greater Ixnay,The Coalition of Democratic Nations,Carnival of Souls,The Republic Nations,The Coalition of Governments,The Illuminati,Austritaria,Bosnia and Herzegovina,The Commonwealth Of Furry Peoples,Europa,American Union,The Heartland,The Kingdom of Great Britain,New Warsaw Pact,The Military Federation,The Erviadus Galaxy,Solid Kingdom,Cynosure,Equinox,Union of Socialist Soviet Republics,Canada,The Universal Allegiance,facebook nations,NationStates,New Hyperion,Ainur,Glorious Nations of Iwaku,Geopolity,International Northwestern Union,USSD,Warzone AOAN,Esamir,Albion,Historia Novorum,KAISERREICH,Sovereign Charter,Maryland,Gay,North Korea,Scandinavia,Europe,Atlas,The Universal Order of Nations,United Group,Atlantian Oceania,The Western Colonies,Polandball,Sunalaya,0000000000000,The Local Cluster,The Supreme Union,House of Lancaster of Wessex,The New Inquisition,Astyrian Probation,The Western Isles,Wrangel,Conch Kingdom,Free Thought,Cybertron,Esquarium,The Confederacy Of Kishkhat,00000 A World Power,St Abbaddon,Aeterna Publicae,Yggdrasil,The Labyrinth,Nationalist Technate,Kerbin,Laissez Faireholm,The Versutian Federation,Shadow Proclamation,Ile de France,League of Sovereign Nations,TPOC,The New Meritocracy,The United Reddit Nations,The Persian Empire,The Atheist Empire,Lorian,Union of Nationalists,Greater Prussia,Philippines,Soviet Union,The Alliance of Dictators,Louisiana,Avadam Inn,Democratic Republic of Bavaria,Right to Life,Al Roker Death Cult Wind Ensemble,Nationalist Commonwealth of Free Regions,Violet Irises,Spiritus,Nova Historiae,Old Celtica,The Red and Black,Celtic Nations,The Allied States,Equestria,Conservative Fleet,Forest,Anarchy,The New Commonwealth Society,Democritus,Coalition of Sovereign Nations,Monoffian Militarized Zone,Loamhedge,Gatesville Inc,Republic of Albania,The Greater Holy Isles,Republica,Renegade Islands Alliance,The Empire of Tamriel,British Indian Ocean Territory,Russian Empire,Asgard,Sacrum Romanum Imperium,Austria,Poqilet,New World Union,Kerala,Realism and RP,Grant,Dalrawduel,East Asia,Lavinaria,The Socialist World Republic,Texas,Topid,Heavy Metal Heaven,China,000,0000,Osakaland,U R N,Asylum,Esportiva,Braunau am Inn,The Nation of Nations and Friends,Barbaria,Warzone Africa,The New Galactic Empire,Brasil,The Milky Way Galaxy,Taijitu,The Dank Meme Alliance,Anteria,Central Eastern Europe,Ivory Tower,Tokyo,Dune,Persian Empire,The Leftist Assembly,Zarathustra,The Land of Kings and Emperors,World Alliance,The Vengrynkhal Empire,Imperium of the Wolf,00000,000000,Alstroemeria,The Great American Union,The Nether,Zemlya,Zentari,Minoa,City Ankh Morpork,Hoddmimis Holt,Ashroxem,The Capitalist Alliance,Rushmore,Ancient Lands,Philosophy 115,The Unified Christians Alliance,Anime,The Dirt Alliance,POLATION,Creta,Psychotic Dictatorships,Aels,United Federation of Planets,Warzone Europe,Solar Alliance,Aurelia,Nasicournia,00000000,Nudist Dreamland,Antarctic Oasis,Fifth Empire,21st Century Rome,Calefacta Aquas Piscinae,Turkic Union,Antarctica</REGIONS>
+	<CENSUS>
+		<SCALE id="6">
+			<SCORE>40.94</SCORE>
+		</SCALE>
+	</CENSUS>
+	<CENSUS id="6">Most Compassionate Citizens</CENSUS>
+	<CENSUSSCALE id="6">Kitten Softness Rating</CENSUSSCALE>
+	<CENSUSID>49</CENSUSID>
+	<CENSUSTITLE id="6">Compassion</CENSUSTITLE>
+	<CENSUSDESC id="6">
+		<NDESC>Exhaustive World Census tests involving kittens revealed the following nations to be the most compassionate.</NDESC>
+		<RDESC>Exhaustive World Census tests involving kittens revealed the following regions to be the most compassionate.</RDESC>
+	</CENSUSDESC>
+	<CENSUSRANKS id="6">
+		<NATIONS>
+			<NATION>
+				<NAME>new_newfoundlands</NAME>
+				<RANK>12345</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>oothiteria</NAME>
+				<RANK>12346</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>east_blue</NAME>
+				<RANK>12347</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>santa_lia</NAME>
+				<RANK>12348</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>furraria</NAME>
+				<RANK>12349</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>pravdia</NAME>
+				<RANK>12350</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>bealands</NAME>
+				<RANK>12351</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>aubreyja</NAME>
+				<RANK>12352</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>watermelon_tourmaline</NAME>
+				<RANK>12353</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>saft_card_kolkhoz_10</NAME>
+				<RANK>12354</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>technofruit</NAME>
+				<RANK>12355</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>uritis</NAME>
+				<RANK>12356</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>union_of_united_socialist_soviet_onions</NAME>
+				<RANK>12357</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>sekhmet_saft_2</NAME>
+				<RANK>12358</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>campos_commies</NAME>
+				<RANK>12359</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>united_korinthia</NAME>
+				<RANK>12360</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>littlefurs</NAME>
+				<RANK>12361</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>adaure</NAME>
+				<RANK>12362</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>red_nordania</NAME>
+				<RANK>12363</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+			<NATION>
+				<NAME>beefalo_bill</NAME>
+				<RANK>12364</RANK>
+				<SCORE>61.36</SCORE>
+			</NATION>
+		</NATIONS>
+	</CENSUSRANKS>
+	<FEATUREDREGION>urumqi</FEATUREDREGION>
+	<NEWNATIONS>dilf4life,brarycus,apath_sergal,serenton,dermainia,greater_swordislav,western_tomungolyana,laones,bniani,nalnaar,jaddadiah,highland_revolutionary_junta,fnafworldd,kriksaija,deskyland,democratic_trown_west_iby,yionu,level_52,british_windsor_islands,southern_deves_iuunlanifars,sybaricis,reddy_rajyam,solovan,lebae,gouthamfc,reddy_rajam1,bosontep_ahiwia,kavilton,hamina,ss_ii,distorted_realm,letham_grange,hetmanate_of_skorokozatva,ss_i,bulisontep_lesiar,kazakstan_ugra,hanbeg,-safe-,new_spikelandia,soviet_dust,vi_werster,sepruman,centrist_bourgeoisie_democracy,depths,vi_botch,seprumas,paoloqwert,paoloqwer,slovatiara,synorg</NEWNATIONS>
+	<NEWNATIONDETAILS>
+		<NEWNATION name="dilf4life">
+			<REGION>solidarity</REGION>
+			<FOUNDEDTIME>1688903882</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="brarycus">
+			<REGION>the_pacific</REGION>
+			<FOUNDEDTIME>1688903817</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="apath_sergal">
+			<REGION>the_pacific</REGION>
+			<FOUNDEDTIME>1688903789</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="serenton">
+			<REGION>the_east_pacific</REGION>
+			<FOUNDEDTIME>1688903439</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="dermainia">
+			<REGION>the_south_pacific</REGION>
+			<FOUNDEDTIME>1688903342</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="greater_swordislav">
+			<REGION>the_west_pacific</REGION>
+			<FOUNDEDTIME>1688903328</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="western_tomungolyana">
+			<REGION>valley_of_peace</REGION>
+			<FOUNDEDTIME>1688903222</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="laones">
+			<REGION>the_west_pacific</REGION>
+			<FOUNDEDTIME>1688903138</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="bniani">
+			<REGION>the_south_pacific</REGION>
+			<FOUNDEDTIME>1688903030</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="nalnaar">
+			<REGION>sophia</REGION>
+			<FOUNDEDTIME>1688903019</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="jaddadiah">
+			<REGION>community</REGION>
+			<FOUNDEDTIME>1688902984</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="highland_revolutionary_junta">
+			<REGION>nato_2022_frontier</REGION>
+			<FOUNDEDTIME>1688902827</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="fnafworldd">
+			<REGION>solidarity</REGION>
+			<FOUNDEDTIME>1688902781</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="kriksaija">
+			<REGION>solidarity</REGION>
+			<FOUNDEDTIME>1688902658</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="deskyland">
+			<REGION>alcatraz</REGION>
+			<FOUNDEDTIME>1688902651</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="democratic_trown_west_iby">
+			<REGION>the_east_pacific</REGION>
+			<FOUNDEDTIME>1688902405</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="yionu">
+			<REGION>the_nationstates_assembly</REGION>
+			<FOUNDEDTIME>1688902259</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="level_52">
+			<REGION>the_frontier_sea</REGION>
+			<FOUNDEDTIME>1688902180</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="british_windsor_islands">
+			<REGION>the_west_pacific</REGION>
+			<FOUNDEDTIME>1688902167</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="southern_deves_iuunlanifars">
+			<REGION>europeia</REGION>
+			<FOUNDEDTIME>1688902036</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="sybaricis">
+			<REGION>the_pacific</REGION>
+			<FOUNDEDTIME>1688901981</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="reddy_rajyam">
+			<REGION>the_frontier_sea</REGION>
+			<FOUNDEDTIME>1688901958</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="solovan">
+			<REGION>carcassonne</REGION>
+			<FOUNDEDTIME>1688901946</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="lebae">
+			<REGION>the_amaranthine_isles</REGION>
+			<FOUNDEDTIME>1688901704</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="gouthamfc">
+			<REGION>scandinavian_union</REGION>
+			<FOUNDEDTIME>1688901687</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="reddy_rajam1">
+			<REGION>the_east_pacific</REGION>
+			<FOUNDEDTIME>1688901651</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="bosontep_ahiwia">
+			<REGION>the_south_pacific</REGION>
+			<FOUNDEDTIME>1688901559</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="kavilton">
+			<REGION>the_south_pacific</REGION>
+			<FOUNDEDTIME>1688901201</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="hamina">
+			<REGION>the_north_pacific</REGION>
+			<FOUNDEDTIME>1688901144</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="ss_ii">
+			<REGION>carcassonne</REGION>
+			<FOUNDEDTIME>1688901045</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="distorted_realm">
+			<REGION>carcassonne</REGION>
+			<FOUNDEDTIME>1688901036</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="letham_grange">
+			<REGION>concord</REGION>
+			<FOUNDEDTIME>1688900923</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="hetmanate_of_skorokozatva">
+			<REGION>the_east_pacific</REGION>
+			<FOUNDEDTIME>1688900882</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="ss_i">
+			<REGION>the_south_pacific</REGION>
+			<FOUNDEDTIME>1688900736</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="bulisontep_lesiar">
+			<REGION>the_frontier_sea</REGION>
+			<FOUNDEDTIME>1688900661</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="kazakstan_ugra">
+			<REGION>sophia</REGION>
+			<FOUNDEDTIME>1688900545</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="hanbeg">
+			<REGION>rose_and_gold</REGION>
+			<FOUNDEDTIME>1688900524</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="-safe-">
+			<REGION>community</REGION>
+			<FOUNDEDTIME>1688900477</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="new_spikelandia">
+			<REGION>the_north_pacific</REGION>
+			<FOUNDEDTIME>1688900379</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="soviet_dust">
+			<REGION>the_east_pacific</REGION>
+			<FOUNDEDTIME>1688900350</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="vi_werster">
+			<REGION>community</REGION>
+			<FOUNDEDTIME>1688900330</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="sepruman">
+			<REGION>the_first_fortress</REGION>
+			<FOUNDEDTIME>1688900061</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="centrist_bourgeoisie_democracy">
+			<REGION>the_south_pacific</REGION>
+			<FOUNDEDTIME>1688899886</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="depths">
+			<REGION>algerheaven</REGION>
+			<FOUNDEDTIME>1688899837</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="vi_botch">
+			<REGION>valley_of_peace</REGION>
+			<FOUNDEDTIME>1688899781</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="seprumas">
+			<REGION>the_west_pacific</REGION>
+			<FOUNDEDTIME>1688899772</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="paoloqwert">
+			<REGION>the_north_pacific</REGION>
+			<FOUNDEDTIME>1688899550</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="paoloqwer">
+			<REGION>the_north_pacific</REGION>
+			<FOUNDEDTIME>1688899265</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="slovatiara">
+			<REGION>sophia</REGION>
+			<FOUNDEDTIME>1688899163</FOUNDEDTIME>
+		</NEWNATION>
+		<NEWNATION name="synorg">
+			<REGION>the_south_pacific</REGION>
+			<FOUNDEDTIME>1688898985</FOUNDEDTIME>
+		</NEWNATION>
+	</NEWNATIONDETAILS>
+	<REGIONS>The East Pacific,The North Pacific,the Pacific,the South Pacific,the West Pacific</REGIONS>
+	<HAPPENINGS>
+		<EVENT id="118552907">
+			<TIMESTAMP>1688902742</TIMESTAMP>
+			<TEXT>
+				<![CDATA[@@hunray@@ applied to join the World Assembly.]]>
+			</TEXT>
+		</EVENT>
+		<EVENT id="118533238">
+			<TIMESTAMP>1688887768</TIMESTAMP>
+			<TEXT>
+				<![CDATA[@@norosphood@@ applied to join the World Assembly.]]>
+			</TEXT>
+		</EVENT>
+		<EVENT id="118427024">
+			<TIMESTAMP>1688848270</TIMESTAMP>
+			<TEXT>
+				<![CDATA[@@schoul@@ resigned from the World Assembly.]]>
+			</TEXT>
+		</EVENT>
+		<EVENT id="118418333">
+			<TIMESTAMP>1688843836</TIMESTAMP>
+			<TEXT>
+				<![CDATA[@@schoul@@ was admitted to the World Assembly.]]>
+			</TEXT>
+		</EVENT>
+		<EVENT id="118418270">
+			<TIMESTAMP>1688843795</TIMESTAMP>
+			<TEXT>
+				<![CDATA[@@schoul@@ applied to join the World Assembly.]]>
+			</TEXT>
+		</EVENT>
+		<EVENT id="118410337">
+			<TIMESTAMP>1688838989</TIMESTAMP>
+			<TEXT>
+				<![CDATA[@@sun_jian@@ resigned from the World Assembly.]]>
+			</TEXT>
+		</EVENT>
+		<EVENT id="118390036">
+			<TIMESTAMP>1688832648</TIMESTAMP>
+			<TEXT>
+				<![CDATA[@@zelenio@@ resigned from the World Assembly.]]>
+			</TEXT>
+		</EVENT>
+		<EVENT id="118384594">
+			<TIMESTAMP>1688831466</TIMESTAMP>
+			<TEXT>
+				<![CDATA[@@zelenio@@ was admitted to the World Assembly.]]>
+			</TEXT>
+		</EVENT>
+		<EVENT id="118383808">
+			<TIMESTAMP>1688831188</TIMESTAMP>
+			<TEXT>
+				<![CDATA[@@zelenio@@ applied to join the World Assembly.]]>
+			</TEXT>
+		</EVENT>
+		<EVENT id="118362717">
+			<TIMESTAMP>1688822858</TIMESTAMP>
+			<TEXT>
+				<![CDATA[@@sol_do_norte@@ was admitted to the World Assembly.]]>
+			</TEXT>
+		</EVENT>
+	</HAPPENINGS>
+	<LASTEVENTID>118554177</LASTEVENTID>
+	<POLL id="195418">
+		<TITLE>
+			<![CDATA[January 2023 Delegate Election - Second Round]]>
+		</TITLE>
+		<TEXT>
+			<![CDATA[Please select your preferred candidate for the Local Council. Refer to the following dispatch for more information on the election and the campaigns of all candidates: https://www.nationstates.net/page=dispatch/id=1821167]]>
+		</TEXT>
+		<REGION>the_south_pacific</REGION>
+		<START>1673704801</START>
+		<STOP>1674309601</STOP>
+		<AUTHOR>kringalia</AUTHOR>
+		<OPTIONS>
+			<OPTION id="0">
+				<OPTIONTEXT>
+					<![CDATA[Tepertopia]]>
+				</OPTIONTEXT>
+				<VOTES>138</VOTES>
+				<VOTERS>alf_landon:qvait:belschaft:bear_connors_paradiso:rebel-topia:drystar:curlyhoward:mavenu:tsunamy:sanden:sedunn:amerion:sporaltryus:maeiland:delthorensdale:ebonhand:land_without_shrimp:havenfell:treir:aidenfieeld:concrete_slab:centristvill:nowa_europa:fiorina_furya:christos:dioswania:073_039_109_032_080_111_112_112_121:hesrova:bleakfoot:tepertopia:anuadh:pandagua:drew_durrnil:saint_cinder:xarbraden:dragolif:balisca:venezia_pacifica:uvalor:the_haughtherlands:osheiga:the_republic_of_konsa:democratic_republic_of_panama:andrendia:photoplier:new_american_dictatorship:anilitty:new_bulacan:a_place_somewhere:evinea:great_lothian:eastern_juble_lux:lile_ulie_islands:ever_testing:hadrex:pai_land:khlachten:orcuo:zanforadon:sordandia:kiribithia:north_pernambuco:brasiliense_nation:british_bharat:nekoatsumelandia:neo_namea:tescopepsi:petea:babyloniaz:the_elysian_empire:canadian_goose_republic:beestreetz:the_republic_of_everleigh:marnrio:the_capital_of_wilswenberg:comprom:new_philippine_empire:royd_critia:prasha_empire:moscak:uvra:the_anarcho:dantopia:goldnation:atolls_of_scodalek:eastern_berowes:africas_number_1:cheesland:yotohoocial:canamerico_and_greenland:valles_stellarum:afria_thebel:the_free_falklands:yegov:southern_cascadia:republic_of_azania:thunderwave_cave:isla_isuonene:bloonation:mastenva:krri:rubybellia:pacifortania:frairrisburg:prixina:axita:khnomania:tawilasha:scarviania:notre_dame_fightng_irish:space_cookies:holy_gran_brazil:oliistan:rodanj:cuenca_nalon:kvers_kingis:the_turrasgarrist_contegrat:taurel:zarklan:the_last_authority:north_chadland:terabithia_prime:goric_ohio:kolmar:prosciuttoisbacon:antiochinus:ussri_island:astriva:helos:leszcsyny:shiny_neptune:owainistan:milkland:caserun:the_southern_dependencies:zem_peeps:mapleview:holy_nicarsa</VOTERS>
+			</OPTION>
+			<OPTION id="1">
+				<OPTIONTEXT>
+					<![CDATA[Re-Open Nominations]]>
+				</OPTIONTEXT>
+				<VOTES>22</VOTES>
+				<VOTERS>twyhein_reich:pays_de_loire:holota:eastern_panem:chernaya_zvezda:the_kies:the_helleness:america_gone_wrong:eleuthelrium:pamduj:gennaretia:chillicothe:federal_eagle_empire:hamsreich:tokopex:indominioners:unga_bunga_punga:res_fol:abeycd:oskurg:the_real_ireland:daryae_ziba</VOTERS>
+			</OPTION>
+		</OPTIONS>
+	</POLL>
+	<DISPATCH id="1192500">
+		<TITLE>
+			<![CDATA[Introduction to NationStates and the South Pacific (Click here if you are new!)]]>
+		</TITLE>
+		<AUTHOR>coalition_of_the_south_pacific</AUTHOR>
+		<CATEGORY>Meta</CATEGORY>
+		<SUBCATEGORY>Gameplay</SUBCATEGORY>
+		<CREATED>1554565449</CREATED>
+		<EDITED>1684764901</EDITED>
+		<VIEWS>11427</VIEWS>
+		<SCORE>87</SCORE>
+		<TEXT>
+			<![CDATA[
+
+[anchor=Top][/anchor][box][align=center][background-block=#88D5FF][font=Avenir, Segoe UI, sans-serif][size=120]
+[color=#88D5FF]—[/color][url=https://www.nationstates.net/page=display_region_rmb/region=the_south_pacific][color=#FFFFFF][b]RMB[/b][/color][/url] [/size][size=75][sup][background=#FF9900][color=#FFFFFF] LIVE [/color][/background][/sup][/size][size=120][color=#88D5FF]—[/color] [color=#88D5FF]—[/color][url=https://discordapp.com/invite/tEyyDyh][color=#FFFFFF][b]Discord[/b][/color][/url] [/size][size=75][sup][background=#FF9900][color=#FFFFFF] LIVE [/color][/background][/sup][/size][size=120][color=#88D5FF]—[/color][/size][/font][/background-block][background-block=#38B9FF][font=Avenir, Segoe UI, sans-serif][size=120]
+[background=#019aed][color=#019aed]—[/color][url=https://www.nationstates.net/page=dispatch/id=1192500][color=#fff][b]Home[/b][/color][/url][color=#019aed]—[/color][/background][color=#38b9ff]—[/color][url=https://www.nationstates.net/page=dispatch/id=1192503][color=#fff][b]Get Involved[/b][/color][/url][color=#38b9ff]—[/color][color=#38b9ff]—[/color][url=https://www.nationstates.net/page=dispatch/id=1230616][color=#fff][b]Guides[/b][/color][/url][color=#38b9ff]—[/color][color=#38b9ff]—[/color][url=https://www.nationstates.net/page=dispatch/id=1237123][color=#fff][b]Index[/b][/color][/url][color=#38b9ff]—[/color][color=#38b9ff]—[/color][url=https://www.nationstates.net/page=dispatch/id=1192502][color=#fff][b]Government ➔[/b][/color][/url][color=#38b9ff]—[/color][/size][/font]
+[img]https://img.tspforums.xyz/tsp-graphics/regional/tsp-dispatch.png[/img]
+[font=Avenir, Segoe UI, sans-serif][size=120]
+
+[color=#38b9ff]—[/color][/size][/font][/background-block][/align][/box]
+
+
+
+[box]
+[center][font=Avenir, Segoe UI, sans-serif][size=250][color=#109aed][b]Welcome to NationStates and the South Pacific![/b][/color][/size][/font][/center]
+
+[font=Avenir, Segoe UI, sans-serif][size=120]Hello there, and congratulations on founding your very own nation! We know you’ve probably got your hands full governing millions of citizens, but we also wanted to introduce you to your region. A region is simply a community of nations, and every new nation like yourself starts out in one. If you’re reading this, that means you’re in the region of the South Pacific. That’s us — welcome![/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120]But what can you do in a region? We’re glad you asked! Regions are a great way to get to know and play NationStates with other players. Every region has something different to offer, but here in the South Pacific, some of the things we’re known for include…[/size][/font]
+[list]
+[*][font=Avenir, Segoe UI, sans-serif][size=120]The [color=#109aed][b]oldest extant democracy on NationStates[/b][/color], running since 2003, with our elections, legislature, executive, and judiciary;[/size][/font][*][font=Avenir, Segoe UI, sans-serif][size=120]A [color=#109aed][b]regional military[/b][/color] that’s one of the leading forces defending other regions from attack;[/size][/font][*][font=Avenir, Segoe UI, sans-serif][size=120]Vibrant [color=#109aed][b]roleplay universes[/b][/color], where players build up the lore of their country; and[/size][/font][*][font=Avenir, Segoe UI, sans-serif][size=120]A [color=#109aed][b]friendly and welcoming community[/b][/color] of players just like you.[/size][/font][/list]
+[font=Avenir, Segoe UI, sans-serif][size=120]No matter what you’re interested in, we’re sure there’s something for you. The choice is yours![/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120]If you have any questions, feel free to join our [url=https://thesouthpacific.org][color=#ff9900]regional forums[/color][/url] or [url=https://discordapp.com/invite/tEyyDyh][color=#ff9900]Discord server[/color][/url] to chat with other members of our community. We'd be happy to help you![/size][/font]
+[/box]
+
+[box][font=Avenir, Segoe UI, sans-serif][size=250][color=#109aed][b][anchor=content]What can I do in the South Pacific?[/anchor][/b][/color][/size][/font]
+[/box]
+
+[box][font=Avenir, Segoe UI, sans-serif][size=170][color=#109aed][b][anchor=swan]Become a SWAN Knight[/anchor][/b][/color][/size][/font]
+[font=Avenir, Segoe UI, sans-serif][size=140][color=#ff9900][b]Quick, easy, and important.[/b][/color][/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120]Becoming a SWAN Knight is perhaps the quickest and easiest way to get involved, but it’s also one of the most important. Oh, and it also comes with a pretty badge that you can see [url=https://www.nationstates.net/page=dispatch/id=1045928][color=#ff9900]here[/color][/url].[/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][color=#109aed][b]Tell me more![/b][/color] SWAN Knights are nations that have endorsed our Delegate and members of the [url=https://www.nationstates.net/page=dispatch/id=1398091][color=#ff9900]Coral Guard[/color][/url]. An endorsement gives them the power to protect our region. Keeping the numbers of endorsements held by the Delegate and Coral Guard high keeps our region more secure from potential attackers.[/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][color=#109aed][b]How to endorse a nation:[/b][/color] You can find the Endorse button at the bottom of each nation’s page.[/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][color=#109aed][b]How do I become a SWAN Knight?[/b][/color] You’ll need to [url=https://www.nationstates.net/page=un][color=#ff9900]join the World Assembly[/color][/url] (NationStates’ version of the United Nation) and then do these steps:[/size][/font]
+
+[table=noheader][tr][td=5][background-block=#1089e6][hr][center][font=Avenir, Segoe UI, sans-serif][size=140][color=#ffffff][b]Step 1: Endorse the Delegate[/b][/color][/size][/font][/center][hr][/background-block][/td][/tr]
+[tr][td=5][center][font=Avenir, Segoe UI, sans-serif][size=120][nation]Tepertopia[/nation][/size][/font][/center][/td][/tr]
+[tr][td=5][background-block=#1089e6][hr][center][font=Avenir, Segoe UI, sans-serif][size=140][color=#ffffff][b]Step 2: Endorse the Coral Guard nations[/b][/color][/size][/font][/center][hr][/background-block][/td][/tr]
+[tr][td][font=Avenir, Segoe UI, sans-serif][size=120][nation]Amerion[/nation][/size][/font][/td][td][font=Avenir, Segoe UI, sans-serif][size=120][nation]Aidenfieeld[/nation][/size][/font][/td][td][font=Avenir, Segoe UI, sans-serif][size=120][nation]Tepertopia[/nation][/size][/font][/td][td][font=Avenir, Segoe UI, sans-serif][size=120][nation]Farengeto[/nation][/size][/font][/td][td][font=Avenir, Segoe UI, sans-serif][size=120][nation]Ebonhand[/nation][/size][/font][/td][/tr][tr][td][font=Avenir, Segoe UI, sans-serif][size=120][nation]Land Without Shrimp[/nation][/size][/font][/td][td][font=Avenir, Segoe UI, sans-serif][size=120][nation]073 039 109 032 080 111 112 112 121[/nation][/size][/font][/td][td][font=Avenir, Segoe UI, sans-serif][size=120][nation]Tsunamy[/nation][/size][/font][/td][td][font=Avenir, Segoe UI, sans-serif][size=120][nation]PenguinPies[/nation][/size][/font][/td][/tr]
+[/table]
+[/box]
+
+[box][font=Avenir, Segoe UI, sans-serif][size=170][color=#109aed][b][anchor=assembly]Join the Assembly[/anchor][/b][/color][/size][/font]
+[font=Avenir, Segoe UI, sans-serif][size=140][color=#ff9900][b]Make your voice heard.[/b][/color][/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120]The Assembly offers rich, lively political debate as it debates our region’s laws. It’s the perfect venue for you to voice your beliefs and shape our region.[/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][color=#109aed][b]Tell me more![/b][/color] The Assembly is our regional legislature and it makes laws covering the rights of residents of our region, our foreign policy towards other regions, the way our regional officer powers are allocated, and more. It’s a great way for anyone to get started crafting our regional laws and participating in our regional politics.[/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][color=#109aed][b]How do I join?[/b][/color] To become a legislator and join the Assembly, simply [url=https://thesouthpacific.org/signup][color=#ff9900]make an account on our regional forums[/color][/url] and then head over to the [url=https://thesouthpacific.org/w/get-involved][color=#ff9900]Getting Involved wizard[/color][/url]![/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][url=https://thesouthpacific.org/w/get-involved][color=#ff9900]Join the Assembly ➔[/color][/url][/size][/font]
+[/box]
+
+[box][font=Avenir, Segoe UI, sans-serif][size=170][color=#109aed][b][anchor=voting]Vote in elections[/anchor][/b][/color][/size][/font]
+[font=Avenir, Segoe UI, sans-serif][size=140][color=#ff9900][b]Participate in NationStates’ oldest democracy.[/b][/color][/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120]One of our proudest traditions, our elections highlight our spirited political culture and offer you a chance to participate in NationStates’ oldest extant democracy.[/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][color=#109aed][b]Tell me more![/b][/color] We hold elections for government officials including our Prime Minister (PM) and our Delegate. Our PM is in charge of things like regional events, welcoming new players (like you!), and diplomacy with other regions. Our Delegate is the person in our region with the most endorsements and serves as our head of state.[/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][color=#109aed][b]How do I vote?[/b][/color] To vote for the Delegate or the PM, you'll need to become a legislator (a member of the Assembly, our law-making body). Simply [url=https://thesouthpacific.org/signup][color=#ff9900]make an account on our regional forums[/color][/url] and then head over to the [url=https://thesouthpacific.org/w/get-involved][color=#ff9900]Getting Involved wizard[/color][/url]![/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][url=https://www.nationstates.net/page=dispatch/id=1192504][color=#ff9900]Learn more about elections[/color][/url][/size][/font]
+[/box]
+
+[box][font=Avenir, Segoe UI, sans-serif][size=170][color=#109aed][b][anchor=military]Join the military[/anchor][/b][/color][/size][/font]
+[font=Avenir, Segoe UI, sans-serif][size=140][color=#ff9900][b]Protect innocent regions across NationStates.[/b][/color][/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120]Our military offers exciting, fast-paced gameplay and the chance to defend innocent regions and communities all across NationStates from unjustified attacks.[/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][color=#109aed][b]Tell me more![/b][/color] NationStates doesn’t have wars between nations, but it does have military gameplay with regions. Our military is a defender military, which means we protect innocent regions from the military forces that try to take them over simply because they enjoy it. If that sounds interesting, or you just want some fast-paced gameplay, enlisting in our military is for you![/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][color=#109aed][b]How do I join?[/b][/color] To enlist in our regional military, the South Pacific Special Forces, simply [url=https://thesouthpacific.org/signup][color=#ff9900]make an account on our regional forums[/color][/url] and then head over to the [url=https://thesouthpacific.org/w/get-involved][color=#ff9900]Getting Involved wizard[/color][/url]![/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][url=https://thesouthpacific.org/w/get-involved][color=#ff9900]Join the  South Pacific Special Forces ➔[/color][/url][/size][/font]
+[/box]
+
+[box][font=Avenir, Segoe UI, sans-serif][size=170][color=#109aed][b][anchor=roleplay]Participate in roleplay[/anchor][/b][/color][/size][/font]
+[font=Avenir, Segoe UI, sans-serif][size=140][color=#ff9900][b]Build up your country’s lore and history.[/b][/color][/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120]Our roleplay communities are a perfect outlet to unleash your creativity and formulate your country’s lore and history.[/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][color=#109aed][b]Tell me more![/b][/color] Many NationStates players enjoy roleplay, where you get to build up the lore of your country and its people with other players. Whether you’re looking to write stories about your people, report on news from your nation, or simulate trade relations or even war, roleplay is a great choice to get involved.[/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][color=#109aed][b]How do I roleplay?[/b][/color] To join our roleplay community, simply [url=https://thesouthpacific.org/signup][color=#ff9900]make an account on our regional forums[/color][/url] and start reading or posting in one of our roleplay universes there. You can also join the [url=https://discord.gg/58aX2yhmqF][color=#ff9900]dedicated roleplay Discord server[/color][/url] to chat with other roleplayers.[/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][url=https://thesouthpacific.org/signup][color=#ff9900]Join the forums ➔[/color][/url][/size][/font]
+[/box]
+
+[box][font=Avenir, Segoe UI, sans-serif][size=170][color=#109aed][b][anchor=culture]Participate in the executive branch[/anchor][/b][/color][/size][/font]
+[font=Avenir, Segoe UI, sans-serif][size=140][color=#ff9900][b]More players, more fun.[/b][/color][/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120]The executive branch of our government offers a variety of fun activities that you can do ranging from ambassadors to other regions, cultural event organizers, dispatch writers, graphic designers, and more! If you ever want to run for election, this is a great path to gain more experience![/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][color=#109aed][b]Tell me more![/b][/color] The executive branch consists of the ministries that run the day-to-day operations of the region. The Ministry of Foregin Affairs has ambassadors to communicate with other regions. The Ministry of Regional Affairs hosts regional activities and festivals. Events from the past have included movie screenings, online game nights, festivals with other regions, and more. They also maintain our various guides (like this one), make recruitment telegrams, and do other stuff to attract nations and integrate them into our community.[/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][color=#109aed][b]How do I join?[/b][/color] To participate in activities of the Ministry of Foreign Affairs or/and the Ministry of Regional Affairs you just need to come into our [url=https://discordapp.com/invite/tEyyDyh][color=#ff9900]Discord server[/color][/url]'s #executive-planning channel or [url=https://thesouthpacific.org/c/cabinet/10][color=#ff9900]the Cabinet subforum[/color][/url]. You will find activities to do there! No formal registration or experience needed.[/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][url=https://discordapp.com/invite/tEyyDyh][color=#ff9900]Our Discord server ➔[/color][/url][/size][/font]
+[/box]
+
+[box][font=Avenir, Segoe UI, sans-serif][size=250][color=#109aed][b][anchor=unsure]Still not sure?[/anchor][/b][/color][/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120]That’s okay! We think we have a little bit to offer everyone, but if nothing catches your eye right now, no worries! We’d love to just chat with you and get to know you a bit better. Feel free to [url=https://thesouthpacific.org/signup][color=#ff9900]make an account[/color][/url] on our regional forums or [url=https://discordapp.com/invite/tEyyDyh][color=#ff9900]join our Discord server[/color][/url].[/size][/font]
+
+[font=Avenir, Segoe UI, sans-serif][size=120][url=https://thesouthpacific.org/signup][color=#ff9900]Join the forums ➔[/color][/url] | [url=https://discordapp.com/invite/tEyyDyh][color=#ff9900]Join the Discord ➔[/color][/url][/size][/font]
+[/box]
+
+
+[box][align=center][background-block=#2280C3][url=https://www.nationstates.net/region=the_south_pacific][color=#ff9900][img]https://img.tspforums.xyz/tsp-graphics/regional/footer-dispatch.png[/img][/color][/url]
+[color=#2280C3]·[/color]
+[color=#2280C3]·[/color]
+[url=https://www.nationstates.net/region=the_south_pacific][color=#ff9900][img]https://i.imgur.com/NYenHvV.png[/img][/color][/url][color=#2280C3]—[/color][url=https://discordapp.com/invite/tEyyDyh][color=#ff9900][img]https://i.imgur.com/JyO4OrT.png[/img][/color][/url][color=#2280C3]—[/color][url=https://thesouthpacific.org][color=#ff9900][img]https://i.imgur.com/SEpkSix.png[/img][/color][/url]
+[color=#2280C3]·[/color]
+[color=#2280C3]·[/color]
+[/background-block][/align][/box]
+]]>
+		</TEXT>
+	</DISPATCH>
+	<DISPATCHLIST>
+		<DISPATCH id="1755808">
+			<TITLE>
+				<![CDATA[Delegate's Briefing Ⅰ (Jul '22 Term)]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1661690270</CREATED>
+			<EDITED>1674997206</EDITED>
+			<VIEWS>231</VIEWS>
+			<SCORE>24</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1798480">
+			<TITLE>
+				<![CDATA[Delegate's Briefing Ⅶ (Jul '22 Term)]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1668954390</CREATED>
+			<EDITED>1674997138</EDITED>
+			<VIEWS>148</VIEWS>
+			<SCORE>20</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1864260">
+			<TITLE>
+				<![CDATA[Delegate's Briefing Ⅴ (Jan '23 Term)]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1681148727</CREATED>
+			<EDITED>0</EDITED>
+			<VIEWS>135</VIEWS>
+			<SCORE>18</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1791076">
+			<TITLE>
+				<![CDATA[Delegate's Briefing Ⅵ (Jul '22 Term)]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1667730193</CREATED>
+			<EDITED>1674997149</EDITED>
+			<VIEWS>125</VIEWS>
+			<SCORE>18</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1762248">
+			<TITLE>
+				<![CDATA[Delegate's Briefing Ⅱ (Jul '22 Term)]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1662893059</CREATED>
+			<EDITED>1674997192</EDITED>
+			<VIEWS>135</VIEWS>
+			<SCORE>16</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1829496">
+			<TITLE>
+				<![CDATA[Delegate's Briefing Ⅰ (Jan '23 Term)]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1674992648</CREATED>
+			<EDITED>0</EDITED>
+			<VIEWS>88</VIEWS>
+			<SCORE>16</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1783949">
+			<TITLE>
+				<![CDATA[Delegate's Briefing Ⅴ (Jul '22 Term)]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1666538184</CREATED>
+			<EDITED>1674997159</EDITED>
+			<VIEWS>120</VIEWS>
+			<SCORE>16</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1816672">
+			<TITLE>
+				<![CDATA[Delegate's Briefing Ⅹ (Jul '22 Term)]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1672596200</CREATED>
+			<EDITED>1674997103</EDITED>
+			<VIEWS>128</VIEWS>
+			<SCORE>16</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1859590">
+			<TITLE>
+				<![CDATA[Endorsement Days April 2023 | Results]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1680348855</CREATED>
+			<EDITED>1680764238</EDITED>
+			<VIEWS>243</VIEWS>
+			<SCORE>15</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1805415">
+			<TITLE>
+				<![CDATA[Delegate's Briefing Ⅷ (Jul '22 Term)]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1670145672</CREATED>
+			<EDITED>1674997127</EDITED>
+			<VIEWS>103</VIEWS>
+			<SCORE>14</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1831012">
+			<TITLE>
+				<![CDATA[Endorsement Days February 2023 | Results]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1675264910</CREATED>
+			<EDITED>1675530186</EDITED>
+			<VIEWS>210</VIEWS>
+			<SCORE>14</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1771757">
+			<TITLE>
+				<![CDATA[Endorsement Days October 2022 | Results are Out!]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1664605785</CREATED>
+			<EDITED>1664958890</EDITED>
+			<VIEWS>186</VIEWS>
+			<SCORE>14</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1768688">
+			<TITLE>
+				<![CDATA[Delegate's Briefing Ⅲ (Jul '22 Term)]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1664092390</CREATED>
+			<EDITED>1674997181</EDITED>
+			<VIEWS>137</VIEWS>
+			<SCORE>14</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1741287">
+			<TITLE>
+				<![CDATA[Endorsement Days August 2022 | Results Are Out!]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1659341440</CREATED>
+			<EDITED>1659616727</EDITED>
+			<VIEWS>202</VIEWS>
+			<SCORE>12</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1812405">
+			<TITLE>
+				<![CDATA[Delegate's Briefing Ⅸ (Jul '22 Term)]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1671367769</CREATED>
+			<EDITED>1674997115</EDITED>
+			<VIEWS>85</VIEWS>
+			<SCORE>12</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1776510">
+			<TITLE>
+				<![CDATA[Delegate's Briefing Ⅳ (Jul '22 Term)]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1665329328</CREATED>
+			<EDITED>1674997170</EDITED>
+			<VIEWS>141</VIEWS>
+			<SCORE>12</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1842939">
+			<TITLE>
+				<![CDATA[Delegate's Briefing Ⅱ (Jan '23 Term)]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1677435292</CREATED>
+			<EDITED>0</EDITED>
+			<VIEWS>102</VIEWS>
+			<SCORE>12</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1849613">
+			<TITLE>
+				<![CDATA[Delegate's Briefing Ⅲ (Jan '23 Term)]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1678619278</CREATED>
+			<EDITED>0</EDITED>
+			<VIEWS>110</VIEWS>
+			<SCORE>12</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1803761">
+			<TITLE>
+				<![CDATA[Endorsement Days December 2022 | Results]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1669888359</CREATED>
+			<EDITED>1670146770</EDITED>
+			<VIEWS>133</VIEWS>
+			<SCORE>10</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1856880">
+			<TITLE>
+				<![CDATA[Delegate's Briefing Ⅳ (Jan '23 Term)]]>
+			</TITLE>
+			<AUTHOR>tepertopia</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Gameplay</SUBCATEGORY>
+			<CREATED>1679915160</CREATED>
+			<EDITED>0</EDITED>
+			<VIEWS>86</VIEWS>
+			<SCORE>10</SCORE>
+		</DISPATCH>
+	</DISPATCHLIST>
+	<BANNERS>
+		<BANNER id="e3">
+			<NAME>Conference</NAME>
+			<VALIDITY>Partner with private industry</VALIDITY>
+		</BANNER>
+		<BANNER id="t9">
+			<NAME>On the Water</NAME>
+			<VALIDITY>Prioritize the environment over the economy</VALIDITY>
+		</BANNER>
+		<BANNER id="p22">
+			<NAME>Giving Back</NAME>
+			<VALIDITY>Extend your citizens&#39; average lifespan beyond 70 years</VALIDITY>
+		</BANNER>
+	</BANNERS>
+	<TGQUEUE>
+		<MANUAL>41</MANUAL>
+		<MASS>18357</MASS>
+		<API>2083</API>
+	</TGQUEUE>
+	<FACTIONS>
+		<FACTION id="29">
+			<NAME>Horsemen of the Apocalypse</NAME>
+			<SCORE>1652905</SCORE>
+			<REGION>Belisa</REGION>
+			<NATIONS>13133</NATIONS>
+		</FACTION>
+		<FACTION id="923">
+			<NAME>Horsemen of the Apocalypse II</NAME>
+			<SCORE>21731</SCORE>
+			<REGION>Lily</REGION>
+			<NATIONS>20</NATIONS>
+		</FACTION>
+		<FACTION id="927">
+			<NAME>Horsemen of the Apocalypse III</NAME>
+			<SCORE>21671</SCORE>
+			<REGION>Hell</REGION>
+			<NATIONS>9</NATIONS>
+		</FACTION>
+		<FACTION id="143">
+			<NAME>Second Best Test 2</NAME>
+			<SCORE>18207</SCORE>
+			<REGION>Two</REGION>
+			<NATIONS>10</NATIONS>
+		</FACTION>
+		<FACTION id="958">
+			<NAME>The Minotaurs 2</NAME>
+			<SCORE>13084</SCORE>
+			<REGION>The Labyrinth</REGION>
+			<NATIONS>38</NATIONS>
+		</FACTION>
+		<FACTION id="795">
+			<NAME>Shambhala Strategic Javelin Command</NAME>
+			<SCORE>10596</SCORE>
+			<REGION>Fodlan</REGION>
+			<NATIONS>10</NATIONS>
+		</FACTION>
+		<FACTION id="919">
+			<NAME>The_Minotaurs</NAME>
+			<SCORE>7734</SCORE>
+			<REGION>Atlantiso</REGION>
+			<NATIONS>0</NATIONS>
+		</FACTION>
+		<FACTION id="896">
+			<NAME>Lego</NAME>
+			<SCORE>6954</SCORE>
+			<REGION>Indonesia Nusantara</REGION>
+			<NATIONS>5</NATIONS>
+		</FACTION>
+		<FACTION id="891">
+			<NAME>AMAZEING</NAME>
+			<SCORE>6838</SCORE>
+			<REGION>Casagrande</REGION>
+			<NATIONS>58</NATIONS>
+		</FACTION>
+		<FACTION id="804">
+			<NAME>Yourself</NAME>
+			<SCORE>6532</SCORE>
+			<REGION>Confederation of Corrupt Dictators</REGION>
+			<NATIONS>26</NATIONS>
+		</FACTION>
+		<FACTION id="868">
+			<NAME>Join the Labyrinth</NAME>
+			<SCORE>6346</SCORE>
+			<REGION>Might</REGION>
+			<NATIONS>1</NATIONS>
+		</FACTION>
+		<FACTION id="905">
+			<NAME>The Maze</NAME>
+			<SCORE>6267</SCORE>
+			<REGION>The Maze</REGION>
+			<NATIONS>0</NATIONS>
+		</FACTION>
+		<FACTION id="951">
+			<NAME>Horsemen of the Apocalypse IV</NAME>
+			<SCORE>5676</SCORE>
+			<REGION>Children of the Grave</REGION>
+			<NATIONS>126</NATIONS>
+		</FACTION>
+		<FACTION id="107">
+			<NAME>Chess Players</NAME>
+			<SCORE>4249</SCORE>
+			<REGION>Chess Players</REGION>
+			<NATIONS>16</NATIONS>
+		</FACTION>
+		<FACTION id="13">
+			<NAME>RAILGUN</NAME>
+			<SCORE>3753</SCORE>
+			<REGION></REGION>
+			<NATIONS>92</NATIONS>
+		</FACTION>
+		<FACTION id="30">
+			<NAME>Stellamare Compact</NAME>
+			<SCORE>3491</SCORE>
+			<REGION>Astral Sea</REGION>
+			<NATIONS>10</NATIONS>
+		</FACTION>
+		<FACTION id="898">
+			<NAME>The Meridiem Nuclear Coalition</NAME>
+			<SCORE>1038</SCORE>
+			<REGION>The Northeast Meridiem</REGION>
+			<NATIONS>8</NATIONS>
+		</FACTION>
+		<FACTION id="616">
+			<NAME>Red Army Faction</NAME>
+			<SCORE>771</SCORE>
+			<REGION>Greater Dienstad</REGION>
+			<NATIONS>116</NATIONS>
+		</FACTION>
+		<FACTION id="676">
+			<NAME>League of Marbles</NAME>
+			<SCORE>382</SCORE>
+			<REGION>League of Marbles</REGION>
+			<NATIONS>9</NATIONS>
+		</FACTION>
+		<FACTION id="883">
+			<NAME>The Last Platform Launch</NAME>
+			<SCORE>381</SCORE>
+			<REGION></REGION>
+			<NATIONS>3</NATIONS>
+		</FACTION>
+		<FACTION id="226">
+			<NAME>Otto Bloc Nuclear Alliance</NAME>
+			<SCORE>372</SCORE>
+			<REGION>The Otto Bloc</REGION>
+			<NATIONS>8</NATIONS>
+		</FACTION>
+		<!-- Giant five thousand line long list of factions omitted :P -->
+		<FACTION id="3">
+			<NAME>Cosmic Corsairs</NAME>
+			<SCORE>-95540</SCORE>
+			<REGION>the West Pacific</REGION>
+			<NATIONS>2136</NATIONS>
+		</FACTION>
+		<FACTION id="1">
+			<NAME>Anime Nations Against Liberals</NAME>
+			<SCORE>-141917</SCORE>
+			<REGION>Anime Nations Against Liberals</REGION>
+			<NATIONS>7517</NATIONS>
+		</FACTION>
+		<FACTION id="27">
+			<NAME>The Potato Alliance</NAME>
+			<SCORE>-882950</SCORE>
+			<REGION>The Potato Alliance</REGION>
+			<NATIONS>12491</NATIONS>
+		</FACTION>
+	</FACTIONS>
+	<FACTION id="27">
+		<NAME>The Potato Alliance</NAME>
+		<DESC>
+			<![CDATA[[b][color=green]Welcome to The Potato Alliance[/b][/color]
+
+[b]We are accepting no ceasefire agreements or diplomatic outreach[/b]
+
+[b]Important Links:[/b] 
+
+[url=https://discord.gg/EmYWTkDc][b]Discord[/b] [/url] | [b][url=https://www.nationstates.net/page=dispatch/id=874170]N-Day Basics[/url][/b]| [b][url=https://www.nationstates.net/page=dispatch/id=1842545]Member Regions[/url][/b] | [b][url=https://www.nationstates.net/page=dispatch/id=1842546]Ground Rules[/url][/b]| [url=https://www.nationstates.net/page=dispatch/id=1842553][b]Useful Tech[/url][/b] | [b][url=https://www.nationstates.net/page=dispatch/id=1842563]Our Strategy[/url][/b]| [b][url=https://www.nationstates.net/page=dispatch/id=1842560]Getting Started[/url][/b]| 
+
+[b]ORDERS:[/b]
+
+[b]BUILD AND USE SHIELDS AT WILL
+
+BATHE IN GLORIOUS RADIATION MY COMRADES. BRING THE BEAUTY OF RADIATION TO ALL.[/b] ]]>
+		</DESC>
+		<ID>27</ID>
+		<FOUNDED>1677105485</FOUNDED>
+		<REGION>the_potato_alliance</REGION>
+		<RNAME>The Potato Alliance</RNAME>
+		<ENTRY>0</ENTRY>
+		<SCORE>-882950</SCORE>
+		<PRODUCTION>158136</PRODUCTION>
+		<NUKES>21630</NUKES>
+		<SHIELD>5862</SHIELD>
+		<TARGETS>0</TARGETS>
+		<LAUNCHES>0</LAUNCHES>
+		<INCOMING>0</INCOMING>
+		<TARGETED>0</TARGETED>
+		<STRIKES>216708</STRIKES>
+		<RADIATION>1099658</RADIATION>
+	</FACTION>
+</WORLD>

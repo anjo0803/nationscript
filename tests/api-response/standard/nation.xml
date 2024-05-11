@@ -1,0 +1,407 @@
+<NATION id="anjo">
+	<!-- Public Shards -->
+	<NAME>Anjo</NAME>
+	<DBID>4485497</DBID>
+	<TYPE>Delegate of TSP &#127856;</TYPE>
+	<FULLNAME>The Delegate of TSP &#127856; of Anjo</FULLNAME>
+	<MOTTO>C A K E</MOTTO>
+	<CATEGORY>New York Times Democracy</CATEGORY>
+	<UNSTATUS>Non-member</UNSTATUS>
+	<ENDORSEMENTS></ENDORSEMENTS>
+	<GAVOTE>UNDECIDED</GAVOTE>
+	<SCVOTE>UNDECIDED</SCVOTE>
+	<ISSUES_ANSWERED>54</ISSUES_ANSWERED>
+	<FREEDOM>
+		<CIVILRIGHTS>Very Good</CIVILRIGHTS>
+		<ECONOMY>Good</ECONOMY>
+		<POLITICALFREEDOM>Excessive</POLITICALFREEDOM>
+	</FREEDOM>
+	<REGION>United Protectorate of Tepertopia</REGION>
+	<POPULATION>3318</POPULATION>
+	<TAX>22.4</TAX>
+	<ANIMAL>housecat</ANIMAL>
+	<ANIMALTRAIT>frolics freely in the nation's many lush forests</ANIMALTRAIT>
+	<CURRENCY>drama llama</CURRENCY>
+	<FLAG>https://www.nationstates.net/images/flags/uploads/anjo__599861.png</FLAG>
+	<BANNER>i6</BANNER>
+	<BANNERS>
+		<BANNER>i17</BANNER>
+		<BANNER>l10</BANNER>
+		<BANNER>p1</BANNER>
+		<BANNER>p22</BANNER>
+		<BANNER>b19</BANNER>
+		<BANNER>r10</BANNER>
+		<BANNER>b2</BANNER>
+		<BANNER>p26</BANNER>
+		<BANNER>i6</BANNER>
+		<BANNER>i10</BANNER>
+		<BANNER>b18</BANNER>
+		<BANNER>t14</BANNER>
+		<BANNER>l19</BANNER>
+		<BANNER>p9</BANNER>
+		<BANNER>c2</BANNER>
+		<BANNER>l9</BANNER>
+		<BANNER>p17</BANNER>
+		<BANNER>l12</BANNER>
+		<BANNER>t6</BANNER>
+		<BANNER>l40</BANNER>
+		<BANNER>l28</BANNER>
+		<BANNER>p24</BANNER>
+		<BANNER>f3</BANNER>
+		<BANNER>i16</BANNER>
+		<BANNER>f2</BANNER>
+		<BANNER>a1</BANNER>
+		<BANNER>p6</BANNER>
+		<BANNER>l1</BANNER>
+		<BANNER>t22</BANNER>
+		<BANNER>c16</BANNER>
+		<BANNER>p25</BANNER>
+		<BANNER>p8</BANNER>
+		<BANNER>l42</BANNER>
+		<BANNER>o9</BANNER>
+		<BANNER>o10</BANNER>
+		<BANNER>l38</BANNER>
+		<BANNER>g3</BANNER>
+		<BANNER>p7</BANNER>
+		<BANNER>t13</BANNER>
+		<BANNER>t1</BANNER>
+		<BANNER>l7</BANNER>
+		<BANNER>i18</BANNER>
+		<BANNER>t9</BANNER>
+		<BANNER>x6</BANNER>
+		<BANNER>o8</BANNER>
+		<BANNER>t23</BANNER>
+		<BANNER>b6</BANNER>
+		<BANNER>b24</BANNER>
+		<BANNER>o6</BANNER>
+		<BANNER>i4</BANNER>
+		<BANNER>y347</BANNER>
+		<BANNER>h1</BANNER>
+		<BANNER>l11</BANNER>
+		<BANNER>t27</BANNER>
+		<BANNER>p2</BANNER>
+		<BANNER>f1</BANNER>
+		<BANNER>c21</BANNER>
+		<BANNER>r7</BANNER>
+		<BANNER>p23</BANNER>
+		<BANNER>t2</BANNER>
+		<BANNER>i12</BANNER>
+	</BANNERS>
+	<DEMONYM>anjo</DEMONYM>
+	<DEMONYM2>anjo</DEMONYM2>
+	<DEMONYM2PLURAL>anjos</DEMONYM2PLURAL>
+	<GDP>161959810590607</GDP>
+	<INCOME>48812</INCOME>
+	<RICHEST>85597</RICHEST>
+	<POOREST>25539</POOREST>
+	<MAJORINDUSTRY>Book Publishing</MAJORINDUSTRY>
+	<CRIME>Crime, especially youth-related,  is totally unknown. </CRIME>
+	<SENSIBILITIES>compassionate, hard-working, democratic, devout</SENSIBILITIES>
+	<GOVTPRIORITY>Education</GOVTPRIORITY>
+	<GOVT>
+		<ADMINISTRATION>6.5</ADMINISTRATION>
+		<DEFENCE>2.4</DEFENCE>
+		<EDUCATION>27.4</EDUCATION>
+		<ENVIRONMENT>0.0</ENVIRONMENT>
+		<HEALTHCARE>10.5</HEALTHCARE>
+		<COMMERCE>0.0</COMMERCE>
+		<INTERNATIONALAID>4.0</INTERNATIONALAID>
+		<LAWANDORDER>3.2</LAWANDORDER>
+		<PUBLICTRANSPORT>4.0</PUBLICTRANSPORT>
+		<SOCIALEQUALITY>4.8</SOCIALEQUALITY>
+		<SPIRITUALITY>20.2</SPIRITUALITY>
+		<WELFARE>16.9</WELFARE>
+	</GOVT>
+	<SECTORS>
+		<BLACKMARKET>0.23</BLACKMARKET>
+		<GOVERNMENT>22.80</GOVERNMENT>
+		<INDUSTRY>74.98</INDUSTRY>
+		<PUBLIC>1.99</PUBLIC>
+	</SECTORS>
+	<GOVTDESC>
+		<![CDATA[The medium-sized, outspoken government juggles the competing demands of Education, Spirituality, and Welfare. It meets to discuss matters of state in the capital city of Tepertopia.]]>
+	</GOVTDESC>
+	<INDUSTRYDESC>The anjo economy, worth 161 trillion drama llamas a year, is led by the Book Publishing industry, with major contributions from Tourism, Retail, and Soda Sales. Average income is 48,812 drama llamas, and evenly distributed, with the richest citizens earning only 3.4 times as much as the poorest.</INDUSTRYDESC>
+	<NOTABLE>rum-swilling pirates</NOTABLE>
+	<NOTABLES>
+		<NOTABLE>rum-swilling pirates</NOTABLE>
+	</NOTABLES>
+	<ADMIRABLE>genial</ADMIRABLE>
+	<ADMIRABLES>
+		<ADMIRABLE>cultured</ADMIRABLE>
+		<ADMIRABLE>environmentally stunning</ADMIRABLE>
+		<ADMIRABLE>genial</ADMIRABLE>
+		<ADMIRABLE>safe</ADMIRABLE>
+		<ADMIRABLE>socially progressive</ADMIRABLE>
+	</ADMIRABLES>
+	<FOUNDED>1 year 205 days ago</FOUNDED>
+	<FOUNDEDTIME>1639467044</FOUNDEDTIME>
+	<FIRSTLOGIN>1639467044</FIRSTLOGIN>
+	<LASTLOGIN>1688751043</LASTLOGIN>
+	<LASTACTIVITY>Seconds ago</LASTACTIVITY>
+	<INFLUENCE>Truckler</INFLUENCE>
+	<FREEDOMSCORES>
+		<CIVILRIGHTS>65</CIVILRIGHTS>
+		<ECONOMY>54</ECONOMY>
+		<POLITICALFREEDOM>88</POLITICALFREEDOM>
+	</FREEDOMSCORES>
+	<PUBLICSECTOR>24.8</PUBLICSECTOR>
+	<DEATHS>
+		<CAUSE type="Lost in Wilderness">0.9</CAUSE>
+		<CAUSE type="Acts of God">6.5</CAUSE>
+		<CAUSE type="Old Age">92.7</CAUSE>
+	</DEATHS>
+	<LEADER>anjo's brain</LEADER>
+	<LEADER>anjo's brain</LEADER><!-- This is the custom variant -->
+	<CAPITAL>Tepertopia</CAPITAL>
+	<CAPITAL>Tepertopia</CAPITAL><!-- This is the custom variant -->
+	<RELIGION>C A K E</RELIGION>
+	<RELIGION>C A K E</RELIGION><!-- This is the custom variant -->
+	<POLICIES>
+		<POLICY>
+			<NAME>Marriage Equality</NAME>
+			<PIC>p25</PIC>
+			<CAT>Society</CAT>
+			<DESC>Citizens of the same sex may marry.</DESC>
+		</POLICY>
+		<POLICY>
+			<NAME>Sex Education</NAME>
+			<PIC>p29</PIC>
+			<CAT>Society</CAT>
+			<DESC>School-age children receive mandatory sex education.</DESC>
+		</POLICY>
+		<POLICY>
+			<NAME>Capitalism</NAME>
+			<PIC>i56</PIC>
+			<CAT>Economy</CAT>
+			<DESC>Private industry is permitted within a market-based economy.</DESC>
+		</POLICY>
+		<POLICY>
+			<NAME>Cannabis</NAME>
+			<PIC>n5</PIC>
+			<CAT>Economy</CAT>
+			<DESC>Cannabis may be legally purchased.</DESC>
+		</POLICY>
+	</POLICIES>
+	<CENSUS>
+		<SCALE id="1">
+			<SCORE>54.44</SCORE>
+			<RANK>211749</RANK>
+			<PRANK>74</PRANK>
+			<RRANK>15</RRANK>
+			<PRRANK>72</PRRANK>
+		</SCALE>
+		<SCALE id="2">
+			<SCORE>88.20</SCORE>
+			<RANK>25666</RANK>
+			<PRANK>9</PRANK>
+			<RRANK>2</RRANK>
+			<PRRANK>10</PRRANK>
+		</SCALE>
+		<SCALE id="3">
+			<SCORE>3318000000</SCORE>
+			<RANK>121792</RANK>
+			<PRANK>43</PRANK>
+			<RRANK>14</RRANK>
+			<PRRANK>67</PRRANK>
+		</SCALE>
+	</CENSUS>
+	<RCENSUS id="34">4</RCENSUS>
+	<WCENSUS id="34">32847</WCENSUS>
+	<LEGISLATION>
+		<LAW>
+			<![CDATA[the government is promoting multicultural values with the new 'Just Be Nice, OK?' initiative]]>
+		</LAW>
+		<LAW>
+			<![CDATA[the government has spent days debating the merits of a petition calling for a ban on sporks]]>
+		</LAW>
+		<LAW>
+			<![CDATA[museums have more touchscreens on display than artifacts]]>
+		</LAW>
+		<LAW>
+			<![CDATA[scientists recently cloned the long-extinct feather-bellied housecat]]>
+		</LAW>
+	</LEGISLATION>
+	<HAPPENINGS>
+		<EVENT>
+			<TIMESTAMP>1685194291</TIMESTAMP>
+			<TEXT>@@anjo@@ published &quot;💙 Posted via the API ♠&quot; (Meta: Reference).</TEXT>
+		</EVENT>
+		<EVENT>
+			<TIMESTAMP>1685193159</TIMESTAMP>
+			<TEXT>@@anjo@@ lodged a message on the %%united_protectorate_of_tepertopia%% Regional Message Board.</TEXT>
+		</EVENT>
+		<EVENT>
+			<TIMESTAMP>1685185462</TIMESTAMP>
+			<TEXT>@@anjo@@ lodged a message on the %%united_protectorate_of_tepertopia%% Regional Message Board.</TEXT>
+		</EVENT>
+		<EVENT>
+			<TIMESTAMP>1685184649</TIMESTAMP>
+			<TEXT>@@anjo@@ lodged a message on the %%united_protectorate_of_tepertopia%% Regional Message Board.</TEXT>
+		</EVENT>
+		<EVENT>
+			<TIMESTAMP>1685178867</TIMESTAMP>
+			<TEXT>Following new legislation in @@anjo@@, scientists recently cloned the long-extinct feather-bellied housecat.</TEXT>
+		</EVENT>
+		<EVENT>
+			<TIMESTAMP>1680928124</TIMESTAMP>
+			<TEXT>@@anjo@@'s influence in %%united_protectorate_of_tepertopia%% rose from &quot;Vassal&quot; to &quot;Truckler&quot;.</TEXT>
+		</EVENT>
+		<EVENT>
+			<TIMESTAMP>1677476195</TIMESTAMP>
+			<TEXT>@@anjo@@ was ranked in the Top 10% of the world for Most Compassionate Citizens.</TEXT>
+		</EVENT>
+		<EVENT>
+			<TIMESTAMP>1672982902</TIMESTAMP>
+			<TEXT>@@anjo@@'s influence in %%united_protectorate_of_tepertopia%% rose from &quot;Apprentice&quot; to &quot;Vassal&quot;.</TEXT>
+		</EVENT>
+		<EVENT>
+			<TIMESTAMP>1669973589</TIMESTAMP>
+			<TEXT>Following new legislation in @@anjo@@, museums have more touchscreens on display than artifacts.</TEXT>
+		</EVENT>
+		<EVENT>
+			<TIMESTAMP>1669973549</TIMESTAMP>
+			<TEXT>Following new legislation in @@anjo@@, the government has spent days debating the merits of a petition calling for a ban on sporks.</TEXT>
+		</EVENT>
+	</HAPPENINGS>
+	<FACTBOOKS>0</FACTBOOKS>
+	<DISPATCHES>2</DISPATCHES>
+	<FACTBOOKLIST></FACTBOOKLIST>
+	<DISPATCHLIST>
+		<DISPATCH id="1708285">
+			<TITLE>
+				<![CDATA[OWL Recommendation Redesign Draft]]>
+			</TITLE>
+			<AUTHOR>anjo</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Reference</SUBCATEGORY>
+			<CREATED>1653036077</CREATED>
+			<EDITED>0</EDITED>
+			<VIEWS>24</VIEWS>
+			<SCORE>1</SCORE>
+		</DISPATCH>
+		<DISPATCH id="1887089">
+			<TITLE>
+				<![CDATA[💙 Posted via the API ♠]]>
+			</TITLE>
+			<AUTHOR>anjo</AUTHOR>
+			<CATEGORY>Meta</CATEGORY>
+			<SUBCATEGORY>Reference</SUBCATEGORY>
+			<CREATED>1685194291</CREATED>
+			<EDITED>0</EDITED>
+			<VIEWS>2</VIEWS>
+			<SCORE>1</SCORE>
+		</DISPATCH>
+	</DISPATCHLIST>
+	<HDI-ECONOMY>32</HDI-ECONOMY>
+	<HDI-SMART>62.6885775404495</HDI-SMART>
+	<HDI-LIFESPAN>75.7745861907297</HDI-LIFESPAN>
+	<HDI>56.8210545770597</HDI>
+	<WABADGES></WABADGES>
+	<TGCANRECRUIT>1</TGCANRECRUIT>
+	<TGCANCAMPAIGN>1</TGCANCAMPAIGN>
+	<ZOMBIE>
+		<ZACTION></ZACTION>
+		<ZACTIONINTENDED></ZACTIONINTENDED>
+		<SURVIVORS>1483</SURVIVORS>
+		<ZOMBIES>534</ZOMBIES>
+		<DEAD>1301</DEAD>
+	</ZOMBIE>
+
+	<!-- Private Shards -->
+	<PING>1</PING>
+	<UNREAD>
+		<ISSUES>5</ISSUES>
+		<TELEGRAMS>0</TELEGRAMS>
+		<NOTICES>1</NOTICES>
+		<RMB region="United Protectorate of Tepertopia">0</RMB>
+		<WA>0</WA>
+		<NEWS>5</NEWS>
+	</UNREAD>
+	<NOTICES>
+		<NOTICE>
+			<NEW>1</NEW>
+			<OK>1</OK>
+			<TEXT>Someone tried to login to Anjo with an incorrect password.</TEXT>
+			<TIMESTAMP>1688341147</TIMESTAMP>
+			<TITLE>Failed Login Attempt</TITLE>
+			<TYPE>PW</TYPE>
+			<TYPE_ICON>bell</TYPE_ICON>
+		</NOTICE>
+	</NOTICES>
+	<DOSSIER>
+		<NATION>tepertopia</NATION>
+	</DOSSIER>
+	<RDOSSIER>
+		<REGION>the_south_pacific</REGION>
+	</RDOSSIER>
+	<ISSUESUMMARY>
+		<ISSUE id="779">We’re Dying for Your Business</ISSUE>
+		<ISSUE id="1246">Breath of the Wild</ISSUE>
+		<ISSUE id="234">Corruption in the Lobby</ISSUE>
+		<ISSUE id="688">You Don’t Have to Be Mad to Kill People... But It Helps</ISSUE>
+		<ISSUE id="581">Fair to Say...?</ISSUE>
+	</ISSUESUMMARY>
+	<ISSUES>
+		<ISSUE id="779">
+			<TITLE>We’re Dying for Your Business</TITLE>
+			<TEXT>A recent exposé of the death care industry revealed that funeral costs are leaving some families dead broke. The reason for the price increases is thought to be because while population growth continues to rise, funeral parlour growth has stopped cold, resulting in shocking cases of price gouging. Demand for last rites has become so high that families sometimes have to pawn all of the deceased’s possessions just to afford a simple burial.</TEXT>
+			<AUTHOR>pigeontree</AUTHOR>
+			<EDITOR>ransium, lenyo</EDITOR>
+			<PIC1>r16</PIC1>
+			<PIC2>x16</PIC2>
+			<OPTION id="0">“Dying is not something we have a choice in,” weeps a sombre woman dressed all in black. “The tragic death of a loved one followed by an astronomical bill landing on our doorsteps can put families’ finances in a death spiral. I urge you, anjo’s brain, to scrap death charges altogether and provide state-funded funerals for everyone. That way families won’t have to mourn their bank accounts as well as their loved ones.”</OPTION>
+			<OPTION id="1">“Yes, and do you know why there’s a shortage of funeral services, hmmm?” quietly seethes funeral director Igor Fronkensteen, while dragging a lumpy burlap sack behind him. “Burial plot land costs...they are rising, yes? The price of insuring a hearse these days is, how do you say, absolutely ludicrous, yes? And the restrictive laws on ‘adequate refrigeration’ and ‘treating the dead with dignity’ all are running our margins and my salary down! You want more funeral services at a cheaper price, you should ease up on the bureaucracy, yes?”</OPTION>
+			<OPTION id="2">“Funeral services? What a waste of money,” scoffs obscure thinker Siko Sulu, who has yet to sell any copies of her book &lt;i&gt;Rich Dead, Poor Dead&lt;/i&gt;. “What’s the point in some drawn-out shebang for someone who’s not even going to be around to see it? Do away with funerals altogether. That way we can cremate everyone and harvest their bodies for phosphorus!”</OPTION>
+		</ISSUE>
+		<ISSUE id="1246">
+			<TITLE>Breath of the Wild</TITLE>
+			<TEXT>Scientists have successfully revived the long-extinct feather-bellied housecat to the point where a population of the creatures can be sustained in the wild. The nation’s leading wildlife experts and housecat enthusiasts have offered their suggestions on how Anjo should handle these animals.</TEXT>
+			<AUTHOR>nation_of_quebec</AUTHOR>
+			<EDITOR>baggieland</EDITOR>
+			<PIC1>l64</PIC1>
+			<PIC2>n1</PIC2>
+			<OPTION id="0">“We can’t upset the balance of nature!” proclaims Mipha Hunt, Chief Veterinarian at a national park in Anjo, while feeding the fish in your office. “These animals haven’t been around for more than a hundred years. Who knows how they’ll react to their new surroundings? It could cause a total shift in the food-chain and the entire ecosystem. We should maintain their population in controlled environments — like preserves, research centers and zoos.”</OPTION>
+			<OPTION id="1">“I know how to deal with this,” states Revali Pond, a renowned hunter, who deftly grabs one of the office fish and nails it to the wall. “If you’re worried that too many of these animals would disrupt the ecosystem, then allow us hunters to take care of the problem. It would be a phenomenal experience to track down creatures that nobody has seen in generations and tourists would flock to Anjo for the thrill of the hunt. All in the name of the balance of nature, of course!”</OPTION>
+			<OPTION id="2">“Instead of tampering with nature, why not just let it be?” proposes Daruk Wickremesinghe, an animal rights activist. “We have proved that we have the power to bring these species back to life, but now they need to be left alone in peace. Release these animals into the wild and let Mother Nature take her course. Be a friend of the environment, not the master of it.”</OPTION>
+			<OPTION id="3">“These animals should be used for the benefit of all anjos,” asserts farmer Urbosa Dixon, as he herds a flock of sheep around your office. “What a waste it would be to release them into the wild — they belong on farms! Imagine all that they could do for us, and the gourmet foods that we could make with their juicy, succulent meat!”</OPTION>
+		</ISSUE>
+		<ISSUE id="234">
+			<TITLE>Corruption in the Lobby</TITLE>
+			<TEXT>After the passage of a bill giving billions of drama llamas to “any oil company with two ‘x’s in its name”, there was much discussion over the influence that corporate lobbies have over the government and whether it was getting out of hand - until an all-waves radio and TV broadcast suggested citizens go have a coffee at Starbucks instead.</TEXT>
+			<AUTHOR>the_seniors_of_zion</AUTHOR>
+			<EDITOR>sirocco</EDITOR>
+			<PIC1>e10</PIC1>
+			<PIC2>e17</PIC2>
+			<OPTION id="0">“It disgusts me how much this government is eating out of the hands of corporations,” says Kasie Wilk, an anti-corporate activist. “A government’s first priority is supposed to be its people! Anjo! Not some faceless company interested in nothing but money! The right to petition is for individual citizens, not for multinational companies that answer to no one.”</OPTION>
+			<OPTION id="1">“There’s no need to get excited, we’ve got everyone’s best interests at heart,” replies Iris Meyer, a corporate lobbyist. “Yes, individuals have the right to make their opinions known to the government, but so too do groups of individuals. And that’s all a corporation is: a group of individuals wanting to contribute. By helping corporations, the government helps the country. Unemployment goes down, the economy goes up, and everyone’s favourite products become more readily available. In fact, if corporations were already part of the political process we could do so much more! I propose that companies be allowed to run for office.”</OPTION>
+			<OPTION id="2">“Over my dead body they will,” says Miles Sullivan, a civil servant. “The problem with lobbying is that it’s so easily abused. There are too many opinionated idiots out there prepared to rally around some obnoxious or silly cause. Last week the parliament reviewed a petition from thousands of citizens complaining about birds being too noisy! I mean, really! We’d be better off ignoring lobbyists altogether and trusting in your own sagacity, esteemed leader.”</OPTION>
+		</ISSUE>
+		<ISSUE id="688">
+			<TITLE>You Don’t Have to Be Mad to Kill People... But It Helps</TITLE>
+			<TEXT>Anjo was in shock after a recent mass murder, and shocked again when the suspect pleaded not guilty by reason of insanity, after a privately employed psychiatrist convinced the courts that he had no ability to tell right from wrong. anjos are deeply divided over the notion of insanity pleas, and many angry citizens are demanding that you step in.</TEXT>
+			<AUTHOR>liberamare</AUTHOR>
+			<EDITOR>nation_of_quebec</EDITOR>
+			<PIC1>n7</PIC1>
+			<PIC2>x17</PIC2>
+			<OPTION id="0">“The only thing that’s insane is that you’re actually considering allowing this!” cries a parent of one of the victims of the attack. “Whether or not this man is insane doesn’t change the fact that my son is gone! This... murderer could have easily accessed psychiatric help and must take responsibility for his actions. He should face a proper jail sentence in a proper jail. All these insanity pleas do is give criminals an opportunity to abuse the system. We must show the scum of Anjo that they can’t hide behind so-called ‘pleas’! Justice must prevail!”</OPTION>
+			<OPTION id="1">“Actually, it is very difficult for the mentally ill to get the help they need in Anjo,” reminds the suspect’s attorney after receiving a death glare from the parent. “It is not their fault that they’re suffering and any psychiatrist worth their degree would agree that many don’t have the mental capacity to determine right from wrong. We should be sending these people to mental institutions where they can be healed, not overcrowded prisons!”</OPTION>
+			<OPTION id="2">“The solution to everything is a compromise,” declares one of your staffers, who claims that working for you has caused him to go insane. “Require everyone accused of a crime to go through vigorous mental health testing to see if they are insane or not. This way, experts decide whether or not someone is insane at the beginning of a trial, leaving little room for errors.”</OPTION>
+		</ISSUE>
+		<ISSUE id="581">
+			<TITLE>Fair to Say...?</TITLE>
+			<TEXT>At last year’s World Fair many said that Anjo’s exhibition pavilion was “okay, considering,” and “not bad, for a nation on a tight budget.” This year, national organizers want to make your expo presence bigger, better, and more impressive than ever before.</TEXT>
+			<AUTHOR>unibot_iii</AUTHOR>
+			<EDITOR>candlewhisper_archive</EDITOR>
+			<PIC1>c9</PIC1>
+			<PIC2>i25</PIC2>
+			<OPTION id="0">“We need more shiny stuff! We need lasers, and twenty-foot-tall robots!” squeaks General Lisa Honda, hoverboarding excitedly round you in a wide circle. “Let’s show off our tech to the rest of the world! We need flying cars and... and... cyberhousecats! Yes, a cyberhousecat, with a frickin’ laser beam on its head!”</OPTION>
+			<OPTION id="1">“My, how gauche!” sneers Martina Amis, an esteemed novelist. “Culture is the lifeblood of Anjo. We should create a gallery-slash-library to celebrate Anjo’s arts and literature abroad. Nothing less could represent our brilliance.”</OPTION>
+			<OPTION id="2">“Give the fair-goers what they want! FOOOOOOOOD!” yells Adam Richbloke, a generously proportioned foodie holding a generous portion of battered chicken chunks. “Visitors to the fair aren’t going to visit every tent; you know how many nations there are in the world now? But everyone has gotta eat! Chocolate doughnut lasagna, deep-fried pancake soups and orange truffle crabcakes with butter, pork and loads of sweet custard. Hmm, hmmm, hmmm, looks like everyone will be stopping by the Anjo pavilion!”</OPTION>
+			<OPTION id="5">“I smell economic opportunity,” says your Commerce Minister Ronald Dunn. “We should showcase what a great place for investors we are, emphasising our flexible taxation arrangements for valued corporate investors and our latest moves to stamp out the unions. We should literally get on our knees, and beg the biggest businesses to bring jobs and prosperity to Anjo.”</OPTION>
+		</ISSUE>
+	</ISSUES>
+	<NEXTISSUE>any moment</NEXTISSUE>
+	<NEXTISSUETIME>1685243440</NEXTISSUETIME>
+	<PACKS>0</PACKS>
+</NATION>

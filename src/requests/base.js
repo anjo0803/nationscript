@@ -4,235 +4,358 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-const {
-	IncomingMessage,
-	IncomingHttpHeaders
-} = require('node:http');
+/**
+ * Internal module providing the basic request builder classes.
+ * @module nationscript/requests/base
+ */
+
+const { Stream } = require('node:stream');
+const http = require('node:http');
 const https = require('node:https');
 
-const flow = require('xml-flow');
+const Parser = require('node-xml-stream-parser');
 
-const { txt } = require('./converter');
+const {
+	NSError,
+	APIError,
+	EntityNotFoundError,
+	RecentLoginError,
+	RatelimitError,
+	DumpNotModifiedError
+} = require('../errors');
+const ratelimit = require('./ratelimit');
+const factory = require('../factory');
 
 /**
- * The mother of all superclasses, being inherited by all specialised request classes.
+ * @typedef NSRequestData
+ * @prop {string} url
+ * @prop {?string} body
+ * @prop {https.RequestOptions} options
+ */
+/**
+ * The mother of superclasses, inherited by all specialised request classes.
  * 
- * Holds static properties configurable by the user to en/disable the built-in rate-limiter of
- * NationScript and, most importantly, set the user agent for identifying the user to NS admins.
+ * Holds static properties configurable by the user to en/disable the built-in
+ * rate-limiter of NationScript and, most importantly, set the user agent for
+ * identifying the user to NS admins.
  * 
- * The {@linkcode NSRequest.send()} function is invoked upon execution of any subclass and parses
- * responses from the API via the `xml-flow` package, while the {@linkcode NSRequest.raw()}
- * function can be called alternatively to receive the raw response returned by the API.
+ * The {@link NSRequest#raw raw} function is invoked by every single execution
+ * of a request subclass, returning the API's raw response in the form of an
+ * `IncomingMessage`.
+ * 
+ * The {@link NSRequest#send send} function calls the {@link NSRequest#raw raw}
+ * function, and then parses the body using the `node-xml-stream-parser`
+ * package, sending emitted events to the {@link factory.NSFactory NSFactory}
+ * created by the set {@link NSRequest#factoryConfigurer factoryConfigurer}.
  */
 class NSRequest {
 
 	/* === General Customisation - Called From api.js Only === */
 
 	/**
-	 * The custom text that is set as the `User-Agent` header in requests to the NS API.
-	 * @type string
+	 * The text that sent as the `User-Agent` header in requests to the NS API.
+	 * @type {?string}
 	 * @package
 	 */
 	static useragent = null;
 
 	/**
-	 * Declares whether or not to apply an automatic rate-limit to requests to the NS API.
-	 * @type boolean
+	 * Whether to use the in-built rate-limiter for requests to the NS API.
+	 * @type {boolean}
 	 * @default true
 	 * @package
 	 */
 	static useRateLimit = true;
 
 
+	/* === Request preparation === */
+
+	/**
+	 * The URL to send this request to.
+	 * @type {string}
+	 * @private
+	 * @default
+	 */
+	targetURL = 'https://www.nationstates.net/cgi-bin/api.cgi';
+
+	/**
+	 * Configures this request to be sent to the given URL.
+	 * @arg {string} url URL to target
+	 * @returns {this} The request, for chaining
+	 * @protected
+	 */
+	setTargetURL(url) {
+		if(typeof url !== 'string')
+			throw new TypeError('Invalid target URL: ' + url);
+		this.targetURL = url;
+		return this;
+	}
+
+	/**
+	 * Additional headers to send with this request.
+	 * @type {http.OutgoingHttpHeaders}
+	 * @private
+	 */
+	headers = {};
+
+	/**
+	 * Registers the given value to be sent under the given header name when
+	 * this request is executed.
+	 * @arg {string} name Header name
+	 * @arg {string} value Header value
+	 * @returns {this} The request, for chaining
+	 */
+	setHeader(name, value) {
+		if(typeof name !== 'string')
+			throw new TypeError('Invalid header key: ' + name);
+		if(typeof value !== 'string')
+			throw new TypeError('Invalid header value: ' + value);
+		this.headers[name] = value;
+		return this;
+	}
+
+	/**
+	 * Removes any prepared header with the given name.
+	 * @arg {string} name Header name
+	 * @returns {this} The request, for chaining
+	 */
+	removeHeader(name) {
+		delete this.headers[name];
+		return this;
+	}
+
+	/**
+	 * Data registered to be sent as this request's body. If it is empty upon
+	 * request execution, the request will be sent as a `GET` request, without
+	 * a request body. Subclasses offer methods for altering this data.
+	 * @type {Object.<string, string>}
+	 * @protected
+	 */
+	body = {};
+
+	/**
+	 * Formats the {@link NSRequest#body body} into a query string, as required
+	 * by the NationStates API for the request body.
+	 * @returns {string} A string of the format `key1=value1&key2=value2&...`
+	 */
+	getData() {
+		let args = [];
+		for(let key in this.body) args.push(`${key}=${this.body[key]}`);
+		return args.join('&');
+	}
+
 	/* === Request Execution === */
 
 	/**
-	 * Describes the current rate-limiting policy of the NationStates API. This gets updated
-	 * automatically based on the information in the headers returned from API requests, but is
-	 * initially set to allow 50 requests per 30 seconds, which, as of coding, is the actual limit.
+	 * Compiles the defined {@link NSRequest#body body}, 
+	 * {@link NSRequest.useragent useragent} and other
+	 * {@link NSRequest#headers headers}, and
+	 * {@link NSRequest#targetURL targetURL} into a single object for use in
+	 * the {@link NSRequest#executeHTTP executeHTTP} function.
+	 * @returns {NSRequestData} The compiled information
 	 * @private
 	 */
-	static #policy = {
-		/* Number of milliseconds treated as one time window by the NS API. */
-		period: 30000,
-		/* Total number of requests that may be made within one time window. */
-		amount: 49,	// Leave space for one TG request that might come from the TG queue
-		/* Number of requests sent to the API in the current time window. */
-		sent: 0,
-		/* Number of requests currently waiting for the active time window to expire. */
-		queued: 0,
-		/* Unix ms timestamp for when the active time window expires. */
-		expires: 0,
-		/* Number of milliseconds to add to time window calculations as a safety buffer. */
-		buffer: 200,
-		/* Unix ms timestamp of when a new time window starts, as stated by the API. */
-		retry: 0
+	createRequestData() {
+		// Create the request body from the registered data
+		let body = this.getData();
+		if(body) this.setHeader('Content-Length',
+			(new TextEncoder().encode(body)).length.toString());
+
+		let options = {
+			// If the body contains data, send a POST, otherwise a GET request
+			method: body ? 'POST' : 'GET',
+
+			// Guarantee that the User-Agent header is not overwritten
+			headers: Object.assign(this.headers, {
+				'User-Agent': NSRequest.useragent
+			})
+		}
+		return {
+			url: this.targetURL,
+			body: body || null,
+			options: options
+		};
 	}
 
 	/**
-	 * Depending on how many requests have been sent to the NS API in the current API window
-	 * already, pauses further execution for an appropriate amount of time if `await`ed, so as to
-	 * not exceed the API's rate-limit.
-	 * @package
+	 * Makes an HTTP request containing the given `data`.
+	 * @arg {NSRequestData} data Information to send with the request
+	 * @returns {Promise<http.IncomingMessage>} The response
+	 * @private
 	 */
-	async ratelimit() {
-		let now = Date.now();
-		let policy = NSRequest.#policy;
-
-		// If activating a new time window, only save the expiration time and reset the data
-		if(now > policy.expires) {
-			policy.expires = now + policy.period + policy.buffer;
-			policy.sent = 1;
-			policy.queued = 0;
-			policy.queuedSent = 0;
-			return;
-		}
-
-		// If there's still room for requests in the current time window, just register the request
-		if(policy.sent < policy.amount) {
-			policy.sent += 1;
-			return;
-		}
-
-		/*
-		 * If however the maximum number of requests has been reached for the current time window
-		 * already, a queue of requests is calculated:
-		 * - Firstly, check whether the current length of the queue would take up one more whole
-		 *   time window, and if so, register a new expiration date to account for this new window
-		 * - Then, wait the time necessary to reach the start of the next non-filled time window
-		 * - If there was a rate-limit excess in the meantime and a retry time has been set, repeat
-		 *   the above steps (effectively, request is re-queued at the end of the current queue)
-		 */
-		let windowQueue;
-		do {
-			windowQueue = policy.queued % policy.amount;
-			if(windowQueue === 0) policy.expires += policy.period + policy.buffer;
-
-			policy.queued += 1;
-			await timeout(policy.expires - policy.period - now);
-			policy.queued -= 1;
-		} while (policy.retry > (now = Date.now()))
-
-		// Release only 2 requests per second so the API isn't completely spammed
-		policy.sent = policy.sent % policy.amount + 1;
-		await timeout(windowQueue * 500);
+	async executeHTTP(data) {
+		return new Promise((resolve, reject) => {
+			let request = https
+				.request(this.targetURL,
+					data.options,
+					response => resolve(response))
+				.once('error', e => reject(e));
+			if(data.body && data.options.method === 'POST')
+				request.write(data.body);
+			request.end();
+		});
 	}
 
 	/**
-	 * Compiles all registered arguments into an `https` request and sends it to the NS API.
-	 * If not disabled, also respects the respective rate limits.
-	 * @returns {Promise<IncomingMessage>} The raw response from the NS API.
+	 * Checks the given response for the various errors that may be indicated
+	 * by the NS API.
+	 * @arg {http.IncomingMessage} response Response to check
+	 * @private
+	 */
+	evaluateErrors(response) {
+		switch (response.statusCode) {
+			case 304:
+				throw new DumpNotModifiedError();
+			case 403:
+				throw new APIError('403 ' + response.statusMessage);
+			case 409:
+				throw new RecentLoginError();
+			case 404:
+				throw new EntityNotFoundError();
+			case 429:
+				throw new RatelimitError(response.headers['retry-after']);
+			default:
+				if(!response.statusCode) return;
+				if(response.statusCode < 200 || response.statusCode >= 300)
+					throw new APIError(response.statusCode
+						+ ' ' + response.statusMessage);
+				return;
+		}
+	}
+
+	/**
+	 * Checks whether the {@link NSRequest.useragent useragent} is set, then
+	 * calls the {@link NSRequest#executeHTTP executeHTTP} function and returns
+	 * its response. If {@link NSRequest.useRateLimit useRateLimit} is `true`,
+	 * the request is ensured to respect the API's rate-limit.
+	 * @returns {Promise<http.IncomingMessage>} The raw response to the request
 	 */
 	async raw() {
-		// Verify that a user agent has been set
-		if(NSRequest.useragent == null) throw new Error('No user agent set');
+		if(NSRequest.useragent == null) throw new NSError('Missing UserAgent');
 
-		// Prepare request headers
-		let headers = {
-			'User-Agent': NSRequest.useragent,
-			'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
-		};
+		if(NSRequest.useRateLimit) await ratelimit.enforce();
+		const response = await this.executeHTTP(this.createRequestData())
+			.catch((reason) => {
+				throw new APIError(reason);
+			});
+		ratelimit.update(response.headers);
 
-		// If login credentials are provided, add them to the headers
-		let c = this.getCredentials?.();
-		if(c instanceof NSCredential) {
-			if(c.nation != this.getArgument('nation'))
-				throw new Error('Provided credentials are for wrong nation');
-			if(c.password)	headers['X-Password']	= c.password;
-			if(c.autologin)	headers['X-Autologin']	= c.autologin;
-			if(c.pin)		headers['X-Pin']		= c.pin;
-		}
+		this.evaluateErrors(response);
 
-		// Prepare request body
-		let body = this.getBody?.();
-		if(body) headers['Content-Length'] = (new TextEncoder().encode(body)).length.toString();
-
-		// Be sure to meet the rate-limit, then send the actual HTTP request via the fetch API
-		if(NSRequest.useRateLimit) await this.ratelimit();
-		let response = await exports.call('https://www.nationstates.net/cgi-bin/api.cgi', {
-			method: 'POST',
-			headers: headers
-		}, body)
-		.catch(() => {	// If there was a problem with sending the request, throw an error
-			throw new Error('NS API unreachable');
-		});
-
-		// Update ratelimit info from the headers returned
-		let policy = response.headers['ratelimit-policy']?.split(';w=');
-		if(policy) {
-			if(policy[0]) NSRequest.#policy.amount = policy[0];
-			if(policy[1]) NSRequest.#policy.period = policy[1] * 1000;
-		}
-
-		// If no errors occurred, update authentication data if possible, then return the stream
-		if(response.statusCode >= 200 && response.statusCode < 300) {
-			let c = this.getCredentials?.();
-			if(c instanceof NSCredential) c.updateFromResponse(response.headers);
-			return response;
-		}
-
-		// Otherwise, interpret the returned status code:
-		switch (response.statusCode) {	
-		case 403: throw new Error('Login failed');
-		case 409: throw new Error('Last non-pin login too recent');
-		case 404: throw new Error('Requested entity not found');
-		case 429:
-			let policy = NSRequest.#policy;
-			policy.retry = Date.now() + 
-				(response.headers.get('retry-after') || policy.period / 1000)
-				* 1000;
-			policy.sent = policy.amount;
-			throw new Error('Ratelimit exceeded');
-		default: throw new Error(`API error: ${response.status} ${response.statusText}`);
-		}
+		return response;
 	}
 
 	/**
-	 * Sends an HTTP request with all data specified in this request instance to the API. Returned
-	 * XML is passed to the `xml-flow` module for parsing, listening for tags with the given name
-	 * and returning the data within the last of them to close - ideally, the XML's root element.
-	 * @param {string} root Name of the XML tag that should be treated as the root element.
-	 * @returns The object returned by the XML parser for the given root tag.
+	 * Gets the data stream containing the XML to parse within the
+	 * {@link NSRequest#send send} function.
+	 * 
+	 * **Note:** This "middleman" function between the `send` and `raw`
+	 * functions is needed so the `DumpRequest` can cleanly override the
+	 * getting of the XML stream. Since it can either use a `ReadStream` or an
+	 * `IncomingMessage`, depending on the `DumpMode`, but the former is
+	 * missing properties of the latter, the type-checker will complain if
+	 * `raw` is overridden with the possibility of returning a `ReadStream`.
+	 * @returns {Promise<Stream>} Stream with the XML data
+	 * @protected
 	 */
-	async send(root) {
-		let res = await this.raw();
-		if(!res) throw new Error('Unknown error while communicating with the NS API!');
+	async getStream() {
+		return await this.raw();
+	}
 
-		// Configure the XML reader
-		let xml = flow(res, {
-			simplifyNodes: false,	// These two are necessary to allow a semi-standardised
-			useArrays: flow.ALWAYS,	// creation of response objects without too much hassle.
-			lowercase: false		// Also, staying faithful to NS API response formatting :P
-		});
+	/**
+	 * Function to instantiate a factory instance with which to ultimately
+	 * parse the XML returned by the API.
+	 * 
+	 * Since the various factories all need the attributes on their root tag
+	 * passed as parameter upon creation, they can only be actually
+	 * instantiated while parsing is in progress, hence saving the
+	 * instantiating function and not the factory itself.
+	 * @type {?factory.FactoryConstructor<any>}
+	 * @private
+	 */
+	factoryConfigurer = null;
 
+	/**
+	 * Configures this request use the given function for creating the root
+	 * factory during XML parsing.
+	 * @arg {factory.FactoryConstructor<any>} factory Creation function to use
+	 * @returns {this} The request, for chaining
+	 * @protected
+	 */
+	useFactory(factory) {
+		this.factoryConfigurer = factory;
+		return this;
+	}
+
+	/**
+	 * Calls the {@link NSRequest#raw raw} function and passes the returned
+	 * response stream through the `node-xml-stream-parser`. The emitted events
+	 * are in turn handled by a factory created using the defined
+	 * {@link NSRequest#factoryConfigurer factoryConfigurer}, or, if none is
+	 * set, the factory determined by the {@link matchFactory} function.
+	 * @returns {Promise<?any>} The chosen factory's finished `product`
+	 */
+	async send() {
+		let res = await this.getStream();
+		if(!res) throw new NSError('Could not obtain XML stream');
 		return new Promise((resolve, reject) => {
-			// Sometimes there are e.g. child <NATION> tags within a <NATION> root, so just
-			// keep track of all of them and only return the last one closed for the end event
-			let hits = [];
-			xml.on(`tag:${root.toUpperCase()}`, obj => hits.push(obj));
-			xml.once('tag:ERROR', obj => reject(txt(obj, '$text')));
-			xml.once('error', err => reject(err));
-			xml.once('end', () => resolve(hits[hits.length - 1]));
+			/**
+			 * @type {?factory.NSFactory}
+			 * @ignore
+			 */
+			let factory = null;
+			let parser = new Parser();
+
+			// Just pass the received events to the factory for handling
+			parser.on('opentag', (name, attrs) => {
+				// At the first tag received, the defined factory is created
+				if(!factory) {
+					factory = this.factoryConfigurer?.(attrs)
+						?? matchFactory(name, attrs);
+					if(!factory)
+						throw new NSError('No factory matching tag: ' + name);
+				}
+				else factory.handleOpen(name, attrs);
+			});
+			parser.on('closetag', (name) => factory?.handleClose(name));
+			parser.on('text', (text) => factory?.handleText(text));
+			parser.on('cdata', (cdata) => factory?.handleCData(cdata));	
+
+			// If an error is encountered, fail; if the stream ends, succeed
+			parser.on('error', (err) => reject(err));
+			parser.on('finish', () => resolve(factory?.deliver() ?? null));
+
+			res.pipe(parser);
 		});
 	}
 }
 
 /**
- * Superclass for all specialised request subclasses that work with URL parameters in any way.
+ * Superclass for all request subclasses that send data to the NS API.
  * 
- * Holds the user-configurable {@linkcode ParameterRequest.version} property, which is used to
- * request API responses in a specific version of the NS API for compatibility purposes.
+ * Opens up methods to actually alter the request {@link NSRequest#body body},
+ * namely:
+ * - {@link DataRequest#setArgument setArgument}
+ * - {@link DataRequest#setArguments setArguments}
+ * - {@link DataRequest#getArgument getArgument}
+ * - {@link DataRequest#getArguments getArguments}
+ * - {@link DataRequest#removeArgument removeArguments}
  * 
- * Its {@linkcode ParameterRequest.setArgument()}, {@linkcode ParameterRequest.getArgument()},
- * {@linkcode ParameterRequest.removeArgument()}, and {@linkcode ParameterRequest.getArguments()}
- * functions can be used to build custom requests without using any specialised subclass at all.
+ * Via the {@link DataRequest#mandate mandate} method, specific arguments can
+ * be declared mandatory, and NationScript will not execute requests that do
+ * not have values for the mandatory arguments in their `body`.
+ * 
+ * Lastly, it holds the user-configurable {@link DataRequest.version version}
+ * property, which is used to request API responses in specific versions of the
+ * NS API to ensure compatibility with the hard-coded types.
  */
-class ParameterRequest extends NSRequest {
-	
+class DataRequest extends NSRequest {
+
 	/**
-	 * Defines the version of the NS API to request all data in.
-	 * @type number
-	 * @default 12
+	 * Defines the version of the NS API to request all data in. If `null`,
+	 * requests are made to the most recent version of the API automatically.
+	 * @type {?number}
+	 * @default
 	 * @package
 	 */
 	static version = 12;
@@ -240,122 +363,127 @@ class ParameterRequest extends NSRequest {
 	/* === Interna === */
 
 	/**
-	 * List of all arguments required by the API to properly process this request.
-	 * @type string[]
+	 * List of argument names declared to be mandatory for this request.
+	 * @type {string[]}
 	 * @private
 	 */
-	#mandatory = [];
+	mandatory = [];
 
 	/**
-	 * An object holding all arguments currently registered in this request instance.
-	 * The key is the same as the parameter name later in the HTTP request.
-	 * @private
-	 */
-	#argsSet = {};
-
-	/**
-	 * Instantiates a new {@linkcode ParameterRequest}. **Intended for internal use only.**
-	 * @param  {string[]} required Argument names required later in the HTTP request.
+	 * Instantiates a new `DataRequest`, defining the `Content-Type` in the
+	 * {@link NSRequest#headers headers} and setting the
+	 * {@link DataRequest.version version}, if required.
 	 * @package
 	 */
-	constructor(...required) {
+	constructor() {
 		super();
-		if(required) this.#mandatory = required;
-		if(typeof ParameterRequest.version === 'number')
-			this.setArgument('v', ParameterRequest.version);
+		if(DataRequest.version)
+			this.setArgument('v', DataRequest.version);
+		this.setHeader('Content-Type', 'application/x-www-form-urlencoded; '
+			+ 'charset=utf-8');
 	}
 
 
-	/* === Argument Manipulation === */
+	/* === Request Data Manipulation === */
 
 	/**
-	 * Saves the given data under the given argument name for when this request is sent to the API.
-	 * @param {string} key Name of the argument data to pass to the API.
-	 * @param  {string[]} values Data to pass to the API. Arrays are joined with `+` as separator.
-	 * @returns {this} The request, for chaining.
+	 * Set the given value under the given argument name in the request
+	 * {@link NSRequest#body body}.
+	 * @arg {string} key Key to save the value under
+	 * @arg  {any[]} values Value(s) to save; joined with `+` if an array
+	 * @returns {this} The request, for chaining
+	 * @public
 	 */
 	setArgument(key, ...values) {
-		if(key && values) this.#argsSet[key] = values.join('+');
+		if(key && values) this.body[key] = values.join('+');
 		return this;
 	}
 
 	/**
-	 * Gets the argument data that is currently saved in this request under the given name.
-	 * @param {string} key Name of the argument.
-	 * @returns {string} The data currently saved for that argument.
+	 * Set all the given keys and values in the request
+	 * {@link NSRequest#body body}.
+	 * @arg {Object.<string, string>} pairs Key-value pairs of arguments
+	 * @arg {boolean} replace `true` to replace all current arguments, `false`
+	 *     to merely add them to the extant arguments (default)
+	 * @returns {this} The request, for chaining
+	 */
+	setArguments(pairs, replace = false) {
+		if(typeof pairs === 'object')
+			if(replace) this.body = pairs;
+			else Object.assign(this.body, pairs);
+		return this;
+	}
+
+	/**
+	 * Get the value that is currently saved in this request's
+	 * {@link NSRequest#body body} under the given key.
+	 * @arg {string} key Name of the argument
+	 * @returns {string} Data currently saved for that argument
+	 * @public
 	 */
 	getArgument(key) {
-		return this.#argsSet[key];
+		return this.body[key];
 	}
 
 	/**
-	 * Gets a list with the names of all arguments that are currently set within this request.
-	 * @returns {string[]} A list of all the arguments currently set.
+	 * Get the keys of all values that are currently set in the request
+	 * {@link NSRequest#body body}.
+	 * @returns {string[]} List of all keys currently set
+	 * @public
 	 */
 	getArguments() {
-		return Object.keys(this.#argsSet);
+		return Object.keys(this.body);
 	}
 
 	/**
-	 * Removes the data saved under the given argument name from this request.
-	 * @param {string} name Name of the argument.
-	 * @returns {this} The request, for chaining.
+	 * Remove the value saved under the given key in the request
+	 * {@link NSRequest#body body}.
+	 * @arg {string} key Name of the key
+	 * @returns {this} The request, for chaining
+	 * @public
 	 */
-	removeArgument(name) {
-		if (this.getArguments().includes(name)) delete this.#argsSet[name];
+	removeArgument(key) {
+		delete this.body[key];
 		return this;
 	}
 
 	/**
-	 * Registers the given parameter names to require having a value set for them
-	 * before proceeding with request execution.
-	 * @param {...string} names Names of the URL parameter to mandate.
-	 * @returns {this} The request, for chaining.
+	 * Registers the given parameter names as required to have a value set for
+	 * them in the {@link NSRequest#body data} before executing the request.
+	 * @arg {...string} names Names of the URL parameters to mandate
+	 * @returns {this} The request, for chaining
 	 * @protected
 	 */
 	mandate(...names) {
-		if(names) for(let name of names)
-			if(!this.#mandatory.includes(name)) this.#mandatory.push(name);
+		if(Array.isArray(names)) for(let name of names)
+			if(!this.mandatory.includes(name)) this.mandatory.push(name);
 		return this;
-	}
-
-	/**
-	 * Formats all parameters set for this request into a URL query string,
-	 * directly usable as request body in an API query.
-	 * @returns {string} A string of the format `param1=value1&param2=value2&...`
-	 */
-	getBody() {
-		let args = [];
-		for(let key of this.getArguments()) args.push(`${key}=${this.getArgument(key)}`);
-		return args.join('&');
 	}
 
 	/** @inheritdoc */
 	async raw() {
 		// Verify that all required arguments are set
-		if(this.#mandatory.length > 0) {
-			let missing = [];
-			let saved = this.getArguments();
-			for(let arg of this.#mandatory) if(!saved.includes(arg)) missing.push(arg);
-			if(missing.length > 0) throw new Error('Request misses mandatory arguments: '
-					+ missing.join(', '));
-		}
+		let saved = this.getArguments();
+		for(let arg of this.mandatory) if(!saved.includes(arg))
+			throw new Error('Request misses mandatory argument: ' + arg);
 		return await super.raw();
 	}
 }
 
 /**
- * Superclass for all requests to API endpoints that accept specific shards.
+ * Superclass for all request subclasses that address API endpoints that accept
+ * specific shards.
  * 
- * Adds several functions to make setting, adding, selective removing, or complete deletion of
- * single or multiple shards from the request easier than with the {@linkcode ParameterRequest}
- * argument manipulation methods.
+ * Adds several functions to make setting, adding, and removing singular or
+ * multiple shards from the request easier than with the {@link DataRequest}'s
+ * more abstract argument manipulation methods.
  */
-class ShardableRequest extends ParameterRequest {
+class ShardableRequest extends DataRequest {
 	/**
 	 * Defines specific shards to query from the NS API.
-	 * @param  {...string} shards Identifiers of the desired shards.
-	 * @returns {this} The request, for chaining.
+	 * @arg  {...string} shards Identifiers of the desired shards
+	 * @returns {this} The request, for chaining
+	 * @public
 	 */
 	shard(...shards) {
 		this.setArgument('q', ...shards);
@@ -364,17 +492,17 @@ class ShardableRequest extends ParameterRequest {
 
 	/**
 	 * Adds more shards to any already set for this request.
-	 * @param  {...string} shards Identifiers of the desired shards.
-	 * @returns {this} The request, for chaining.
+	 * @arg  {...string} shards Identifiers of the desired shards
+	 * @returns {this} The request, for chaining
 	 */
 	addShards(...shards) {
-		this.shard(...[...this.getShards(), ...shards]);
+		this.shard(...this.getShards(), ...shards);
 		return this;
 	}
 
 	/**
 	 * Gets all shards currently registered to be queried with this request.
-	 * @returns {string[]} A list with the identifiers of all shards currently set in this request.
+	 * @returns {string[]} Names of all shards currently set in this request
 	 */
 	getShards() {
 		return this.getArgument('q')?.split('+') || [];
@@ -382,7 +510,7 @@ class ShardableRequest extends ParameterRequest {
 
 	/**
 	 * Removes all previously set sharding from this request.
-	 * @returns {this} The request, for chaining.
+	 * @returns {this} The request, for chaining
 	 */
 	clearShards() {
 		this.removeArgument('q');
@@ -391,138 +519,133 @@ class ShardableRequest extends ParameterRequest {
 
 	/**
 	 * Removes the specified shards from those to be queried with this request.
-	 * @param  {...string} shards Identifiers of the unwanted shards.
-	 * @returns {this} The request, for chaining.
+	 * @arg  {...string} shards Identifiers of the unwanted shards
+	 * @returns {this} The request, for chaining
 	 */
 	removeShards(...shards) {
-		let remain = [];
-		for(let shard of this.getShards()) if(!shards.includes(shard)) remain.push(shard);
-		return this.shard(...remain);
+		let remain = this.getShards().filter((s) => !shards.includes(s));
+		return this.clearShards().shard(...remain);
 	}
 }
 
 /**
- * Helper class for saving login credentials of a nation in a standardized form.
+ * Helper class for saving login credentials of a nation.
  * 
- * If passed to a request instance that authenticates with the NS API upon execution, the
- * {@linkcode NSCredential.autologin} and {@linkcode NSCredential.pin} properties are updated
- * automatically with the data returned by the API, so ideally there should be only a single
- * credential instance for any one nation for proper recording of the session PIN especially.
+ * If passed to an {@link NSRequest} that authenticates with the NS API upon
+ * execution, the {@link NSCredential#autologin autologin} and
+ * {@link NSCredential#pin pin} properties of the passed instance are updated
+ * automatically from the API's response, so ideally there should be only a
+ * single instance for any one nation, so that the PIN can be properly kept.
  */
 class NSCredential {
-
 	/**
 	 * Name of the nation the login credentials are for.
-	 * @type string
+	 * @type {string}
 	 */
 	nation;
 
 	/**
 	 * The nation's password.
-	 * @type string
+	 * @type {?string}
 	 */
 	password;
 
 	/**
 	 * The nation's password in encrypted form, as provided by NationStates.
-	 * @type string
+	 * @type {?string}
 	 */
 	autologin;
 
 	/**
-	 * The login PIN of the current session. Valid until the nation's next login, it logs out, or
-	 * is idle for two hours. Updated automatically when executing an authenticated request.
-	 * @type number
+	 * The login PIN of the current session. Valid until the nation next logins
+	 * without it, logs out, or is idle for two hours.
+	 * @type {?string}
 	 */
 	pin;
 
 	/**
-	 * Creates a new {@linkcode NSCredential} instance with the given details.
-	 * @param {string} nation Name of the nation the login credentials are for.
-	 * @param {string} password Password for the nation.
-	 * @param {string} autologin Autologin code for the nation.
+	 * Creates a new {@link NSCredential} instance with the given details.
+	 * @arg {string} nation Name of the nation the login credentials are for
+	 * @arg {?string} password Password for the nation
+	 * @arg {?string} autologin Autologin code for the nation
 	 */
-	constructor(nation, password = undefined, autologin = undefined) {
-		if(typeof nation !== 'string') throw new Error(`Invalid nation name (${nation})`);
-		if(!password && !autologin) throw new Error('Missing required login information');
-		this.nation = exports.nsify(nation);
+	constructor(nation, password = null, autologin = null) {
+		if(!password && !autologin)
+			throw new NSError('Missing required login information');
+		this.nation = toIDForm(nation);
 		this.password = password;
 		this.autologin = autologin;
-		this.pin = undefined;
+		this.pin = null;
 	}
 
 	/**
 	 * Updates the autologin and PIN data from the provided header data.
-	 * @param {IncomingHttpHeaders} responseHeaders HTTP headers returned by the NS API.
+	 * @arg {http.IncomingHttpHeaders} responseHeaders HTTP headers returned by
+	 *     the NS API.
 	 */
 	updateFromResponse(responseHeaders) {
-		this.autologin = responseHeaders['x-autologin'] || this.autologin;
-		this.pin = responseHeaders['x-pin'] || this.pin;
+		let autologin = responseHeaders['x-autologin'];
+		let pin = responseHeaders['x-pin'];
+
+		if(typeof autologin === 'string') this.autologin = autologin;
+		if(typeof pin === 'string') this.pin = pin;
 	}
 }
 
+const Nation = require('../type/nation');
+const Region = require('../type/region');
+const Card = require('../type/card');
+const CardWorld = require('../type/card-world');
+const World = require('../type/world');
+const WorldAssembly = require('../type/world-assembly');
 
 /**
- * Pauses execution for the specified amount of time if `await`ed.
- * @param {number} period Number of milliseconds to pause.
- * @private
- * @ignore
+ * Tries to match one of the configured top-level factories to the given root
+ * tag to parse the XML data it contains into a NationScript object.
+ * @arg {string} root Name of the root node
+ * @arg {Object.<string, string>} attrs Attributes on the root node
+ * @returns {?factory.NSFactory} Factory matching the root tag, if found
  */
-async function timeout(period) {
-	return new Promise((resolve, reject) => setTimeout(() => resolve(), Math.max(0, period)));
-}
-
-/**
- * Adjusts the given string - usually the name of a nation or region -
- * into a format compatible with calls to the NationStates API.
- * @param {string} name String to adjust.
- * @returns {string | null} The adjusted string, if it was a string, otherwise `null`.
- * @package
- * @ignore
- */
-exports.nsify = (name) => {
-	if(typeof name == 'string') return name.trim().replace(/ /g, '_').toLowerCase();
-	else return null;
-}
-
-/**
- * Calls the {@linkcode nsify} function on all elements of the supplied
- * array of strings, also mutating the array in the process.
- * @param {string[]} names List to adjust all the elements of.
- * @returns {string[] | null} The given array, or `null` if mutation failed.
- * @package
- * @ignore
- */
-exports.nsifyList = (names) => {
-	try {
-		for(let i = 0; i < names.length; i++) names[i] = exports.nsify(names[i]);
-	} catch (e) {
-		return null;
+function matchFactory(root, attrs) {
+	switch(root) {
+		case 'NATION':	return Nation.create([])(attrs);
+		case 'REGION':	return Region.create([])(attrs);
+		case 'CARD':	return Card.create(attrs);
+		case 'CARDS':	return CardWorld.create(attrs);
+		case 'WORLD':	return World.create([])(attrs);
+		case 'WA':		return WorldAssembly.create(attrs);
+		default: return null;
 	}
+}
+
+/**
+ * Converts the given string - usually the name of a nation or region - into
+ * `id_form` to guarantee that the NS API can understand it.
+ * @arg {string} name String to convert
+ * @returns {string} The converted string
+ * @package
+ * @ignore
+ */
+function toIDForm(name) {
+	return name.trim().replace(/ /g, '_').toLowerCase();
+}
+
+/**
+ * Calls the {@link toIDForm} function on all elements of the supplied string
+ * array, mutating the array in the process.
+ * @arg {string[]} names List to convert all the elements of
+ * @returns {string[]} The given array, with its contents converted
+ * @package
+ * @ignore
+ */
+function listToIDForm(names) {
+	for(let i = 0; i < names.length; i++) names[i] = toIDForm(names[i]);
 	return names;
 }
 
-/**
- * Sends an HTTP query to the given URL.
- * @param {string} url URL to query.
- * @param {https.RequestOptions} options Options to further define the query.
- * @param {string} postData Data to write to the request body
- * @returns {Promise<IncomingMessage>} The response from the queried URL.
- * @package
- * @ignore
- */
-exports.call = (url, options, postData = null) => {
-	return new Promise((resolve, reject) => {
-		let request = https
-			.request(url, options, response => resolve(response))
-			.once('error', e => reject(e));
-		if(postData && options.method === 'POST') request.write(postData);
-		request.end();
-	});
-}
-
-
 exports.NSRequest = NSRequest;
-exports.ParameterRequest = ParameterRequest;
+exports.DataRequest = DataRequest;
 exports.ShardableRequest = ShardableRequest;
 exports.NSCredential = NSCredential;
+exports.toIDForm = toIDForm;
+exports.listToIDForm = listToIDForm;

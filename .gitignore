@@ -1,10 +1,12 @@
 node_modules/
 
-# Local test builds of the documentation
+# Local test builds of the documentation and the package as a whole
 docs/
+nationscript-*.tgz
 
 # Local directory where Data Dumps are saved to
 nsdumps/
 
-# Muh local testing script
+# Muh local testing scripts
 testing.js
+testing2.js

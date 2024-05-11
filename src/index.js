@@ -4,150 +4,161 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-const { NS } = require('./api');
+/**
+ * Main module of NationScript
+ * @module nationscript
+ */
+
+const NS = require('./api');
 exports.NS = NS;
 
 const { NSCredential } = require('./requests/base');
 exports.NSCredential = NSCredential;
 
-/* === Enums === */
-
-const ENUMS = require('./enums');
-exports.Admirable = ENUMS.Admirable;
-exports.CensusMode = ENUMS.CensusMode;
-exports.CensusScale = ENUMS.CensusScale;
-exports.CrosspostingPolicy = ENUMS.CrosspostingPolicy;
-exports.DeathCause = ENUMS.DeathCause;
-exports.DispatchCategory = ENUMS.DispatchCategory;
-exports.DispatchSubcategory = ENUMS.DispatchSubcategory;
-exports.DispatchSearchMode = ENUMS.DispatchSearchMode;
-exports.HappeningsFilter = ENUMS.HappeningsFilter;
-exports.Influence = ENUMS.Influence;
-exports.NationCategory = ENUMS.NationCategory;
-exports.Notable = ENUMS.Notable;
-exports.NoticeIcon = ENUMS.NoticeIcon;
-exports.NoticeType = ENUMS.NoticeType;
-exports.OfficerAuthority = ENUMS.OfficerAuthority;
-exports.Rarity = ENUMS.Rarity;
-exports.ReclassificationCategory = ENUMS.ReclassificationCategory;
-exports.RMBPostStatus = ENUMS.RMBPostStatus;
-exports.Sensibility = ENUMS.Sensibility;
-exports.Tag = ENUMS.Tag;
-exports.WABadgeType = ENUMS.WABadgeType;
-exports.WACategory = ENUMS.WACategory;
-exports.WACouncil = ENUMS.WACouncil;
-exports.WAStatus = ENUMS.WAStatus;
-exports.WAVote = ENUMS.WAVote;
-exports.ZombieAction = ENUMS.ZombieAction;
-
 const { DumpMode } = require('./requests/dump');
 exports.DumpMode = DumpMode;
 
+/* === Enums === */
+const {
+	Admirable,
+	CardBadgeType,
+	CensusMode,
+	CensusScale,
+	CrosspostingPolicy,
+	DeathCause,
+	DispatchCategory,
+	DispatchSubcategory,
+	DispatchSearchMode,
+	EmbassyPhase,
+	HappeningsFilter,
+	Influence,
+	LegalityRuling,
+	NationCategory,
+	Notable,
+	NoticeIcon,
+	NoticeType,
+	OfficerAuthority,
+	Rarity,
+	ReclassificationCategory,
+	RMBPostStatus,
+	Sensibility,
+	Tag,
+	WABadgeType,
+	WACouncil,
+	WAStatus,
+	WAVote,
+	ZombieAction
+} = require('./enums');
+exports.Admirable = Admirable;
+exports.CardBadgeType = CardBadgeType;
+exports.CensusMode = CensusMode;
+exports.CensusScale = CensusScale;
+exports.CrosspostingPolicy = CrosspostingPolicy;
+exports.DeathCause = DeathCause;
+exports.DispatchCategory = DispatchCategory;
+exports.DispatchSubcategory = DispatchSubcategory;
+exports.DispatchSearchMode = DispatchSearchMode;
+exports.EmbassyPhase = EmbassyPhase;
+exports.HappeningsFilter = HappeningsFilter;
+exports.Influence = Influence;
+exports.LegalityRuling = LegalityRuling;
+exports.NationCategory = NationCategory;
+exports.Notable = Notable;
+exports.NoticeIcon = NoticeIcon;
+exports.NoticeType = NoticeType;
+exports.OfficerAuthority = OfficerAuthority;
+exports.Rarity = Rarity;
+exports.ReclassificationCategory = ReclassificationCategory;
+exports.RMBPostStatus = RMBPostStatus;
+exports.Sensibility = Sensibility;
+exports.Tag = Tag;
+exports.WABadgeType = WABadgeType;
+exports.WACouncil = WACouncil;
+exports.WAStatus = WAStatus;
+exports.WAVote = WAVote;
+exports.ZombieAction = ZombieAction;
 
 /* === Shards === */
-
-const SHARDS = require('./shards');
-exports.CardDetailShard		= SHARDS.CardDetailShard;
-exports.CardShard			= SHARDS.CardShard;
-exports.NationShard			= SHARDS.NationShard;
-exports.NationPrivateShard	= SHARDS.NationPrivateShard;
-exports.RegionShard			= SHARDS.RegionShard;
-exports.WorldShard			= SHARDS.WorldShard;
-exports.WAShard				= SHARDS.WAShard;
-
+const {
+	CardDetailShard,
+	CardShard,
+	NationShard,
+	NationPrivateShard,
+	RegionShard,
+	WAShard,
+	WorldShard
+} = require('./shards');
+exports.CardDetailShard = CardDetailShard;
+exports.CardShard = CardShard;
+exports.NationShard = NationShard;
+exports.NationPrivateShard = NationPrivateShard;
+exports.RegionShard = RegionShard;
+exports.WAShard = WAShard;
+exports.WorldShard = WorldShard;
 
 /* === Types === */
-const {
-	CardIndividualRequest,
-	CardWorldRequest,
-	Card,
-	CardWorld
-} = require('./requests/card');
-const {
-	Nation,
-	NationRequest
-} = require('./requests/nation');
-const {
-	Region,
-	RegionRequest
-} = require('./requests/region');
-const {
-	World,
-	WorldRequest
-} = require('./requests/world');
-const {
-	WorldAssembly,
-	WARequest
-} = require('./requests/wa');
+const types = require('./types');
 
-exports.Card = Card;
-exports.CardWorld = CardWorld;
-exports.Nation = Nation;
-exports.Region = Region;
-exports.World = World;
-exports.WorldAssembly = WorldAssembly;
+/**
+ * Helper object opening up an easy possibility to reference the NationScript
+ * types.
+ */
+exports.types = types;
+
 
 /* 
- * For some reason, VS Code does not properly load these when require()'d in the API module, and
- * including them here seems to fix it...?
- * IDK why that happens, but until I figure out a proper solution, this should probably stay here. 
+ * === IntelliSense Work-Around ==
+
+ * The VSCode IntelliSense does not actually seem to recognise JSDocs on the
+ * "lower" levels of the package - the furthest it looks to be able to see is
+ * a single level down from files loaded in the index file.
+ * 
+ * One solution would be to use the TS compiler to generate .d.ts files for all
+ * the NationScript files. IntelliSense works fine in that case. However, for
+ * some reason, the TS compiler decides to ditch JSDocs attached to properties
+ * of exported object literals (i.e. all the enums), which renders them
+ * virtually useless, and I have not found a way to fix this without breaking
+ * the result of the (external) documentation generation by JSDoc.
+ * 
+ * The other option would be the `tsd-jsdoc` package. That one does not seem to
+ * be able to resolve the re-export of types and classes, like here with the NS
+ * object - it just resolves it to be `any` type, which is the opposite of what
+ * the documentation is for.
+ * 
+ * Alas, I'm left with little options but to simply import *everything* here,
+ * so that the IntelliSense picks it up. It's not pretty, but the only way I've
+ * been able to identify that preserves both JSDoc documentation generation and
+ * IntelliSense functionality.
  */
 const {
-	IssueCommand,
-	RMBPostCommand,
+	NSRequest,
+	DataRequest,
+	ShardableRequest
+} = require('./requests/base');
+const {
+	CardIndividualRequest,
+	CardWorldRequest
+} = require('./requests/card');
+const {
 	DispatchAddCommand,
 	DispatchDeleteCommand,
 	DispatchEditCommand,
-	GiftCardCommand
+	GiftCardCommand,
+	IssueCommand,
+	RMBPostCommand
 } = require('./requests/command');
+const {
+	CardDumpRequest,
+	DumpRequest,
+	NationDumpRequest,
+	RegionDumpRequest
+} = require('./requests/dump');
 const {
 	TGRequest,
 	UserAgentRequest,
 	VersionRequest
 } = require('./requests/misc');
-const { Auction } = require('./typedefs/auction');
-const { WABadge } = require('./typedefs/badge');
-const { Banner } = require('./typedefs/banner');
-const { ListCard } = require('./typedefs/card-list-item');
-const { CensusDataNation } = require('./typedefs/census-data-nation');
-const { CensusDataRegion } = require('./typedefs/census-data-region');
-const { WCensusAverage } = require('./typedefs/census-data-world');
-const { CensusRankScored } = require('./typedefs/census-rank-scored');
-const { CensusRankUnscored } = require('./typedefs/census-rank-unscored');
-const { ListCollection } = require('./typedefs/collection-list-item');
-const { Collection } = require('./typedefs/collection');
-const { DeathData } = require('./typedefs/death-data');
-const { Deck } = require('./typedefs/deck');
-const { ListDispatch } = require('./typedefs/dispatch-list-item');
-const { Dispatch } = require('./typedefs/dispatch');
-const { EmbassyData } = require('./typedefs/embassy-data');
-const { ListFaction } = require('./typedefs/faction-list-item');
-const { Faction } = require('./typedefs/faction');
-const { FreedomsData } = require('./typedefs/freedoms-data');
-const { FreedomsTextData } = require('./typedefs/freedoms-descriptions');
-const { FreedomsScoreData } = require('./typedefs/freedoms-scores');
-const { IDHappening } = require('./typedefs/happening-id');
-const { Happening } = require('./typedefs/happening');
-const { HDIData } = require('./typedefs/hdi-data');
-const { IssueEffect } = require('./typedefs/issue-effect');
-const { ListIssue } = require('./typedefs/issue-list-item');
-const { Issue } = require('./typedefs/issue');
-const { Market } = require('./typedefs/market');
-const { NewNation } = require('./typedefs/newnation');
-const { Notice } = require('./typedefs/notice');
-const { Officer } = require('./typedefs/officer');
-const { Policy } = require('./typedefs/policy');
-const { Poll } = require('./typedefs/poll');
-const { Proposal } = require('./typedefs/proposal');
-const { Resolution } = require('./typedefs/resolution');
-const { RMBActivityAggregate } = require('./typedefs/rmb-aggregate');
-const { RMBPost } = require('./typedefs/rmb-post');
-const { SectorsData } = require('./typedefs/sectors-data');
-const { SpendingData } = require('./typedefs/spending-data');
-const { TGQueue } = require('./typedefs/tg-queue');
-const { TradeCardbound } = require('./typedefs/trade-cardbound');
-const { Trade } = require('./typedefs/trade');
-const { UnreadsData } = require('./typedefs/unreads-data');
-const { VoteTally } = require('./typedefs/vote-tally');
-const { ZombieDataNation } = require('./typedefs/zombie-data-nation');
-const { ZombieDataRegion } = require('./typedefs/zombie-data-region');
+const { NationRequest } = require('./requests/nation');
+const { RegionRequest } = require('./requests/region');
+const { WARequest } = require('./requests/wa');
+const { WorldRequest } = require('./requests/world');
