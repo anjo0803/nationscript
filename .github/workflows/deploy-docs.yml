@@ -18,6 +18,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Install tsimport Plugin
+        run: npm i jsdoc-tsimport-plugin --save-dev
+
       - name: Generate Docs
         uses: andstor/jsdoc-action@v1
         with:
