@@ -17,6 +17,18 @@ const Proposal = require('./proposal');
 const Resolution = require('./resolution');
 
 /**
+ * Since the resolution type *always* gets the `coauthors` property added, even
+ * if the actual <RESOLUTION> tag is empty (i.e. there is no resolution at vote
+ * at all), this function is invoked to convert the parsed resolution object to
+ * `null` if that happens
+ * @type {import('../factory').DataConverter}
+ * @ignore
+ */
+const toNullIfEmpty = val => JSON.stringify(val) === JSON.stringify({
+		coauthors: []
+	}) ? null : val;
+
+/**
  * @type {import('../factory').FactoryConstructor<types.WorldAssembly>}
  * @ignore
  */
@@ -41,5 +53,5 @@ exports.create = (root) => new NSFactory()
 		.assignSubFactory(ArrayFactory
 			.complex('PROPOSAL', Proposal.create)))
 	.onTag('RESOLUTION', (me, attrs) => me
-		.build('resolution')
+		.build('resolution', toNullIfEmpty)
 		.assignSubFactory(Resolution.create(attrs)));

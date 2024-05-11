@@ -148,7 +148,7 @@ class RegionRequest extends ShardableRequest {
 	 * @returns {Promise<types.Region>}
 	 */
 	async send() {
-		this.useFactory(Region.create);
+		this.useFactory(Region.create(this.getShards()));
 		return await super.send();
 	}
 }

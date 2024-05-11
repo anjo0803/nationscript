@@ -52,7 +52,7 @@ const createDumpCard = (root) => new NSFactory()
 	.onTag('CARDCATEGORY', (me) => me
 		.build('rarity'))
 	.onTag('DESCRIPTION', (me) => me
-		.build('description'))	// TODO
+		.build('description'))
 	.onTag('TROPHIES', (me) => me
 		.build('trophies')
 		.assignSubFactory(ArrayFactory

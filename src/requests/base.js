@@ -609,7 +609,7 @@ const WorldAssembly = require('../type/world-assembly');
 function matchFactory(root, attrs) {
 	switch(root) {
 		case 'NATION':	return Nation.create([])(attrs);
-		case 'REGION':	return Region.create(attrs);
+		case 'REGION':	return Region.create([])(attrs);
 		case 'CARD':	return Card.create(attrs);
 		case 'CARDS':	return CardWorld.create(attrs);
 		case 'WORLD':	return World.create([])(attrs);

@@ -18,7 +18,7 @@ const types = require('../types');
  * @ignore
  */
 exports.create = (root) => new NSFactory()
-	.set('census', root['type']?.replace?.(/-\dT?$/, ''), translateCensusName)
+	.set('census', root['type']?.replace?.(/-\d+T?$/, ''), translateCensusName)
 	.set('percent', root['type']?.replace?.(/\D*/, ''), convertNumber)
 	.build('rank', convertNumber);
 

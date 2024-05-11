@@ -18,7 +18,7 @@ const LegalityData = require('./legality-data');
  * @ignore
  */
 exports.create = (root) => new NSFactory()
-	.set('id', root['id'], convertNumber)
+	.set('id', root['id'])
 	.onTag('NAME', (me) => me
 		.build('title'))
 	.onTag('PROPOSED_BY', (me) => me

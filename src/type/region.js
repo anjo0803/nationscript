@@ -11,6 +11,7 @@ const {
 	convertBoolean,
 	convertArray
 } = require('../factory');
+const { RegionShard } = require('../shards');
 const types = require('../types');
 
 const WABadge = require('./badge-wa');
@@ -29,17 +30,24 @@ const ZombieDataRegion = require('./zombie-data-region');
  * @type {import('../factory').DataConverter}
  * @ignore
  */
-const toNullIfZero = val => val === '0' ? null : val;
+const toNullIfNecessary = val => val === '0' || val === '' ? null : val;
 
 /**
- * @type {import('../factory').FactoryConstructor<types.Region>}
+ * Since the Region API does not return the <POLL> tag if there is no active
+ * poll in a region, even if the shard was explicitly requested, the originally
+ * requested shards have to be known to properly declare that no poll is active
+ * by setting the `poll` property to `null`.
+ * @arg {string[]} shards Shards requested in the original request
+ * @returns {import('../factory').FactoryConstructor<types.Region>}
  * @ignore
  */
-exports.create = (root) => new NSFactory()
+exports.create = (shards = []) => (root) => (shards.includes(RegionShard.POLL)
+		? new NSFactory().set('poll', null) : new NSFactory())
+	.set('idForm', root['id'])
 	.onTag('BANNED', (me) => me
 		.build('banlist', convertArray(':')))
 	.onTag('BANNER', (me) => me
-		.build('bannerID', toNullIfZero))
+		.build('bannerID', toNullIfNecessary))
 	.onTag('BANNERBY', (me) => me
 		.build('bannerCreator'))
 	.onTag('BANNERURL', (me) => me
@@ -54,7 +62,7 @@ exports.create = (root) => new NSFactory()
 			return ret;
 		}))
 	.onTag('DELEGATE', (me) => me
-		.build('delegateName', toNullIfZero))
+		.build('delegateName', toNullIfNecessary))
 	.onTag('DELEGATEAUTH', (me) => me
 		.build('delegateAuthorities', convertArray('')))
 	.onTag('DELEGATEVOTES', (me) => me
@@ -64,17 +72,17 @@ exports.create = (root) => new NSFactory()
 	.onTag('FACTBOOK', (me) => me
 		.build('wfe', val => val ?? ''))
 	.onTag('FLAG', (me) => me
-		.build('flag'))
+		.build('flag', toNullIfNecessary))
 	.onTag('FOUNDED', (me) => me
 		.build('founded', val => val === '0' ? 'Antiquity' : val))
 	.onTag('FOUNDER', (me) => me
-		.build('founder', toNullIfZero))
+		.build('founder', toNullIfNecessary))
 	.onTag('FOUNDEDTIME', (me) => me
 		.build('foundedTimestamp', convertNumber))
 	.onTag('FRONTIER', (me) => me
 		.build('isFrontier', convertBoolean))
 	.onTag('GOVERNOR', (me) => me
-		.build('governor', toNullIfZero))
+		.build('governor', toNullIfNecessary))
 	.onTag('LASTUPDATE', (me) => me
 		.build('updateLast', convertNumber))
 	.onTag('LASTMAJORUPDATE', (me) => me

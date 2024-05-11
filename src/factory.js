@@ -94,7 +94,7 @@ class NSFactory {
 	 * @type {*}
 	 * @protected
 	 */
-	product = {};
+	product = null;
 
 	/**
 	 * Name of the property of the {@link NSFactory#product product} that is
@@ -243,7 +243,8 @@ class NSFactory {
 		}
 
 		// Guarantee that there is an object to assign values to
-		if(typeof this.product !== 'object') this.product = {};
+		if(typeof this.product !== 'object' || this.product == null)
+			this.product = {};
 
 		// Determine the target property by successively descending into the
 		// product's properties, then their properties, etc.

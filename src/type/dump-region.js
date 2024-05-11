@@ -18,4 +18,4 @@ const Region = require('./region');
 exports.createArray = (decider) => (root) => new DumpFactory(decider)
 	.onTag('REGION', (me, attrs) => me
 		.build('')
-		.assignSubFactory(Region.create(attrs)));
+		.assignSubFactory(Region.create([])(attrs)));

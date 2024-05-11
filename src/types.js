@@ -257,11 +257,11 @@ const shards = require('./shards');
  * data saved for the card in the requested season's one-off Dump.
  * @typedef {object} DumpCard
  * @prop {number} id Card ID; corresponds to the depicted nation's `dbID`.
- * @prop {CardNation} depicted Details of the nation depicted
- *     on the card.
+ * @prop {CardNation} depicted Details of the nation depicted on the card.
  * @prop {string} rarity The card's {@link enums.Rarity Rarity}.
  * @prop {Trophy[]} trophies Displayed World Census ranking trophies.
  * @prop {CardBadge[]} badges Displayed miscellaneous badges.
+ * @prop {string} description Industry and population info.
  * @memberof types
  */
 
@@ -501,7 +501,8 @@ const shards = require('./shards');
  * @typedef {object} LegalityDecision
  * @prop {string} nation Nation that made the ruling (`id_form`).
  * @prop {string} ruling The {@link LegalityRuling} made.
- * @prop {string} reason Comment attached to the ruling.
+ * @prop {?string} reason Comment attached to the ruling; `null` if there is no
+ *     comment.
  * @prop {number} timestamp Timestamp of when the ruling was made.
  * @memberof types
  */
@@ -775,7 +776,7 @@ const shards = require('./shards');
  * @prop {string} idForm Name of this region in `id_form`.
  * @prop {string[]} [banlist] Nations on the region's banlist (`id_form`).
  * @prop {?string} [bannerID] ID of the regional banner. If the region doesn't
- *     fly a custom banner, `null`.
+ *     fly a *custom* banner, `null`.
  * @prop {string} [bannerCreator] Nation that set the regional banner
  *     (`id_form`).
  * @prop {string} [bannerURL] Relative URL of the regional banner image file.
@@ -790,7 +791,8 @@ const shards = require('./shards');
  * @prop {string} [crossposting] The region's embassy
  *     {@link enums.CrosspostingPolicy CrosspostingPolicy}.
  * @prop {string} [wfe] Body text of the region's World Factbook Entry.
- * @prop {string} [flag] Absolute URL of the regional flag image file.
+ * @prop {string?} [flag] Absolute URL of the regional flag image file. If the
+ *     region doesn't fly a flag, `null`.
  * @prop {string} [founded] Textual description of when the region was founded,
  *     relative to now.
  * @prop {number} [foundedTimestamp] Timestamp of the region's founding. A
@@ -833,7 +835,8 @@ const shards = require('./shards');
  * @prop {RMBActivity[]} [rmbMostLikesReceived] Nations' aggregate
  *     likes received on the region's RMB, as queried.
  * @prop {Officer[]} [officers] Regional officers.
- * @prop {Poll} [poll] Currently active regional poll.
+ * @prop {?Poll} [poll] Poll currently running in the region; `null` if there
+ *     is no active poll.
  * @prop {VoteTally} [voteSC] Tally of votes For and Against the
  *     at-vote SC resolution by resident WA members.
  * @prop {WABadge[]} [badges] Badges awarded to the region by the SC.
@@ -880,7 +883,7 @@ const shards = require('./shards');
  * @prop {number} [implemented] Timestamp of the resolution's passage, if
  *     applicable.
  * @prop {number} [repealed] ID of the resolution this resolution was repealed
- *     by, if applicable.
+ *     by. Only available on passed, repealed resolutions.
  * @prop {string} category Category of the resolution.
  * @prop {string} option For GA resolutions and SC declarations, the
  *     subcategory of the resolution; otherwise its target nation or region
@@ -1023,8 +1026,10 @@ const shards = require('./shards');
  * Represents a regional tally of votes For and Against a resolution in the
  * World Assembly.
  * @typedef {object} VoteTally
- * @prop {number} for Number of votes in favor of the resolution.
- * @prop {number} against Number of votes against the resolution.
+ * @prop {number} for Number of votes in favor of the resolution; `NaN` if
+ *     there is no resolution at vote or no nations have voted For yet.
+ * @prop {number} against Number of votes against the resolution; `NaN` if
+ *     there is no resolution at vote or no nations have voted Against yet.
  * @memberof types
  */
 
