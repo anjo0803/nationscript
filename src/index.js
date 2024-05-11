@@ -12,89 +12,52 @@
 const NS = require('./api');
 exports.NS = NS;
 
-const { NSCredential } = require('./requests/base');
-exports.NSCredential = NSCredential;
+const reqBase = require('./requests/base');
+exports.NSCredential = reqBase.NSCredential;
 
-const { DumpMode } = require('./requests/dump');
-exports.DumpMode = DumpMode;
+const dump = require('./requests/dump');
+exports.DumpMode = dump.DumpMode;
 
 /* === Enums === */
-const {
-	Admirable,
-	CardBadgeType,
-	CensusMode,
-	CensusScale,
-	CrosspostingPolicy,
-	DeathCause,
-	DispatchCategory,
-	DispatchSubcategory,
-	DispatchSearchMode,
-	EmbassyPhase,
-	HappeningsFilter,
-	Influence,
-	LegalityRuling,
-	NationCategory,
-	Notable,
-	NoticeIcon,
-	NoticeType,
-	OfficerAuthority,
-	Rarity,
-	ReclassificationCategory,
-	RMBPostStatus,
-	Sensibility,
-	Tag,
-	WABadgeType,
-	WACouncil,
-	WAStatus,
-	WAVote,
-	ZombieAction
-} = require('./enums');
-exports.Admirable = Admirable;
-exports.CardBadgeType = CardBadgeType;
-exports.CensusMode = CensusMode;
-exports.CensusScale = CensusScale;
-exports.CrosspostingPolicy = CrosspostingPolicy;
-exports.DeathCause = DeathCause;
-exports.DispatchCategory = DispatchCategory;
-exports.DispatchSubcategory = DispatchSubcategory;
-exports.DispatchSearchMode = DispatchSearchMode;
-exports.EmbassyPhase = EmbassyPhase;
-exports.HappeningsFilter = HappeningsFilter;
-exports.Influence = Influence;
-exports.LegalityRuling = LegalityRuling;
-exports.NationCategory = NationCategory;
-exports.Notable = Notable;
-exports.NoticeIcon = NoticeIcon;
-exports.NoticeType = NoticeType;
-exports.OfficerAuthority = OfficerAuthority;
-exports.Rarity = Rarity;
-exports.ReclassificationCategory = ReclassificationCategory;
-exports.RMBPostStatus = RMBPostStatus;
-exports.Sensibility = Sensibility;
-exports.Tag = Tag;
-exports.WABadgeType = WABadgeType;
-exports.WACouncil = WACouncil;
-exports.WAStatus = WAStatus;
-exports.WAVote = WAVote;
-exports.ZombieAction = ZombieAction;
+const enums = require('./enums');
+exports.Admirable = enums.Admirable;
+exports.CardBadgeType = enums.CardBadgeType;
+exports.CensusMode = enums.CensusMode;
+exports.CensusScale = enums.CensusScale;
+exports.CrosspostingPolicy = enums.CrosspostingPolicy;
+exports.DeathCause = enums.DeathCause;
+exports.DispatchCategory = enums.DispatchCategory;
+exports.DispatchSubcategory = enums.DispatchSubcategory;
+exports.DispatchSearchMode = enums.DispatchSearchMode;
+exports.EmbassyPhase = enums.EmbassyPhase;
+exports.HappeningsFilter = enums.HappeningsFilter;
+exports.Influence = enums.Influence;
+exports.LegalityRuling = enums.LegalityRuling;
+exports.NationCategory = enums.NationCategory;
+exports.Notable = enums.Notable;
+exports.NoticeIcon = enums.NoticeIcon;
+exports.NoticeType = enums.NoticeType;
+exports.OfficerAuthority = enums.OfficerAuthority;
+exports.Rarity = enums.Rarity;
+exports.ReclassificationCategory = enums.ReclassificationCategory;
+exports.RMBPostStatus = enums.RMBPostStatus;
+exports.Sensibility = enums.Sensibility;
+exports.Tag = enums.Tag;
+exports.WABadgeType = enums.WABadgeType;
+exports.WACouncil = enums.WACouncil;
+exports.WAStatus = enums.WAStatus;
+exports.WAVote = enums.WAVote;
+exports.ZombieAction = enums.ZombieAction;
 
 /* === Shards === */
-const {
-	CardDetailShard,
-	CardShard,
-	NationShard,
-	NationPrivateShard,
-	RegionShard,
-	WAShard,
-	WorldShard
-} = require('./shards');
-exports.CardDetailShard = CardDetailShard;
-exports.CardShard = CardShard;
-exports.NationShard = NationShard;
-exports.NationPrivateShard = NationPrivateShard;
-exports.RegionShard = RegionShard;
-exports.WAShard = WAShard;
-exports.WorldShard = WorldShard;
+const shards = require('./shards');
+exports.CardDetailShard = shards.CardDetailShard;
+exports.CardShard = shards.CardShard;
+exports.NationShard = shards.NationShard;
+exports.NationPrivateShard = shards.NationPrivateShard;
+exports.RegionShard = shards.RegionShard;
+exports.WAShard = shards.WAShard;
+exports.WorldShard = shards.WorldShard;
 
 /* === Types === */
 const types = require('./types');
@@ -130,35 +93,12 @@ exports.types = types;
  * been able to identify that preserves both JSDoc documentation generation and
  * IntelliSense functionality.
  */
-const {
-	NSRequest,
-	DataRequest,
-	ShardableRequest
-} = require('./requests/base');
-const {
-	CardIndividualRequest,
-	CardWorldRequest
-} = require('./requests/card');
-const {
-	DispatchAddCommand,
-	DispatchDeleteCommand,
-	DispatchEditCommand,
-	GiftCardCommand,
-	IssueCommand,
-	RMBPostCommand
-} = require('./requests/command');
-const {
-	CardDumpRequest,
-	DumpRequest,
-	NationDumpRequest,
-	RegionDumpRequest
-} = require('./requests/dump');
-const {
-	TGRequest,
-	UserAgentRequest,
-	VersionRequest
-} = require('./requests/misc');
-const { NationRequest } = require('./requests/nation');
-const { RegionRequest } = require('./requests/region');
-const { WARequest } = require('./requests/wa');
-const { WorldRequest } = require('./requests/world');
+const reqCard = require('./requests/card');
+const reqCommand = require('./requests/command');
+const reqMisc = require('./requests/misc');
+const reqNation = require('./requests/nation');
+const reqRegion = require('./requests/region');
+const reqWA = require('./requests/wa');
+const reqWorld = require('./requests/world');
+const factory = require('./factory');
+const error = require('./errors');
