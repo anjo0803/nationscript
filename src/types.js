@@ -674,7 +674,8 @@ const shards = require('./shards');
  * @prop {string} text Notice description.
  * @prop {number} time Timestamp of notice generation.
  * @prop {string} type {@link enums.NoticeType NoticeType} of the notice.
- * @prop {string} icon Displayed {@link enums.NoticeIcon NoticeIcon}.
+ * @prop {?string} icon Displayed {@link enums.NoticeIcon NoticeIcon}; `null`
+ *     if no icon is displayed.
  * @prop {string} url URL to open when the notice is clicked.
  * @prop {string} who Nation who caused the notice to be generated (`id_form`).
  * @prop {boolean} isNew `true` if viewed before, otherwise `false`.

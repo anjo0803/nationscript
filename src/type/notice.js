@@ -33,4 +33,7 @@ exports.create = (root) => new NSFactory()
 	.onTag('NEW', (me) => me
 		.build('isNew', convertBoolean))
 	.onTag('OK', (me) => me
-		.build('ok', convertBoolean));
+		.build('ok', convertBoolean))
+
+	// Some notices don't show an icon, in which case <TYPE_ICON> isn't present
+	.set('icon', null);
