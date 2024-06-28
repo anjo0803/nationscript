@@ -11,6 +11,7 @@ const {
 const types = require('../types');
 
 const IssueOption = require('./issue-option');
+const IssueOptionWarning = require('./issue-option-warning');
 
 /**
  * @type {import('../factory').FactoryConstructor<types.Issue>}
@@ -18,6 +19,8 @@ const IssueOption = require('./issue-option');
  */
 exports.create = (root) => new NSFactory()
 	.set('id', root['id'], convertNumber)
+	.set('warnings', [])	// In most cases, there are no warnings
+
 	.onTag('TITLE', (me) => me
 		.build('title'))
 	.onTag('TEXT', (me) => me
@@ -29,6 +32,13 @@ exports.create = (root) => new NSFactory()
 			return [val];
 		})
 		.assignSubFactory(IssueOption.create(attrs)))
+	.onTag('WARNING', (me, attrs) => me
+		.build('warnings', val => {
+			let alreadyThere = me.get('warnings');
+			if(Array.isArray(alreadyThere)) return [...alreadyThere, val];
+			return [val];
+		})
+		.assignSubFactory(IssueOptionWarning.create(attrs)))
 	.onTag('AUTHOR', (me) => me
 		.build('author', val => val.split(', ')))
 	.onTag('EDITOR', (me) => me

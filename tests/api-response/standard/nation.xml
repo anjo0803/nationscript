@@ -340,7 +340,7 @@
 		<ISSUE id="1246">Breath of the Wild</ISSUE>
 		<ISSUE id="234">Corruption in the Lobby</ISSUE>
 		<ISSUE id="688">You Don’t Have to Be Mad to Kill People... But It Helps</ISSUE>
-		<ISSUE id="581">Fair to Say...?</ISSUE>
+		<ISSUE id="132">World Assembly Woes</ISSUE>
 	</ISSUESUMMARY>
 	<ISSUES>
 		<ISSUE id="779">
@@ -388,17 +388,14 @@
 			<OPTION id="1">“Actually, it is very difficult for the mentally ill to get the help they need in Anjo,” reminds the suspect’s attorney after receiving a death glare from the parent. “It is not their fault that they’re suffering and any psychiatrist worth their degree would agree that many don’t have the mental capacity to determine right from wrong. We should be sending these people to mental institutions where they can be healed, not overcrowded prisons!”</OPTION>
 			<OPTION id="2">“The solution to everything is a compromise,” declares one of your staffers, who claims that working for you has caused him to go insane. “Require everyone accused of a crime to go through vigorous mental health testing to see if they are insane or not. This way, experts decide whether or not someone is insane at the beginning of a trial, leaving little room for errors.”</OPTION>
 		</ISSUE>
-		<ISSUE id="581">
-			<TITLE>Fair to Say...?</TITLE>
-			<TEXT>At last year’s World Fair many said that Anjo’s exhibition pavilion was “okay, considering,” and “not bad, for a nation on a tight budget.” This year, national organizers want to make your expo presence bigger, better, and more impressive than ever before.</TEXT>
-			<AUTHOR>unibot_iii</AUTHOR>
-			<EDITOR>candlewhisper_archive</EDITOR>
-			<PIC1>c9</PIC1>
-			<PIC2>i25</PIC2>
-			<OPTION id="0">“We need more shiny stuff! We need lasers, and twenty-foot-tall robots!” squeaks General Lisa Honda, hoverboarding excitedly round you in a wide circle. “Let’s show off our tech to the rest of the world! We need flying cars and... and... cyberhousecats! Yes, a cyberhousecat, with a frickin’ laser beam on its head!”</OPTION>
-			<OPTION id="1">“My, how gauche!” sneers Martina Amis, an esteemed novelist. “Culture is the lifeblood of Anjo. We should create a gallery-slash-library to celebrate Anjo’s arts and literature abroad. Nothing less could represent our brilliance.”</OPTION>
-			<OPTION id="2">“Give the fair-goers what they want! FOOOOOOOOD!” yells Adam Richbloke, a generously proportioned foodie holding a generous portion of battered chicken chunks. “Visitors to the fair aren’t going to visit every tent; you know how many nations there are in the world now? But everyone has gotta eat! Chocolate doughnut lasagna, deep-fried pancake soups and orange truffle crabcakes with butter, pork and loads of sweet custard. Hmm, hmmm, hmmm, looks like everyone will be stopping by the Anjo pavilion!”</OPTION>
-			<OPTION id="5">“I smell economic opportunity,” says your Commerce Minister Ronald Dunn. “We should showcase what a great place for investors we are, emphasising our flexible taxation arrangements for valued corporate investors and our latest moves to stamp out the unions. We should literally get on our knees, and beg the biggest businesses to bring jobs and prosperity to Anjo.”</OPTION>
+		<ISSUE id="132">
+			<TITLE>World Assembly Woes</TITLE>
+			<TEXT>After a very popular domestic bill was shot down due to contradicting existing World Assembly legislation on a similar subject, the Testlandia City Observer organized a national poll among subscribers. Leaders of the ‘National Sovereignty’ and ‘International Federalist’ camps are meeting in your office to argue their case.</TEXT>
+			<AUTHOR>sanctaria</AUTHOR>
+			<EDITOR>frisbeeteria</EDITOR>
+			<OPTION id="0">“Micromanagement, micromanagement, MICROMANAGEMENT!!!” your Minister for Domestic Affairs shouts, banging his fists on your table. “Those buffoons are seriously overreaching their authority! Every resolution that infernal Assembly passes is an attack on our ability to pass our own legislation! We can’t, and shouldn’t, have nations full of fools ignorant to our way of life make our decisions for us. We’d be better off without that godforsaken snakepit... we MUST resign from the World Assembly.”</OPTION>
+			<OPTION id="1">“Think of the CHILDREN”, cries Violet Larkin, your Foreign Minister. “Membership in the World Assembly is vital if Testlandia is to ensure that countries across the multiverse adopt a way of living that is right! I shudder to think of the awfulness that would happen in other nations without our guidance in the World Assembly. Please, Leader, we must remain a part of this organisation!”</OPTION>
+			<WARNING id="0">Are you sure you want to accept legislation to resign from the WA?</WARNING>
 		</ISSUE>
 	</ISSUES>
 	<NEXTISSUE>any moment</NEXTISSUE>

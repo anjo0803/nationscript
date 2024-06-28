@@ -469,6 +469,15 @@ const shards = require('./shards');
  */
 
 /**
+ * Represents an extraordinary warning attached to an
+ * {@link types.IssueOption IssueOption}.
+ * @typedef {object} IssueOptionWarning
+ * @prop {number} option Issue-internal ID of the option the warning is for.
+ * @prop {string} text Body text of the warning.
+ * @memberof types
+ */
+
+/**
  * Represents an issue confronting a nation.
  * @typedef {object} Issue
  * @prop {number} id Issue ID.
