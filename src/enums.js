@@ -692,6 +692,7 @@ const Tag = {
 	ANTI_WA: 'Anti-World Assembly',
 	CAPITALIST: 'Capitalist',
 	CASUAL: 'Casual',
+	/** @deprecated Removed from the game. */
 	CATCHER: 'Catcher',
 	CLASS: 'Class',
 	COLONY: 'Colony',
@@ -713,6 +714,7 @@ const Tag = {
 	FEATURED: 'Featured',
 	FEEDER: 'Feeder',
 	FEMINIST: 'Feminist',
+	/** @deprecated Removed from the game. */
 	FOUNDERLESS: 'Founderless',
 	FREE_TRADE: 'Free Trade',
 	FRONTIER: 'Frontier',
@@ -748,6 +750,7 @@ const Tag = {
 	MODERN_TECH: 'Modern Tech',
 	MONARCHIST: 'Monarchist',
 	MULTI_SPECIES: 'Multi-Species',
+	MULTILINGUAL: 'Multilingual',
 	NAT_SOV: 'National Sovereigntist',
 	NEUTRAL: 'Neutral',
 	NEW: 'New',
