@@ -51,6 +51,8 @@ exports.create = (root) => new NSFactory()
 		.build('reclassifications')
 		.assignSubFactory(ArrayFactory
 			.complex('RECLASSIFY', Reclassification.create)))
+	.onTag('ALREADY', (me) => me
+		.build('alreadyAdopted', convertBoolean))
 
 	// If there are no changes to these, the API will not return an empty tag,
 	// but no tag at all; thus, these need an empty value set from the start

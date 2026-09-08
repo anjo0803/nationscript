@@ -119,10 +119,12 @@ class TwoStepCommand extends CommandRequest {
 
 	/**
 	 * @inheritdoc
-	 * @returns {Promise<string>} Content of the returned `<SUCCESS>` tag
+	 * @returns {Promise<any>} Content of the returned `<SUCCESS>` tag
 	 */
 	async send() {
-		// First, send this command in prepare mode
+		// First, send this command in prepare mode, saving the final factory
+		// configurer function for later re-assignment
+		let originalFactory = this.factoryConfigurer;
 		this.setArgument('mode', 'prepare')
 			.useFactory((root) => new NSFactory()
 				// Everything is returned within <NATION> tags. Further,
@@ -137,6 +139,7 @@ class TwoStepCommand extends CommandRequest {
 			);
 
 		let ret = await super.send();
+		if(originalFactory) this.useFactory(originalFactory);
 		if(typeof ret !== 'string')
 			throw new NSError('Failed to obtain command execution token');
 
@@ -187,13 +190,10 @@ class IssueCommand extends CommandRequest {
 	 */
 	async send() {
 		this.useFactory(() => new NSFactory()
-			// The actual result is also wrapped in a <NATION> tag
-			.onTag('NATION', (me, attrs) => me
-				.build('')
-				.assignSubFactory(new NSFactory()
-					.onTag('ISSUE', (me, attrs) => me
-						.assignSubFactory(IssueEffect.create(attrs)))
-					.onTag('ERROR', createError))));
+			// The result is wrapped in a <NATION> tag, containing <ISSUE>
+			.onTag('ISSUE', (me, attrs) => me
+				.assignSubFactory(IssueEffect.create(attrs)))
+			.onTag('ERROR', createError));
 		return await super.send();
 	}
 }
@@ -231,6 +231,33 @@ class GiftCardCommand extends TwoStepCommand {
 	 */
 	setRecipient(name) {
 		return this.setArgument('to', toIDForm(name));
+	}
+}
+
+/**
+ * Request subclass for building requests to the commands endpoint of the API,
+ * specifically for executing the `c=junkcard` nation private command.
+ */
+class JunkCardCommand extends TwoStepCommand {
+	/**
+	 * Additionally {@link DataRequest#mandate mandate}s the `cardid` and
+	 * `season` arguments and sets the `c` argument.
+	 */
+	constructor() {
+		super();
+		this.mandate('cardid', 'season')
+			.setArgument('c', 'junkcard');
+	}
+
+	/**
+	 * Define the trading card to send by its card ID and season.
+	 * @arg {number} id ID of the card to send
+	 * @arg {number} season Season ID of the card
+	 * @returns {this} The command, for chaining
+	 */
+	setCard(id, season) {
+		return this.setArgument('cardid', id)
+			.setArgument('season', season);
 	}
 }
 
@@ -390,6 +417,46 @@ class RMBPostCommand extends TwoStepCommand {
 }
 
 /**
+ * Request subclass for building requests to the commands endpoint of the API,
+ * specifically for executing the `c=gaadopt` nation private command.
+ * 
+ * **Currently undocumented in the official API docs.**
+ */
+class ResolutionAdoptionCommand extends TwoStepCommand {
+	/**
+	 * Additionally {@link DataRequest#mandate mandate}s the `resolution`
+	 * argument and sets the `c` argument.
+	 */
+	constructor() {
+		super();
+		this.mandate('resolution')
+			.setArgument('c', 'gaadopt');
+	}
+
+	/**
+	 * Define the GA resolution that is to be adopted.
+	 * @arg {number} id ID of the target resolution
+	 * @returns {this} The command, for chaining
+	 */
+	setResolution(id) {
+		return this.setArgument('resolution', id);
+	}
+
+	/**
+	 * @inheritdoc
+	 * @returns {Promise<types.IssueEffect>}
+	 */
+	async send() {
+		this.useFactory(() => new NSFactory()
+			// The results data is inside a <GA_RESOLUTION> tag
+			.onTag('GA_RESOLUTION', (me, attrs) => me
+				.assignSubFactory(IssueEffect.create(attrs)))
+			.onTag('ERROR', createError));
+		return await super.send();
+	}
+}
+
+/**
  * Translates a given {@link DispatchCategory} and {@link DispatchSubcategory}
  * from their textual forms to the corresponding numerical subcategory ID.
  * The category ID can be extracted from this via (floored) division by `100`.
@@ -467,7 +534,9 @@ function win1252Workaround(str) {
 
 exports.IssueCommand = IssueCommand;
 exports.GiftCardCommand = GiftCardCommand;
+exports.JunkCardCommand = JunkCardCommand;
 exports.DispatchAddCommand = DispatchAddCommand;
 exports.DispatchEditCommand = DispatchEditCommand;
 exports.DispatchDeleteCommand = DispatchDeleteCommand;
 exports.RMBPostCommand = RMBPostCommand;
+exports.ResolutionAdoptionCommand = ResolutionAdoptionCommand;

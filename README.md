@@ -12,8 +12,9 @@ and understanding of responses ‒ while also offering additional methods and
 customisation options for API interactions to support more advanced and/or
 niche use cases.
 
-NationScript is tailored to version `12` of the NS API and supports all
-endpoints it offers.
+NationScript is tailored to version `13` of the NS API and supports all
+regular endpoints it offers. The Server-Sent Events API is however **not**
+supported at this point, but future support is planned.
 
 ## Installation
 NationScript is available via npm:
@@ -38,18 +39,18 @@ To begin building a request, use one of the functions on the `NS` object ‒ e
 of them returns a request subclass instance specifically adjusted to the API
 endpoint it is expected to address:
 
-| API Endpoint   | Instantiation Function                                                      |
-| -------------- | --------------------------------------------------------------------------- |
-| Nations        | `nation`                                                                    |
-| Regions        | `region`                                                                    |
-| World          | `world`                                                                     |
-| World Assembly | `wa`                                                                        |
-| Cards (Single) | `cardDetails`                                                               |
-| Cards (World)  | `cards`                                                                     |
-| Commands       | `issue`, `dispatchAdd`, `dispatchEdit`, `dispatchRemove`, `giftCard`, `rmb` |
-| Telegrams      | `tg`                                                                        |
-| Data Dumps     | `nationsFromDump`, `regionsFromDump`, `cardsFromDump`                       |
-| Miscellaneous  | `v` (Version), `ua` (UserAgent)                                             |
+| API Endpoint   | Instantiation Function                                                                             |
+| -------------- | -------------------------------------------------------------------------------------------------- |
+| Nations        | `nation`                                                                                           |
+| Regions        | `region`                                                                                           |
+| World          | `world`                                                                                            |
+| World Assembly | `wa`                                                                                               |
+| Cards (Single) | `cardDetails`                                                                                      |
+| Cards (World)  | `cards`                                                                                            |
+| Commands       | `issue`, `dispatchAdd`, `dispatchEdit`, `dispatchRemove`, `gaadopt`, `giftCard`, `junkCard`, `rmb` |
+| Telegrams      | `tg`                                                                                               |
+| Data Dumps     | `nationsFromDump`, `regionsFromDump`, `cardsFromDump`                                              |
+| Miscellaneous  | `v` (Version), `ua` (UserAgent)                                                                    |
 
 ### Sharding & Setting Other Parameters
 After instantiating it, you can chain additional function calls on the request

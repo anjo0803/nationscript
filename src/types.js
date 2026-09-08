@@ -433,10 +433,12 @@ const shards = require('./shards');
  */
 
 /**
- * Represents the outcome of the chosen answer on an issue.
+ * Represents the outcome of the chosen answer on an issue, or the effects of
+ * an adopted General Assembly resolution.
  * @typedef {object} IssueEffect
- * @prop {number} issue ID of the issue that was answered.
- * @prop {number} option (Issue-internal) ID of the option that was chosen.
+ * @prop {number} issue ID of the issue that was answered. Alternatively, ID of
+ *     the GA resolution that got adopted.
+ * @prop {number} option Issue-internal ID of the option that was chosen.
  * @prop {boolean} ok Whether everything went alright, I guess?
  * @prop {string} legislation The effect line of the chosen issue option.
  * @prop {string[]} headlines List of all generated newspaper headlines.
@@ -449,6 +451,8 @@ const shards = require('./shards');
  *     census scores.
  * @prop {Reclassification[]} reclassifications List of
  *     reclassifications of the nation's freedom levels.
+ * @prop {boolean} [alreadyAdopted] (GA Adoption only) `true` if the target
+ *     resolution had already been adopted by the nation.
  * @memberof types
  */
 
@@ -584,6 +588,7 @@ const shards = require('./shards');
  *     situation in the nation.
  * @prop {string} [influence] {@link enums.Influence Influence} level of the
  *     nation in its region.
+ * @prop {string} [influenceScore] Nation's raw influence score in its region.
  * @prop {number} [issuesAnswered] Number of issues the nation has answered.
  * @prop {string} [lastLogin] Textual description of the time of the nation's
  *     last login, relative to now.
@@ -597,6 +602,7 @@ const shards = require('./shards');
  *     its next issue, relative to now.
  * @prop {number} [nextIssueTime] Timestamp for when the nation will face its
  *     next issue.
+ * @prop {NDayStats} [nDayStats] Statistics of the nation's N-Day performance.
  * @prop {string} [notable] A random {@link enums.Notable Notable} the nation
  *     is eligible for.
  * @prop {string[]} [notables] All {@link enums.Notable Notable}s the nation is
@@ -664,6 +670,19 @@ const shards = require('./shards');
  *     nation on the day's featured {@link enums.CensusScale CensusScale} world-wide.
  * @prop {ZombieDataNation} [zombie] Details on the national
  *     Z-Day performance.
+ * @memberof types
+ */
+
+/**
+ * Represents statistics about a nation's N-Day performance.
+ * @typedef {object} NDayStats
+ * @prop {number} [intercepts] Number of missiles the nation has intercepted.
+ * @prop {number} [nukes] Number of nukes the nation has stockpiled.
+ * @prop {number} [production] Amount of production available to the nation.
+ * @prop {number} [radiation] Amount of radiation on the nation.
+ * @prop {number} [shields] Number of shields the nation has stockpiled.
+ * @prop {string} specialty The nation's N-Day specialty.
+ * @prop {number} [strikes] Number of successful strikes on other nations.
  * @memberof types
  */
 
@@ -811,11 +830,14 @@ const shards = require('./shards');
  *     `false`.
  * @prop {?string} [governor] Nation serving as the regional governor
  *     (`id_form`). If the region has no governor, `null`.
+ * @prop {?string} [governorTitle] Custom title of the regional governor. If
+ *     the region has no governor, or no custom title is set, `null`.
  * @prop {number} [updateLast] Timestamp of when the region last updated.
  * @prop {number} [updateMajor] Timestamp of when the region last updated in
  *     the course of a Major update.
  * @prop {number} [updateMinor] Timestamp of when the region last updated in
  *     the course of a Minor update.
+ * @prop {number} [magnetism] Magnetism score of the region.
  * @prop {string} [name] Name of the region (`Proper Form`).
  * @prop {string[]} [nations] Nations residing in the region (`id_form`).
  * @prop {number} [nationsNum] Number of nations residing in the region.
@@ -847,6 +869,7 @@ const shards = require('./shards');
  * @prop {Officer[]} [officers] Regional officers.
  * @prop {?Poll} [poll] Poll currently running in the region; `null` if there
  *     is no active poll.
+ * @prop {string[]} [recruiters] Authorized recruiter nations (`id_form`).
  * @prop {VoteTally} [voteSC] Tally of votes For and Against the
  *     at-vote SC resolution by resident WA members.
  * @prop {WABadge[]} [badges] Badges awarded to the region by the SC.

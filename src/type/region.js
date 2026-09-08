@@ -83,12 +83,16 @@ exports.create = (shards = []) => (root) => (shards.includes(RegionShard.POLL)
 		.build('isFrontier', convertBoolean))
 	.onTag('GOVERNOR', (me) => me
 		.build('governor', toNullIfNecessary))
+	.onTag('GOVERNORTITLE', (me) => me
+		.build('governorTitle', toNullIfNecessary))
 	.onTag('LASTUPDATE', (me) => me
 		.build('updateLast', convertNumber))
 	.onTag('LASTMAJORUPDATE', (me) => me
 		.build('updateMajor', convertNumber))
 	.onTag('LASTMINORUPDATE', (me) => me
 		.build('updateMinor', convertNumber))
+	.onTag('MAGNETISM', (me) => me
+		.build('magnetism', convertNumber))
 	.onTag('NAME', (me) => me
 		.build('name'))
 	.onTag('NATIONS', (me) => me
@@ -156,6 +160,8 @@ exports.create = (shards = []) => (root) => (shards.includes(RegionShard.POLL)
 	.onTag('SCVOTE', (me, attrs) => me
 		.build('voteSC')
 		.assignSubFactory(VoteTally.create(attrs)))
+	.onTag('RECRUITERS', (me) => me
+		.build('recruiters', convertArray(',')))
 	.onTag('WABADGES', (me) => me
 		.build('badges')
 		.assignSubFactory(ArrayFactory

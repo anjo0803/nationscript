@@ -23,7 +23,9 @@ const {
 	DispatchAddCommand,
 	DispatchDeleteCommand,
 	DispatchEditCommand,
-	GiftCardCommand
+	GiftCardCommand,
+	JunkCardCommand,
+	ResolutionAdoptionCommand
 } = require('./requests/command');
 const {
 	TGRequest,
@@ -70,10 +72,12 @@ const dump = require('./requests/dump');
  * * For command endpoints:
  *     * {@link module:nationscript/api.issue issue()}
  *     * {@link module:nationscript/api.giftCard giftCard()}
+ *     * {@link module:nationscript/api.junkCard junkCard()}
  *     * {@link module:nationscript/api.dispatchAdd dispatchAdd()}
  *     * {@link module:nationscript/api.dispatchEdit dispatchEdit()}
  *     * {@link module:nationscript/api.dispatchRemove dispatchRemove()}
  *     * {@link module:nationscript/api.rmb rmb()}
+ *     * {@link module:nationscript/api.adopt adopt()}
  * * For the miscellaneous endpoints:
  *     * {@link module:nationscript/api.tg tg()}
  *     * {@link module:nationscript/api.ua ua()}
@@ -320,6 +324,17 @@ function giftCard(credentials) {
 }
 
 /**
+ * Have a nation junk a trading card!
+ * @arg {NSCredential=} credentials Login credentials for the nation to use
+ * @returns {JunkCardCommand}
+ */
+function junkCard(credentials) {
+	let ret = new JunkCardCommand();
+	if(credentials instanceof NSCredential) ret.authenticate(credentials);
+	return ret;
+}
+
+/**
  * Have a nation lodge a message to the Regional Message Board of a region!
  * @arg {NSCredential=} credentials Login credentials for the nation to use
  * @returns {RMBPostCommand}
@@ -330,12 +345,25 @@ function rmb(credentials) {
 	return ret;
 }
 
+/**
+ * Have a nation adopt a General Assembly resolution!
+ * @arg {NSCredential=} credentials Login credentials for the nation to use
+ * @returns {ResolutionAdoptionCommand}
+ */
+function adopt(credentials) {
+	let ret = new ResolutionAdoptionCommand();
+	if(credentials instanceof NSCredential) ret.authenticate(credentials);
+	return ret;
+}
+
 exports.issue = issue;
 exports.dispatchAdd = dispatchAdd;
 exports.dispatchEdit = dispatchEdit;
 exports.dispatchRemove = dispatchRemove;
 exports.giftCard = giftCard;
+exports.junkCard = junkCard;
 exports.rmb = rmb;
+exports.adopt = adopt;
 
 
 /* === Miscellaneous Requests === */

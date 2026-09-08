@@ -351,6 +351,8 @@ const HappeningsFilter = {
 	FOUNDING: 'founding',
 	/** Get nation CTEs. */
 	CTE: 'cte',
+	/** Get resolution-adopting activity. */
+	GA_ADOPTIONS: 'adopt',
 	/** Get WA votes being cast. */
 	WA_VOTES: 'vote',
 	/** Get submissions, withdrawals, and promotions of, as well as new approvals on proposals. */
@@ -445,6 +447,24 @@ const NationCategory = {
 	RIGHT_UTOPIA: 'Right-wing Utopia',
 	SCANDINAVIAN: 'Scandinavian Liberal Paradise',
 	TYRANNY_BY_MAJORITY: 'Tyranny by Majority'
+}
+
+/**
+ * Specialties of nations during N-Day.
+ * @memberof enums
+ * @enum {string}
+ */
+const NDaySpecialty = {
+	/** Increased nuke output from production. */
+	MILITARY: 'Military',
+	/** Increased shield output from production. */
+	STRATEGIC: 'Strategic',
+	/** Increased production rate and limit. */
+	ECONOMIC: 'Economic',
+	/** Reduced nuke target setup time. */
+//	INTELLIGENCE: 'Intel',	// Is in the N-Day dispatch, but I've yet to see it
+	/** Able to clear radiation in exchange for production. */
+	CLEANUP: 'Cleanup'
 }
 
 /**
@@ -809,9 +829,13 @@ const WABadgeType = {
  */
 const WACouncil = {
 	/** General Assembly. */
-	GA: 1,
+	GA: 3,
 	/** Security Council. */
-	SC: 2
+	SC: 2,
+	/** Legacy General Assembly. */
+	LEGACY: 1,
+	/** The Organization That Shall Not Be Named. */
+	UN: 0
 };
 
 /**
@@ -879,6 +903,7 @@ exports.HappeningsFilter = HappeningsFilter;
 exports.Influence = Influence;
 exports.LegalityRuling = LegalityRuling;
 exports.NationCategory = NationCategory;
+exports.NDaySpecialty = NDaySpecialty;
 exports.Notable = Notable;
 exports.NoticeIcon = NoticeIcon;
 exports.NoticeType = NoticeType;

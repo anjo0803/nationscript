@@ -271,7 +271,7 @@ class NSRequest {
 	 * instantiated while parsing is in progress, hence saving the
 	 * instantiating function and not the factory itself.
 	 * @type {?factory.FactoryConstructor<any>}
-	 * @private
+	 * @protected
 	 */
 	factoryConfigurer = null;
 
@@ -300,7 +300,7 @@ class NSRequest {
 		if(!res) throw new NSError('Could not obtain XML stream');
 		return new Promise((resolve, reject) => {
 			/**
-			 * @type {?factory.NSFactory}
+			 * @type {?factory.NSFactory<any>}
 			 * @ignore
 			 */
 			let factory = null;
@@ -358,7 +358,7 @@ class DataRequest extends NSRequest {
 	 * @default
 	 * @package
 	 */
-	static version = 12;
+	static version = 13;
 
 	/* === Interna === */
 

@@ -19,6 +19,7 @@ const DeathData = require('./death-data');
 const ListDispatch = require('./dispatch-list-item');
 const FreedomsTextData = require('./freedoms-descriptions');
 const FreedomsScoreData = require('./freedoms-scores');
+const NDayStats = require('./n-day-stats');
 const SpendingData = require('./spending-data');
 const Happening = require('./happening');
 const Issue = require('./issue');
@@ -106,6 +107,8 @@ exports.create = (shards = []) => (root) => new NSFactory()
 		.build('descriptionIndustry'))
 	.onTag('INFLUENCE', (me) => me
 		.build('influence'))
+	.onTag('INFLUENCENUM', (me) => me
+		.build('influenceScore', convertNumber))
 	.onTag('ISSUES_ANSWERED', (me) => me
 		.build('issuesAnswered', convertNumber))
 	.onTag('LASTACTIVITY', (me) => me
@@ -122,6 +125,9 @@ exports.create = (shards = []) => (root) => new NSFactory()
 		.build('motto'))
 	.onTag('NAME', (me) => me
 		.build('name'))
+	.onTag('NSTATS', (me, attrs) => me
+		.build('nDayStats')
+		.assignSubFactory(NDayStats.create(attrs)))
 	.onTag('NEXTISSUE', (me) => me
 		.build('nextIssue'))
 	.onTag('NEXTISSUETIME', (me) => me

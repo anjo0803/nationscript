@@ -199,6 +199,9 @@ const NationShard = {
 	/** Get the nation's influence rank, e.g. 'Apprentice'. */
 	INFLUENCE: 'influence',
 
+	/** Get the nation's raw influence score. */
+	INFLUENCE_SCORE: 'influencenum',
+
 	/** Get the total number of issues answered by the nation. */
 	ISSUES_ANSWERED: 'answered',
 
@@ -222,6 +225,9 @@ const NationShard = {
 
 	/** Get the nation's (authentically capitalized) name. */
 	NAME: 'name',
+
+	/** Get the nation's performance metrics for the most recent N-Day. */
+	N_DAY_STATS: 'nstats',
 
 	/** Get a textual representation of three random things the nation is notable for. */
 	NOTABLE: 'notable',
@@ -376,6 +382,9 @@ const RegionShard = {
 	/** Get the name of the nation that is the region's current Governor. */
 	GOVERNOR: 'governor',
 
+	/** Get the custom title of the regional Governor position. */
+	GOVERNOR_TITLE: 'governortitle',
+
 	/** Get a list of the most recent nation founding, moving, and CTE, as well as regional admin happening events. */
 	HAPPENINGS: 'happenings',
 
@@ -390,6 +399,9 @@ const RegionShard = {
 
 	/** Get the Unix epoch timestamp for the last minor update of the region. */
 	LAST_UPDATE_MINOR: 'lastminorupdate',
+
+	/** Get the region's magnetism score. */
+	MAGNETISM: 'magnetism',
 
 	/** Get the (correctly capitalised) name of the region. */
 	NAME: 'name',
@@ -411,6 +423,9 @@ const RegionShard = {
 
 	/** Get the overall regional influence level. */
 	POWER: 'power',
+
+	/** Get the names of the nations authorized to send recruitment telegrams on behalf of the region. */
+	RECRUITERS: 'recruiters',
 
 	/** Get the region's policy regarding the ability to post to its RMB through a regional embassy. */
 	RMB_CROSSPOSTING_POLICY: 'embassyrmb',
