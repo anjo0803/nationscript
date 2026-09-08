@@ -60,15 +60,24 @@ class NationRequest extends ShardableRequest {
 		if(!(credential instanceof NSCredential))
 			throw TypeError('Invalid credential: ' + credential);
 
-		if(credential.password)
-			this.setHeader('X-Password', credential.password);
-		if(credential.autologin)
-			this.setHeader('X-Autologin', credential.autologin);
-		if(credential.pin)
-			this.setHeader('X-Pin', credential.pin);
-
 		this.credential = credential;
+		this.updateAuthHeaders();
 		return this;
+	}
+
+	/**
+	 * Updates the headers of this request instance according to the registered
+	 * {@link NationRequestRequest#credential credential}.
+	 * @protected
+	 */
+	updateAuthHeaders() {
+		if(!(this.credential instanceof NSCredential)) return;
+		if(this.credential.password)
+			this.setHeader('X-Password', this.credential.password);
+		if(this.credential.autologin)
+			this.setHeader('X-Autologin', this.credential.autologin);
+		if(this.credential.pin)
+			this.setHeader('X-Pin', this.credential.pin);
 	}
 
 	/**
@@ -173,12 +182,13 @@ class NationRequest extends ShardableRequest {
 	}
 
 	/**
-	 * For a stored {@link CommandRequest#credential credential}, the
+	 * For a stored {@link NationRequest#credential credential}, the
 	 * {@link NSCredential#updateFromResponse} method is invoked with the
 	 * received response headers.
 	 * @inheritdoc
 	 */
 	async raw() {
+		this.updateAuthHeaders();
 		let ret = await super.raw();
 		this.credential?.updateFromResponse(ret.headers);
 		return ret;

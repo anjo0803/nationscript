@@ -66,15 +66,24 @@ class CommandRequest extends DataRequest {
 			throw new NSError('Credential does not declare authorised nation');
 		this.setArgument('nation', toIDForm(credential.nation));
 
-		if(credential.password)
-			this.setHeader('X-Password', credential.password);
-		if(credential.autologin)
-			this.setHeader('X-Autologin', credential.autologin);
-		if(credential.pin)
-			this.setHeader('X-Pin', credential.pin);
-
 		this.credential = credential;
+		this.updateAuthHeaders();
 		return this;
+	}
+
+	/**
+	 * Updates the headers of this request instance according to the registered
+	 * {@link CommandRequest#credential credential}.
+	 * @protected
+	 */
+	updateAuthHeaders() {
+		if(!(this.credential instanceof NSCredential)) return;
+		if(this.credential.password)
+			this.setHeader('X-Password', this.credential.password);
+		if(this.credential.autologin)
+			this.setHeader('X-Autologin', this.credential.autologin);
+		if(this.credential.pin)
+			this.setHeader('X-Pin', this.credential.pin);
 	}
 
 	/**
@@ -84,6 +93,7 @@ class CommandRequest extends DataRequest {
 	 * @inheritdoc
 	 */
 	async raw() {
+		this.updateAuthHeaders();
 		let ret = await super.raw();
 		this.credential?.updateFromResponse(ret.headers);
 		return ret;
@@ -114,19 +124,17 @@ class TwoStepCommand extends CommandRequest {
 	async send() {
 		// First, send this command in prepare mode
 		this.setArgument('mode', 'prepare')
-			// Everything is returned within <NATION> tags
-			.useFactory((root) => new NSFactory().onTag('NATION', (me) => me
-				.build('')
-				.assignSubFactory(new NSFactory()
-					// Both the execution token and the ultimate result of
-					// execution are returned within <SUCCESS> tags
-					.onTag('SUCCESS', (me) => me.build(''))
+			.useFactory((root) => new NSFactory()
+				// Everything is returned within <NATION> tags. Further,
+				// both the execution token and the ultimate result of
+				// execution are returned within <SUCCESS> tags
+				.onTag('SUCCESS', (me) => me.build(''))
 
-					// If there is an internal error, the error message is
-					// ususally within <ERROR> tags, but can also be in a <div>
-					.onTag('div', createError)
-					.onTag('ERROR', createError)
-				)));
+				// If there is an internal error, the error message is
+				// ususally within <ERROR> tags, but can also be in a <div>
+				.onTag('div', createError)
+				.onTag('ERROR', createError)
+			);
 
 		let ret = await super.send();
 		if(typeof ret !== 'string')
@@ -135,6 +143,7 @@ class TwoStepCommand extends CommandRequest {
 		// Switch to execution mode, send again and return the result
 		this.setArgument('token', ret)
 			.setArgument('mode', 'execute');
+		this.updateAuthHeaders();
 		return await super.send();
 	}
 }
@@ -287,7 +296,7 @@ class DispatchAddCommand extends DispatchCommand {
 	setCategory(category, subcategory) {
 		let sub = translateSubcategory(category, subcategory);
 		return this
-			.setArgument('category', sub / 100)
+			.setArgument('category', Math.floor(sub / 100))
 			.setArgument('subcategory', sub);
 	}
 }
