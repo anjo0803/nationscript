@@ -13,7 +13,8 @@ const types = require('../types');
 
 const DelegateActiveVote = require('./vote-delegate-extant');
 const DelegateLogVote = require('./vote-delegate-log');
-
+const ResolutionEffectHint = require('./stats-hint');
+const WAOpinion = require('./wa-opinion');
 
 /**
  * @type {import('../factory').FactoryConstructor<types.Resolution>}
@@ -52,12 +53,29 @@ exports.create = (root) => new NSFactory()
 		.build('vote.total.against', convertNumber))
 	.onTag('TOTAL_VOTES_FOR', (me) => me
 		.build('vote.total.for', convertNumber))
+	.onTag('FORUM_TOPIC_URL', (me) => me
+		.build('forumURL'))
+	.onTag('FORUM_TOPIC_ID', (me) => me
+		.build('forumID', convertNumber))
+	.onTag('SITE_URL', (me) => me
+		.build('siteURL'))
+	.onTag('API_URL', (me) => me
+		.build('apiURL'))
+	.onTag('STATS_HINT', (me, attrs) => me
+		.build('hints')
+		.assignSubFactory(ResolutionEffectHint.create(attrs)))
 
 	// Only displayed while at-vote
 	.onTag('TOTAL_NATIONS_AGAINST', (me) => me
 		.build('vote.nationsNum.against', convertNumber))
 	.onTag('TOTAL_NATIONS_FOR', (me) => me
 		.build('vote.nationsNum.for', convertNumber))
+
+	// opinions shard
+	.onTag('OPINIONS', (me) => me
+		.build('opinions')
+		.assignSubFactory(ArrayFactory
+			.complex('OPINION', WAOpinion.create)))
 
 	// votetrack shard
 	.onTag('VOTE_TRACK_AGAINST', (me) => me
@@ -96,4 +114,7 @@ exports.create = (root) => new NSFactory()
 			.complex('ENTRY', DelegateLogVote.create)))
 
 	// If there are no co-authors, the <COAUTHOR> tag isn't returned at all
-	.set('coauthors', []);
+	.set('coauthors', [])
+
+	// Same with the <OPINIONS> tag if there aren't any published yet
+	.set('opinions', []);

@@ -482,13 +482,25 @@ const RegionShard = {
  * @enum {string}
  */
 const WAShard = {
+	/**
+	 * Get info about which delegates have approved a proposal, together with timestamps.
+	 * **Only works in conjunction with the `PROPOSAL` or `PROPOSALS` shard.
+	 */
+	APPROVERS: 'approvers',
+
 	/** Get a list with the names of all current WA Delegate nations. */
 	DELEGATES: 'delegates',
 
-	/** Get a list of all effective Delegate votes, including their respective voting power and time of having voted. */
+	/**
+	 * Get a list of all effective Delegate votes, including their respective voting power and time of having voted.
+	 * **Only works in conjunction with the `RESOLUTION` shard *without* an ID specified!**
+	 */
 	DELEGATE_VOTES: 'delvotes',
 
-	/** Get a complete log of each time a Delegate cast, withdrew, or changed their vote. */
+	/**
+	 * Get a complete log of each time a Delegate cast, withdrew, or changed their vote.
+	 * **Only works in conjunction with the `RESOLUTION` shard *without* an ID specified!**
+	 */
 	DELEGATE_VOTE_LOG: 'dellog',
 
 	/** Get a list of the most recent happening events relating to Delegacy changes, proposal submissions/withdrawals/fails, and voting results. */
@@ -506,16 +518,31 @@ const WAShard = {
 	/** Get the total number of current WA member nations. */
 	NUM_MEMBERS: 'numnations',
 
+	/**
+	 * Get info about the GA Secretariat's published opinions about a proposal/resolution.
+	 * **Only works in conjunction with the `PROPOSAL`, `PROPOSALS`, or `RESOLUTION` shards.
+	 */
+	OPINIONS: 'opinions',
+
+	/** Get a single currently submitted proposal by ID. */
+	PROPOSAL: 'proposal',
+
 	/** Get a list of all currently submitted proposals. */
 	PROPOSALS: 'proposals',
 
 	/** Get information about the resolution that is currently at vote. Alternatively, get information about a historical WA resolution. */
 	RESOLUTION: 'resolution',
 
-	/** Get the names and votes of all nations that have cast a vote on the resolution currently at vote. */
+	/** 
+	 * Get the names and votes of all nations that have cast a vote on the resolution currently at vote.
+	 * **Only works in conjunction with the `RESOLUTION` shard *without* an ID specified!**
+	 */
 	VOTERS: 'voters',
 
-	/** Get a list of the vote totals on the resolution currently at vote for each hour since voting started. */
+	/**
+	 * Get a list of the vote totals on the resolution currently at vote for each hour since voting started.
+	 * **Only works in conjunction with the `RESOLUTION` shard *without* an ID specified!**
+	 */
 	VOTE_TRACK: 'votetrack'
 };
 

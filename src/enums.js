@@ -833,9 +833,21 @@ const WACouncil = {
 	/** Security Council. */
 	SC: 2,
 	/** Legacy General Assembly. */
-	LEGACY: 1,
-	/** The Organization That Shall Not Be Named. */
-	UN: 0
+	LEGACY: 1
+};
+
+/**
+ * Possible stances of GA Secretariat opinion dispatches.
+ * @memberof enums
+ * @enum {string}
+ */
+const WAOpinionStance = {
+	/** Recommendation to vote in favour of a resolution. */
+	FOR: 'for',
+	/** Recommendation to vote against a resolution. */
+	AGAINST: 'against',
+	/** No voting recommendation made. */
+	NEUTRAL: 'neutral'
 };
 
 /**
@@ -915,6 +927,7 @@ exports.Sensibility = Sensibility;
 exports.Tag = Tag;
 exports.WABadgeType = WABadgeType;
 exports.WACouncil = WACouncil;
+exports.WAOpinionStance = WAOpinionStance;
 exports.WAStatus = WAStatus;
 exports.WAVote = WAVote;
 exports.ZombieAction = ZombieAction;

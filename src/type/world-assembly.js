@@ -54,4 +54,7 @@ exports.create = (root) => new NSFactory()
 			.complex('PROPOSAL', Proposal.create)))
 	.onTag('RESOLUTION', (me, attrs) => me
 		.build('resolution', toNullIfEmpty)
-		.assignSubFactory(Resolution.create(attrs)));
+		.assignSubFactory(Resolution.create(attrs)))
+	.onTag('PROPOSAL', (me, attrs) => me
+		.build('proposal', toNullIfEmpty)
+		.assignSubFactory(Proposal.create(attrs)));

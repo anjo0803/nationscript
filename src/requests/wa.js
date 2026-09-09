@@ -20,6 +20,9 @@ const WorldAssembly = require('../type/world-assembly');
  * Request subclass for building requests to the WA endpoint of the API.
  */
 class WARequest extends ShardableRequest {
+	/**
+	 * @arg {number} council Council ID of the target WA council.
+	 */
 	constructor(council) {
 		super();
 		this.mandate('wa')
@@ -36,8 +39,25 @@ class WARequest extends ShardableRequest {
 	 * shards will not return any info on passed resolutions.*
 	 * @arg {number} id ID of the desired resolution
 	 * @returns {this} The request, for chaining
+	 * @deprecated In favour of the more generic {@link WARequest#setTarget}
 	 */
 	setResolution(id) {
+		return this.setArgument('id', id);
+	}
+
+	/**
+	 * Specify a current proposal or passed resolution to query the info of.
+	 * Only affects requests containing the {@link WAShard.PROPOSAL} or
+	 * {@link WAShard.RESOLUTION} shard, respectively. A combination of both
+	 * will be unsuccessful.
+	 * 
+	 * *Note also that the {@link WAShard.VOTERS}, {@link WAShard.VOTE_TRACK},
+	 * {@link WAShard.DELEGATE_VOTES}, and {@link WAShard.DELEGATE_VOTE_LOG}
+	 * shards will not return any info on passed resolutions.*
+	 * @arg {string|number} id ID of the desired proposal or resolution.
+	 * @returns {this} The request, for chaining
+	 */
+	setTarget(id) {
 		return this.setArgument('id', id);
 	}
 

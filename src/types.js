@@ -499,14 +499,14 @@ const shards = require('./shards');
 
 /**
  * Container object holding data on a proposal's current legal status - that
- * is, the decisions of Moderators or members of the GA General Secretariat on
- * the proposal's compliance with the SC/GA ruleset.
+ * is, the decisions of Moderators on the proposal's compliance with the SC/GA
+ * ruleset.
  * @typedef {object} LegalityData
+ * @prop {string} status Current overall {@link enums.LegalityRuling}.
  * @prop {string[]} legal Nations ruling the proposal legal (`id_form`).
  * @prop {string[]} illegal Nations ruling the proposal illegal (`id_form`).
  * @prop {string[]} discard Nations voting to discard the proposal (`id_form`).
- * @prop {LegalityDecision[]} log Log of rulings made on the
- *     proposal.
+ * @prop {LegalityDecision[]} log Log of rulings made on the proposal.
  * @memberof types
  */
 
@@ -761,6 +761,24 @@ const shards = require('./shards');
  */
 
 /**
+ * Represents an approval by a regional delegate on a World Assembly proposal.
+ * @typedef {object} ProposalApproval
+ * @prop {string} nation Name of the approving delegate.
+ * @prop {number} timestamp Timestamp of when the approval was made.
+ * @memberof types
+ */
+
+/**
+ * Represents an opinion on a GA resolution published by a member of the GA
+ * Secretariat.
+ * @typedef {object} WAOpinion
+ * @prop {number} id ID of the dispatch containing the opinion.
+ * @prop {string} stance The {@link enums.WAOpinionStance WAOpinionStance}
+ *     advocated for by the opinion.
+ * @memberof types
+ */
+
+/**
  * Represents a proposal for a new resolution currently before the delegates of
  * the World Assembly.
  * @typedef {object} Proposal
@@ -770,12 +788,24 @@ const shards = require('./shards');
  * @prop {string[]} coauthors List of co-authoring nations (`id_form`).
  * @prop {string} text Body text of the proposal.
  * @prop {string[]} approvals WA delegates approving the proposal (`id_form`).
+ *     With the introduction of the `APPROVERS` shard, NS *might* remove this
+ *     at some point, so using that instead is advisable.
  * @prop {number} submitted Timestamp of proposal submission.
- * @prop {string} category Category of the resolution.
+ * @prop {string} category Category of the proposal.
  * @prop {string} option For GA resolutions and SC declarations, the
  *     subcategory of the resolution; otherwise its target nation or region
  *     (`id_form`).
  * @prop {LegalityData} legality Rulings on the proposal's legality.
+ * @prop {string} forumURL URL to the NS forum thread for the proposal.
+ * @prop {number} forumID ID of the NS forum thread for the proposal.
+ * @prop {string} siteURL URL to the NS website page for the proposal.
+ * @prop {string} apiURL URL to the NS API page for the proposal.
+ * @prop {ProposalApproval[]} [approverHistory] List of delegates approving the
+ *     proposal with timestamps of when the approval was made.
+ * @prop {number} approverCount Number of delegate approvals on the proposal.
+ * @prop {number} quorum Number of approvals required to attain quorum.
+ * @prop {WAOpinion[]} opinions List of published GA Secretariat opinions on
+ *     the proposal. This will only ever contain something on GA proposals.
  * @memberof types
  */
 
@@ -923,7 +953,50 @@ const shards = require('./shards');
  * @prop {string} option For GA resolutions and SC declarations, the
  *     subcategory of the resolution; otherwise its target nation or region
  *     (`id_form`).
+ * @prop {string} [forumURL] URL to the NS forum thread for the resolution.
+ *     Only available on post-GA reset WA resolutions.
+ * @prop {number} [forumID] ID of the NS forum thread for the resolution.
+ *     Only available on post-GA reset WA resolutions.
+ * @prop {string} siteURL URL to the NS website page for the resolution.
+ * @prop {string} apiURL URL to the NS API page for the resolution.
+ * @prop {ResolutionEffectHint} [hints] Hinted effects of adopting the
+ *     resolution. Only available on post-reset GA resolutions.
+ * @prop {WAOpinion[]} opinions List of published GA Secretariat opinions on
+ *     the resolution. This will only ever contain something on post-reset GA
+ *     resolutions.
  * @prop {VoteSummary} vote Data on the current votes on the resolution.
+ * @memberof types
+ */
+
+/**
+ * Container object holding hints for the expected effects of adopting the
+ * parent General Assembly {@link Resolution}.
+ * @typedef {object} ResolutionEffectHint
+ * @prop {HintCensusScale[]} winners Expected increases on World Census scales.
+ * @prop {HintCensusScale[]} losers Expected decreases on World Census scales.
+ * @prop {HintPolicy[]} policies Expected effects on national policies.
+ * @memberof types
+ */
+
+/**
+ * Represents a World Census scale with only the data displayed for General
+ * Assembly resolution adoption hints present.
+ * @typedef {object} HintCensusScale
+ * @prop {number} id {@link CensusScale} the hint is for.
+ * @prop {string} name Name of the scale.
+ * @prop {string} iconURL Relative URL of the scale's icon.
+ * @prop {boolean} isWinner `true` if the scale is hinted as winner, `false`
+ *     if hinted as a loser.
+ * @memberof types
+ */
+
+/**
+ * Represents a national policy with only the data displayed for General
+ * Assembly resolution adoption hints present.
+ * @typedef {object} HintPolicy
+ * @prop {string} name Name of the policy.
+ * @prop {boolean} isEnact `true` if the policy is hinted as getting enacted,
+ *     `false` if hinted as getting cleared.
  * @memberof types
  */
 
@@ -1080,6 +1153,7 @@ const shards = require('./shards');
  * @prop {number} [membersNum] Number of current WA member nations.
  * @prop {Happening[]} [happenings] Recent WA happening events.
  * @prop {Proposal[]} [proposals] Current proposals.
+ * @prop {Proposal[]} [proposal] Details of the queried proposal.
  * @prop {Resolution} [resolution] Details of the at-vote (or the
  *     queried) resolution.
  * @memberof types
