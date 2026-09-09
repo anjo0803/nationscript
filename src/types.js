@@ -58,6 +58,7 @@ const shards = require('./shards');
  * @prop {number} id ID of the card (and the depicted nation).
  * @prop {string} rarity {@link enums.Rarity Rarity} of the card.
  * @prop {number} season ID of the season that the card was inscribed for.
+ * @prop {number} [value] Current market value of the card.
  * @memberof types
  */
 
@@ -186,6 +187,7 @@ const shards = require('./shards');
  * @prop {string} name Name of the collection.
  * @prop {string} owner Nation that created the collection (`id_form`).
  * @prop {number} edited Timestamp of the last change to the collection.
+ * @prop {number} value Total market value of all cards in the collection.
  * @prop {ListCard[]} cards List of cards in the collection.
  * @memberof types
  */

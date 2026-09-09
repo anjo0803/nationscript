@@ -19,5 +19,7 @@ exports.create = (root) => new NSFactory()
 		.build('id', convertNumber))
 	.onTag('SEASON', (me) => me
 		.build('season', convertNumber))
+	.onTag('MARKET_VALUE', (me) => me
+		.build('value', convertNumber))
 	.onTag('CATEGORY', (me) => me
 		.build('rarity'));

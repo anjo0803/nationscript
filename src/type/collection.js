@@ -24,6 +24,8 @@ exports.create = (root) => new NSFactory()
 		.build('owner'))
 	.onTag('UPDATED', (me) => me
 		.build('edited', convertNumber))
+	.onTag('COLLECTION_VALUE', (me) => me
+		.build('value', convertNumber))
 	.onTag('DECK', (me) => me
 		.build('cards')
 		.assignSubFactory(ArrayFactory
