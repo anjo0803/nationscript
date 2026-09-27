@@ -477,6 +477,7 @@ const Notable = {
 
 	ANTI_SMOKING: 'anti-smoking policies',
 	AVERSION: 'aversion to nipples',
+	/** @deprecated in favour of `NO_CARS` */
 	CAR_BAN: 'ban on automobiles',
 	CARS: 'spontaneously combusting cars',
 	CHEESE_HATE: 'hatred of cheese',
@@ -490,6 +491,7 @@ const Notable = {
 	DRUGS: 'absence of drug laws',
 	EXECUTIONS: 'frequent executions',
 	FERAL_CHILDREN: 'feral children',
+	FERAL_CHILDREN_CULTIVATED: 'cultivated feral children',
 	FLOGGINGS: 'public floggings',
 	GERONTOCIDE: 'disturbing lack of elderly people',
 	GUNS: 'compulsory gun ownership',
@@ -499,9 +501,11 @@ const Notable = {
 	INHOSPITABLE: 'barren, inhospitable landscape',
 	MISSILE_SILOS: 'ubiquitous missile silos',
 	MUSEUMS: 'museums and concert halls',
+	NO_CARS: 'ban on automobiles',
 	NO_DIVORCE: 'zero percent divorce rate',
 	NO_EDUCATION: 'complete lack of public education',
 	NO_GUNS: 'restrictive gun laws',
+	NO_PARENTING: 'astonishingly minimal parenting',
 	NO_PLANES: 'lack of airports',
 	NO_PRISONS: 'complete lack of prisons',
 	NO_SPEED_LIMIT: 'unlimited-speed roads',
@@ -509,10 +513,17 @@ const Notable = {
 	NUCLEAR: 'sprawling nuclear power plants',
 	NUDITY: 'enforced nudity',
 	PANDEMICS: 'deadly medical pandemics',
+	PARENTAL_LEAVE: 'labour-free parental leave',
 	PARENTAL_LICENSING: 'parental licensing program',
+	PARENTAL_LICENSING_EASY: 'remarkably easy parental licensing program',
 	PETTING_ZOO: 'otherworldly petting zoo',
+	/** @deprecated in favour of PIRATES_RUM */
 	PIRACY: 'rum-swilling pirates',
+	PIRATES_RUM: 'rum-swilling pirates',
+	PIRATES_TEETOTAL: 'teetotalling pirates',
+	/** @deprecated in favour of PITH_HELMETS */
 	PITH_HELMEST: 'pith helmet sales',
+	PITH_HELMETS: 'pith helmet sales',
 	PLAGIARISM: 'rampant corporate plagiarism',
 	POETS: 'suspicion of poets',
 	POLYGAMY: 'multi-spousal wedding ceremonies',
@@ -530,6 +541,7 @@ const Notable = {
 	SPACE: 'keen interest in outer space',
 	TAXES: 'punitive income taxes',
 	TECHNOPHOBIA: 'fear of technology',
+	/** @deprecated in favour of PIRATES_TEETOTAL */
 	TEETOTAL: 'teetotalling pirates',
 	VATS: 'vat-grown people',
 	VEGETARIAN: 'compulsory vegetarianism',
