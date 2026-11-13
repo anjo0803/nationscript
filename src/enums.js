@@ -719,6 +719,7 @@ const Tag = {
 	ANTI_CAPITALIST: 'Anti-Capitalist',
 	ANTI_COMMUNIST: 'Anti-Communist',
 	ANTI_FASCIST: 'Anti-Fascist',
+	ANTI_AI: 'Anti-GenAI',
 	ANTI_GA: 'Anti-General Assembly',
 	ANTI_SC: 'Anti-Security Council',
 	ANTI_WA: 'Anti-World Assembly',
