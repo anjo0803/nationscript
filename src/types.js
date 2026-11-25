@@ -1156,6 +1156,10 @@ const shards = require('./shards');
  * @prop {Proposal[]} [proposal] Details of the queried proposal.
  * @prop {Resolution} [resolution] Details of the at-vote (or the
  *     queried) resolution.
+ * @prop {string[]} [compliant] Compliant WA nations (`id_form`).
+ * @prop {string[]} [compliantDelegates] Compliant WA Delegates (`id_form`).
+ * @prop {number} [compliantNum] Number of compliant WA nations.
+ * @prop {number} [compliantDelegatesNum] Number of compliant WA Delegates.
  * @memberof types
  */
 

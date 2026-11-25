@@ -141,10 +141,10 @@ NS.setUseRateLimit(false);
 You can configure NationScript to use a specific or the most recent version of
 the NS API for all requests, like so:
 ```js
-NS.setUseVersion(11);   // Use named version
+NS.setUseVersion(12);   // Use named version
 NS.setUseVersion(null); // Use the latest version
 ```
-By default, all requests are made in API version `12` (as of coding, the latest
+By default, all requests are made in API version `13` (as of coding, the latest
 version) in order to ensure a safe conversion of API response XML to the
 NationScript custom object types.
 

@@ -178,6 +178,10 @@ const CensusScale = {
 	FOOD_QUALITY: 88,
 
 	/** **Works for regions only!** */
+	REGION_WA_COMPLIANT: 252,
+	/** **Works for regions only!** */
+	REGION_WA_POPULATION: 253,
+	/** **Works for regions only!** */
 	REGION_ALPHABET: 254,
 	/** **Works for regions only!** */
 	REGION_POPULATION: 255

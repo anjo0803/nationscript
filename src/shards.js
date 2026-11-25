@@ -488,6 +488,12 @@ const WAShard = {
 	 */
 	APPROVERS: 'approvers',
 
+	/** Get a list with the names of all WA members that meet the resolution adoption threshold. */
+	COMPLIANT: 'compliantmembers',
+
+	/** Get a list with the names of all WA Delegates that meet the resolution adoption threshold. */
+	COMPLIANT_DELEGATES: 'compliantdelegates',
+
 	/** Get a list with the names of all current WA Delegate nations. */
 	DELEGATES: 'delegates',
 
@@ -511,6 +517,12 @@ const WAShard = {
 
 	/** Get a list with the names of all current WA member nations. */
 	MEMBERS: 'members',
+
+	/** Get the number of WA members that meet the resolution adoption threshold. */
+	NUM_COMPLIANT: 'numcompliantnations',
+
+	/** Get the number of WA Delegates that meet the resolution adoption threshold. */
+	NUM_COMPLIANT_DELEGATES: 'numcompliantdelegates',
 
 	/** Get the total number of current WA Delegates. */
 	NUM_DELEGATES: 'numdelegates',

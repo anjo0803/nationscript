@@ -57,4 +57,12 @@ exports.create = (root) => new NSFactory()
 		.assignSubFactory(Resolution.create(attrs)))
 	.onTag('PROPOSAL', (me, attrs) => me
 		.build('proposal', toNullIfEmpty)
-		.assignSubFactory(Proposal.create(attrs)));
+		.assignSubFactory(Proposal.create(attrs)))
+	.onTag('COMPLIANTMEMBERS', (me) => me
+		.build('compliant', convertArray(',')))
+	.onTag('COMPLIANTDELEGATES', (me) => me
+		.build('compliantDelegates', convertArray(',')))
+	.onTag('NUMCOMPLIANTNATIONS', (me) => me
+		.build('compliantNum', convertNumber))
+	.onTag('NUMCOMPLIANTDELEGATES', (me) => me
+		.build('compliantDelegatesNum', convertNumber));
